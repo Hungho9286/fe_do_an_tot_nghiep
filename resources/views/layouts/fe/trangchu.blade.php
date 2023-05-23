@@ -48,9 +48,16 @@
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
     });
+    
     app.controller("ThongBaoController",function($scope,$http){
         var $thongbao;
-        $http.get("http://127.0.0.1:8000/api/danh-sach-thong-bao/1").then($response=>{
+        $http({
+            method:'GET',
+            url:"http://127.0.0.1:8000/api/danh-sach-thong-bao/"+$id_sinh_vien,
+            headers:{
+                'Authorization':"Bearer "+$access_token,
+            }
+        }).then($response=>{
             $thongbao=$scope.danh_sach_thong_bao=$response.data;
             $scope.content="";
             $scope.hienThiNoiDungThongBao=function($id){

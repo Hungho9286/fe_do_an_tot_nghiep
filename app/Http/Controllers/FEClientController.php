@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use App\Models\ThanhToanMomo;
+use Illuminate\Http\Response;
+
 class FEClientController extends Controller
 {
     function home(){
@@ -244,5 +246,50 @@ class FEClientController extends Controller
     }
     function chonLopDangKyMon(Request $request){
         return view('layouts.fe.chonlophocphandangky');
+    }
+    function dangNhap(){
+        return view('layouts.fe.dangnhap');
+    }
+    function xuLyDangNhap(Request $request){
+        $url="http://127.0.0.1:8000/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data->sinh_vien->id);
+        if($data->token!=null){
+            $response = new Response('Set Cookie');
+            $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
+            $response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
+            return $response;
+        }
+        return redirect()->route('dang-nhap');
+    }
+    function logOut(Request $request){
+        $accessToken = $request->cookie('access_token');
+        $id_sinh_vien=$request->cookie('id_sinh_vien');
+        $url="http://127.0.0.1:8000/api/logout?id=".$id_sinh_vien;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS,
+        //     "id=".$request->id_sinh_vien);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+        $head=curl_exec($ch);
+        //dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data);
+        if($data->code=201){
+            $response =response('Goodbye_token')->cookie('access_token', '', 0);
+            $response->cookie('id_sinh_vien', '', 0);
+            return redirect()->route('dang-nhap');
+        }
     }
 }

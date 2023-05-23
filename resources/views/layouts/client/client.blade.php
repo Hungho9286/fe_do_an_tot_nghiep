@@ -100,6 +100,7 @@
 
 
     @include('layouts.client.block.footer')
+    
     @yield('script')
 </body>
 
