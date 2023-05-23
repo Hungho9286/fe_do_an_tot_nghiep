@@ -36,14 +36,20 @@
     console.log(currentURL);
     var searchParams =new URLSearchParams(currentURL);
     var $id_mon=searchParams.get('id_mon');
-    var $khoa_hoc=searchParams.get('khoa_hoc');
+    // var $khoa_hoc=searchParams.get('khoa_hoc');
 
     var app = angular.module("myApp", [],function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("ChonLopHocPhanController",function($scope,$http,$sce){
-        $http.get("http://127.0.0.1:8000/api/danh-sach-lop-hoc-phan-theo-mon-con-mo/"+$id_mon).then(response=>{
+        $http({
+            method:"GET",
+            url:"http://127.0.0.1:8000/api/danh-sach-lop-hoc-phan-theo-mon-con-mo/"+$id_mon,
+            headers:{
+                "Authorization":"Bearer "+$access_token,
+            }
+        }).then(response=>{
             $scope.data=response.data;
             $scope.lich=$sce.trustAsHtml("<p>Trống</p>");
             console.log($scope.data);

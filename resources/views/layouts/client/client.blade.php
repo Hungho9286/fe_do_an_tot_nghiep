@@ -1,3 +1,21 @@
+<?php
+$accessToken = request()->cookie('access_token');
+$id_sinh_vien=request()->cookie('id_sinh_vien');
+$url="http://127.0.0.1:8000/api/sinh-vien/".$id_sinh_vien;
+$ch=curl_init();
+curl_setopt($ch,CURLOPT_URL,$url);
+// curl_setopt($ch,CURLOPT_POST,true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+// curl_setopt($ch, CURLOPT_POSTFIELDS,
+//     "id=".$request->id_sinh_vien);
+curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+$head=curl_exec($ch);
+//dd($head);
+curl_close($ch);
+$data=json_decode($head);
+//dd($data->khoa_hoc);
+?>
+
 <!DOCTYPE html>
 <!-- Template by Quackit.com -->
 <html lang="en">
@@ -100,7 +118,7 @@
 
 
     @include('layouts.client.block.footer')
-    
+
     @yield('script')
 </body>
 

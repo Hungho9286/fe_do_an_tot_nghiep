@@ -74,7 +74,13 @@
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("ThoiKhoaBieuController",function($scope,$http){
-        $http.get('http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/2').then($response=>{
+        $http({
+            method:'GET',
+            url:'http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/'+$id_sinh_vien,
+            headers:{
+                'Authorization':"Bearer "+$access_token,
+            }
+        }).then($response=>{
             $scope.thoiKhoaBieu=$response.data;
         });
 });

@@ -132,7 +132,13 @@
     });
      app.controller("SinhVienController",function($scope,$http){
 
-        $http.get("http://127.0.0.1:8000/api/sinh-vien/1").then($response=>{
+        $http({
+            method:"GET",
+            url:"http://127.0.0.1:8000/api/sinh-vien/"+$id_sinh_vien,
+            headers:{
+                "Authorization":"Bearer "+$access_token,
+            }
+        }).then($response=>{
             $scope.sinhvien=$response.data
             var $diachithuongtru=$scope.sinhvien.dia_chi_thuong_tru;
             var $strSplit=$diachithuongtru.split(", ");

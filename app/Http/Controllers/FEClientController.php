@@ -245,6 +245,7 @@ class FEClientController extends Controller
         return $result;
     }
     function chonLopDangKyMon(Request $request){
+        
         return view('layouts.fe.chonlophocphandangky');
     }
     function dangNhap(){

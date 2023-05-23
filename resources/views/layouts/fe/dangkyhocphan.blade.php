@@ -32,11 +32,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
-    $khoa_hoc=2020;
+    //$khoa_hoc=2020;
     $(document).ready(function(){
         $.ajax({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2",
+        url: "http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/"+$id_sinh_vien,
+        headers:{
+            "Authorization":"Bearer "+$access_token,
+        }
         })
         .done(function( data ) {
             $arr=JSON.parse(data)
@@ -46,7 +49,10 @@
                 $("#ds-mon-dang-ky").append(mon_hoc);
                 $.ajax({
                 method: "GET",
-                url: "http://127.0.0.1:8000/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&khoa_hoc="+$khoa_hoc,
+                url: "http://127.0.0.1:8000/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&id_sinh_vien="+$id_sinh_vien,
+                headers:{
+                    "Authorization":"Bearer "+$access_token,
+                }
                 }).done(function(data_info){
                     //console.log(data_info);
                     //$thong_tin_dang_ky=JSON.parse(data_info);
@@ -54,7 +60,7 @@
                     //console.log($thong_tin_dang_ky);
                     if($thong_tin_dang_ky.trang_thai==1){
                         var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"&#9;Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
-                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'" data-khoa_hoc="'+$khoa_hoc+'">Đăng ký môn</button>';
+                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'>Đăng ký môn</button>';
                         $("#ds-mon-dang-ky").append(ngay_mo,nutDangKy);
                     }else{
                         $("#ds-mon-dang-ky").append("<p>Chưa mở đăng ký</p>")
@@ -69,8 +75,8 @@
     });
     $(document).on('click', '.nut-dang-ky-mon', function(event){
         var element = $(event.target);
-        console.log(element.data("id_mon_hoc")+" "+element.data("khoa_hoc"));
-        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&khoa_hoc='+element.data("khoa_hoc")+"&id_mon="+element.data("id_mon_hoc");
+        console.log(element.data("id_mon_hoc"));
+        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc")+'&id_sinh_vien='+$id_sinh_vien;
     });
 </script>
 {{-- <script>

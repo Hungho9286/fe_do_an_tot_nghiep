@@ -73,6 +73,7 @@
 <script>
     $access_token="{{request()->cookie('access_token')}}";
     $id_sinh_vien={{request()->cookie('id_sinh_vien')}};
+    
 </script>
 
 

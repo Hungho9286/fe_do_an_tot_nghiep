@@ -22,6 +22,9 @@ class CheckLogin
         $id_sinh_vien=$request->cookie('id_sinh_vien');
         //dd($id_sinh_vien);
         //dd($accessToken);
+        if($request->is('dang-nhap')&&($accessToken==null||$id_sinh_vien==null)){
+            return $next($request);
+        }
         if($accessToken!=null){
             $url="http://127.0.0.1:8000/api/check-login?id=".$id_sinh_vien;
 

@@ -108,7 +108,13 @@
     });
 
     app.controller("DiemController",function($scope,$http){
-        $http.get("http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/1/hoc-ky/1").then(function($response){
+        $http({
+            method:"GET",
+            url:"http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/"+$id_sinh_vien+"/hoc-ky/1",
+            headers:{
+                "Authorization":"Bearer "+$access_token
+            }
+        }).then(function($response){
             $scope.danh_sach_diem_hoc_ki_1=$response.data;
             for(let i=0;i<$scope.danh_sach_diem_hoc_ki_1.length;i++){
                 if($scope.danh_sach_diem_hoc_ki_1[i].diem!=-1){
@@ -120,7 +126,13 @@
 
 
         })
-        $http.get("http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/1/hoc-ky/2").then(function($response){
+        $http({
+            method:"GET",
+            url:"http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/"+$id_sinh_vien+"/hoc-ky/2",
+            headers:{
+                "Authorization":"Bearer "+$access_token
+            }
+        }).then(function($response){
             $scope.danh_sach_diem_hoc_ki_2=$response.data;
             var $sum=0;
 
@@ -135,7 +147,13 @@
 
 
         })
-        $http.get("http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/1/hoc-ky/3").then(function($response){
+        $http({
+            method:"GET",
+            url:"http://127.0.0.1:8000/api/danh-sach-diem-cua-sinh-vien/"+$id_sinh_vien+"/hoc-ky/3",
+            headers:{
+                "Authorization":"Bearer "+$access_token
+            }
+        }).then(function($response){
             $scope.danh_sach_diem_hoc_ki_3=$response.data;
             for(let i=0;i<$scope.danh_sach_diem_hoc_ki_3.length;i++){
                 if($scope.danh_sach_diem_hoc_ki_3[i].diem!=-1){
