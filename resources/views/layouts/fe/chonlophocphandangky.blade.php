@@ -7,7 +7,7 @@
         </button>
         <button type="button" class="list-group-item list-group-item-action"  ng-repeat="mon in data">
             <div ng-click="HienThiLichHoc(mon.id_lop_hoc_phan)">
-
+                    <p style="font-weight:bold ">Mã lớp: </p><%mon.id_lop_hoc_phan%>
                     <p style="font-weight:bold ">Giảng viên: </p><%mon.giang_vien_1%>
                     <p style="font-weight:bold">Giảng viên phụ: </p> <%mon.giang_vien_2%>
 
@@ -128,3 +128,4 @@
 
 </script>
 @endsection
+

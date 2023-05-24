@@ -19,7 +19,6 @@
     </h1>
     <p>Các môn chưa hoàn thành</p>
     <div id="ds-mon-dang-ky">
-
         <div >
 
         </div>
@@ -60,7 +59,7 @@
                     //console.log($thong_tin_dang_ky);
                     if($thong_tin_dang_ky.trang_thai==1){
                         var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"&#9;Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
-                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'>Đăng ký môn</button>';
+                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
                         $("#ds-mon-dang-ky").append(ngay_mo,nutDangKy);
                     }else{
                         $("#ds-mon-dang-ky").append("<p>Chưa mở đăng ký</p>")
