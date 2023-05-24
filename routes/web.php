@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FEClientController;
+use App\Http\Controllers\FEGiangVienController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,7 @@ Route::post('/xu-ly-dong-hoc-phi-momo-qr',[FEClientController::class,'xuLyDongHo
 Route::post('/xu-ly-dong-hoc-phi-momo-atm',[FEClientController::class,'xuLyDongHocPhiMoMoATM'])->name('xu-ly-thanh-toan-momo-atm');
 Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy'])->name('cam-on-dong-hoc-phi');
 Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon']);
+
+Route::get('/giangvien/trangchu',[FEGiangVienController::class,'index']);
+
+
