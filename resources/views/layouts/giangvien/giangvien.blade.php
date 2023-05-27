@@ -13,6 +13,8 @@
 <script src="gv/javascripts/modernizr.foundation.js"></script>
 <link rel="stylesheet" href="{{asset('stylesheets/LigatureSymbols/ligature.css')}}">
 
+@yield('css')
+
 <!-- Google fonts -->
 <!-- 
   
@@ -33,47 +35,15 @@
 </div>
 <div class="row page_wrap" style="margin-top:-2px">
   <!-- page wrap -->
-  <div class="twelve columns">
+  <div class="twelve columns justify-content-md-center">
     <!-- page wrap -->
-    <div class="row">
-      <div class="twelve columns header_nav" style="margin-bottom:0; box-shadow: none">
-        <div class="twelve columns">
-          <ul id="menu-header" class="nav-bar horizontal">
-            <li><a href="index.html">Trang chủ</a></li>
-            
-            <li><a href="">Thông báo của Khoa</a></li>
-            <li><a href="">Thông báo của phòng đào tạo</a></li>
-            <!-- <li><a href="">Tiles</a></li> -->
-          </ul>
-          <script>$('ul#menu-header').nav-bar();</script>
-        </div>
-      </div>
-      
-    </div>
+    @include('layouts.giangvien.blocks.header')
     <!-- END Header -->
-    <!-- Slider -->
+    @include('layouts.giangvien.blocks.main')
+    <!-- Menu -->
+    @include('layouts.giangvien.blocks.menu')
+    <!-- END Menu-->
 
-    <div class="row show-for-large-up">
-      <div class="eight columns"> 
-        <div id="featured"><img src="{{asset('gv/images/slide1.jpg')}}" alt=""> <img src="{{asset('gv/images/slide2.jpg')}}" alt=""> <img src="{{asset('gv/images/slide3.jpg')}}" alt=""></div>
-      </div>
-      <div class="four columns">
-        <div class="panel">
-          <ul class="nav-bar vertical">
-            <li><a href="#">Lớp Học Phần</a></li>
-            <li> <a href="#">Thời Khoá Biểu</a> </li>
-            <li> <a href="#">Thông báo đã đăng</a> </li>
-            <li> <a href="#">Nhập điểm</a> </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-   
-    <!-- END Slider -->
-
-   
-   
     <div class="row">
       <div class="twelve columns">
         <ul id="menu3" class="footer_menu horizontal">
@@ -85,9 +55,8 @@
   </div>
 </div>
 <!-- end page wrap) -->
-<!-- Included JS Files (Compressed) -->
-<script src="{{asset('gv/javascripts/foundation.min.js')}}"></script>
-<!-- Initialize JS Plugins -->
-<script src="{{asset('gv/javascripts/app.js')}}"></script>
+@include('layouts.giangvien.blocks.footer')
+
+@yield('js')
 </body>
 </html>

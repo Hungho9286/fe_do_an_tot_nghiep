@@ -12,7 +12,8 @@ use App\Http\Controllers\api\APIGiangVienController;
 use App\Http\Controllers\api\APIThongBaoController;
 use App\Http\Controllers\api\APIMoDangKyMonController;
 use App\Http\Controllers\api\APIDangKyLopHocPhanController;
-/*
+
+/*s
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------

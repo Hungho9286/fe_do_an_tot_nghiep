@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FEClientController;
 use App\Http\Controllers\FEGiangVienController;
-
+use App\Http\Controllers\api\APIGiangVienController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,5 +29,7 @@ Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy'
 Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon']);
 
 Route::get('/giangvien/trangchu',[FEGiangVienController::class,'index']);
+Route::get('/giangvien/thongbao',[APIGiangVienController::class,'thongbaosinhvien']);
+Route::post('/giangvien/thongbao',[APIGiangVienController::class,'xulythemthongbao'])->name('xu-ly-them-thong-bao');
 
 

@@ -14,7 +14,7 @@ class FEGiangVienController extends Controller
      */
     public function index()
     {
-        return view('layouts.giangvien.trangchuGV');
+        return view('giangvien.trangchu');
     }
 
     /**

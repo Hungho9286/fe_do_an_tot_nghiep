@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 use App\Models\GiangVien;
+use App\Models\ThongBao;
 
 
 class APIGiangVienController extends Controller
@@ -15,9 +16,23 @@ class APIGiangVienController extends Controller
      */
     public function index()
     {
-        //
+       
     }
-
+    public function thongbaosinhvien()
+    {
+        return view('giangvien.thongbaosv');
+    }
+    public function xulythemthongbao(Request $request)
+    {   
+        $thongbao = new ThongBao;
+        $thongbao->fill([
+            "tieu_de" =>$request->tieu_de,
+            "noi_dung" =>$request->noi_dung
+            ]);
+        $thongbao->save();
+       
+        return redirect('/giangvien/thongbao');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -26,7 +41,7 @@ class APIGiangVienController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
