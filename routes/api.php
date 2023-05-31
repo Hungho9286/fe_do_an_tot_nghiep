@@ -43,3 +43,4 @@ Route::get('/mo-dang-ky-mon',[APIMoDangKyMonController::class,'choPhepMoDangKyMo
 Route::post('/them-dang-ky-lop-hoc-phan',[APIDangKyLopHocPhanController::class,'themDangKyLopHocPhan']);
 Route::get('/danh-sach-lop-hoc-phan-theo-mon-con-mo/{id}',[APILopHocPhanController::class,'danhSachLopHocPhanConMoThuocMonHoc']);
 
+Route::post('/xu-li-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy'])->name('cam-on-dong-hoc-phi');

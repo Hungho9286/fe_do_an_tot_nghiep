@@ -19,23 +19,23 @@
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Họ tên</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.hoten%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ho_ten%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Ngày sinh</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ng-bind="sinhvien.ngaysinh | date:'dd/MM/yyyy'"><%sinhvien.ngaysinh|date:'dd/MM/yyyy'%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ng-bind="sinhvien.ngay_sinh | date:'dd/MM/yyyy'"><%sinhvien.ngaysinh|date:'dd/MM/yyyy'%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Nơi sinh</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.noisinh%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.noi_sinh%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Giới tính</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.gioitinh && 'Nam' || 'Nữ'%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.gioi_tinh && 'Nam' || 'Nữ'%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Dân tộc</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.dantoc%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.dan_toc%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">CMND/CCCD</div>
@@ -69,6 +69,10 @@
             <strong style="font-size:1.5em;  color:white; margin-left:10px">Thông tin khóa học</strong>
         </div>
         <div class="row">
+            <div class="col-md-6" style="font-weight: 700;">Lớp</div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.lop_hoc.ten_lop_hoc%></span></div>
+        </div>
+        <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Khóa học</div>
             <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" >Khóa <%sinhvien.khoa_hoc%></span></div>
         </div>
@@ -78,26 +82,30 @@
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Khoa</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.khoa_nganh%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.khoa_nganh.ten_khoa%></span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="font-weight: 700;">Chuyên ngành</div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.chuyen_nganh.ten_chuyen_nganh%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Bậc đào tạo</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.bacdaotao%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.bac_dao_tao%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Hệ đào tạo</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.hedaotao%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.he_dao_tao%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Tình trạng học</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.tinhtranghoc%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.tinh_trang_hoc%></span></div>
         </div>
         {{-- End --}}
     </div>
     <div class="col-md-6">
 
         <div class="text-center" style="margin-top: 10px; margin-bottom:10px;">
-            <img src="{{asset('<%sinhvien.hinhanhdaidien%>')}}" alt="" width="40%">
+            <img src="{{asset('<%sinhvien.hinh_anh_dai_dien%>')}}" alt="" width="40%">
         </div>
 
         <div style="background-color:rgb(252, 146, 33); width:100% height:auto">
@@ -109,7 +117,7 @@
         </div>
         <div class="row">
             <div class="col-md-4" style="font-weight: 700;">Số điện thoại</div>
-            <div class="col-md-8" ><span>:</span><span style="margin-left: 10px; color:rgb(43, 43, 243)" ><%sinhvien.sodienthoai%></span></div>
+            <div class="col-md-8" ><span>:</span><span style="margin-left: 10px; color:rgb(43, 43, 243)" ><%sinhvien.so_dien_thoai%></span></div>
         </div>
         <div class="row">
             <div class="col-md-4" style="font-weight: 700;">Email</div>
