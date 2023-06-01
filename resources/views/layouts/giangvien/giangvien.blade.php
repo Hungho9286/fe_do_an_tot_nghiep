@@ -12,7 +12,12 @@
 <link rel="stylesheet" href="{{asset('gv/stylesheets/app.css')}}">
 <script src="gv/javascripts/modernizr.foundation.js"></script>
 <link rel="stylesheet" href="{{asset('stylesheets/LigatureSymbols/ligature.css')}}">
-
+<link rel="stylesheet" href="{{asset('post/css/main.min.css')}} ">
+<link rel="stylesheet" href="{{asset('post/css/weather-icons.min.css')}}">
+  <link rel="stylesheet" href="{{asset('post/css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('post/css/color.css')}}">
+  <link rel="stylesheet" href="{{asset('post/css/responsive.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('post/css/boxpost.css')}}"> --}}
 @yield('css')
 
 <!-- Google fonts -->
@@ -33,7 +38,7 @@
   <div class="three columns"> <a href="index.html"><img src="{{asset('gv/images/logo.png')}}" alt="" class="header_logo"></a> </div>
   <div class="nine columns" style="padding:20px; text-align:right"> Xin Chào <a href="#" style="font-size:16px" title="instagram">Tên Giảng Viên</a> </div>
 </div>
-<div class="row page_wrap" style="margin-top:-2px">
+<div class="row page_wrap" style="margin-top:-2px;">
   <!-- page wrap -->
   <div class="twelve columns justify-content-md-center">
     <!-- page wrap -->

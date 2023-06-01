@@ -16,7 +16,10 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.trangchu');
     }
-
+    public function thongbaosinhvien()
+    {
+        return view('giangvien.thongbaosv');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -80,6 +83,9 @@ class FEGiangVienController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $thongbao=Thongbao::find($id);
+        $thongbao->delete();
+        $thongbao->save();
+        return redirect('/giangvien/thongbao');
     }
 }

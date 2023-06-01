@@ -29,7 +29,8 @@ Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy'
 Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon']);
 
 Route::get('/giangvien/trangchu',[FEGiangVienController::class,'index']);
-Route::get('/giangvien/thongbao',[APIGiangVienController::class,'thongbaosinhvien']);
+Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);
+Route::get('/giangvien/thongbao/xoa/{id}',[FEGiangVienController::class,'destroy']);
 Route::post('/giangvien/thongbao',[APIGiangVienController::class,'xulythemthongbao'])->name('xu-ly-them-thong-bao');
 
 

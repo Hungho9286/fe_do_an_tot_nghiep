@@ -44,3 +44,4 @@ Route::get('/mo-dang-ky-mon',[APIMoDangKyMonController::class,'choPhepMoDangKyMo
 Route::post('/them-dang-ky-lop-hoc-phan',[APIDangKyLopHocPhanController::class,'themDangKyLopHocPhan']);
 Route::get('/danh-sach-lop-hoc-phan-theo-mon-con-mo/{id}',[APILopHocPhanController::class,'danhSachLopHocPhanConMoThuocMonHoc']);
 
+Route::get('/giangvien/thongbao',[APIGiangVienController::class,'danhsachthongbao']);

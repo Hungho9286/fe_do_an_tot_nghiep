@@ -18,10 +18,7 @@ class APIGiangVienController extends Controller
     {
        
     }
-    public function thongbaosinhvien()
-    {
-        return view('giangvien.thongbaosv');
-    }
+ 
     public function xulythemthongbao(Request $request)
     {   
         $thongbao = new ThongBao;
@@ -32,6 +29,26 @@ class APIGiangVienController extends Controller
         $thongbao->save();
        
         return redirect('/giangvien/thongbao');
+    }
+
+    public function danhsachthongbao()
+    {
+        $listThongbaos=ThongBao::where('id_giang_vien',1)->get();
+        $data=[];
+
+        foreach($listThongbaos as $thongbao){
+            $giangvien=GiangVien::find($thongbao->id_giang_vien);
+            array_push($data,[
+                'id'=>$thongbao->id,
+                'id_giang_vien'=>$thongbao->id_giang_vien,
+                'ten_giang_vien'=>$giangvien->ten_gv,
+                'tieu_de'=>$thongbao->tieu_de,
+                'noi_dung'=>$thongbao->noi_dung,
+                'ngay_tao'=>$thongbao->created_at
+            ]);
+
+        }
+        return $data;
     }
     /**
      * Store a newly created resource in storage.
@@ -75,6 +92,6 @@ class APIGiangVienController extends Controller
      */
     public function destroy($id)
     {
-        //
+      
     }
 }
