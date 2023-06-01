@@ -21,7 +21,7 @@
           <div class="slider-tab"></div>
         </div>
         <div class="form-inner">
-          <form method="POST" action="http://127.0.0.1:8001/dang-nhap" class="login">
+          <form method="POST" action="{{route('xu-ly-dang-nhap')}}" class="login">
             @csrf
             <div class="field">
               <input type="text" name="tai_khoan" placeholder="Tài khoản" required>

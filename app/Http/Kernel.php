@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'block.external.requests' => \App\Http\Middleware\BlockExternalRequests::class,
         'checklogin'=> \App\Http\Middleware\CheckLogin::class,
+        'checknomon'=>\App\Http\Middleware\CheckNoMon::class,
     ];
 }

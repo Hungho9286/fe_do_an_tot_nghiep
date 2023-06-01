@@ -62,7 +62,7 @@
     var currentURL=window.location.href;
     console.log(currentURL);
     var searchParams =new URLSearchParams(currentURL);
-    var $id_mon=searchParams.get('id_mon');
+    var $id_mon_hoc=searchParams.get('id_mon');
     // var $khoa_hoc=searchParams.get('khoa_hoc');
     var $arrThu=["Thứ 2","Thứ 3", "Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ Nhật"];
     var app = angular.module("myApp", [],function($interpolateProvider) {
@@ -74,18 +74,18 @@
         $scope.id_lop_hoc_phan_dang_chon=0;
         $http({
             method:"GET",
-            url:"http://127.0.0.1:8000/api/mon-hoc/"+$id_mon,
+            url:"{{env('SERVER_URL')}}/api/mon-hoc/"+$id_mon_hoc,
             headers:{
-                "Authorization":"Bearer "+$access_token,
+                "Authorization":"Bearer {{Session::get('access_token')}}",
             }
         }).then(response=>{
             $scope.mon=response.data;
         })
         $http({
             method:"GET",
-            url:"http://127.0.0.1:8000/api/danh-sach-lop-hoc-phan-theo-mon-con-mo/"+$id_mon,
+            url:"{{env('SERVER_URL')}}/api/danh-sach-lop-hoc-phan-theo-mon-con-mo/"+$id_mon_hoc,
             headers:{
-                "Authorization":"Bearer "+$access_token,
+                "Authorization":"Bearer {{Session::get('access_token')}}",
             }
         }).then(response=>{
             $scope.data=response.data;
@@ -159,13 +159,13 @@
             $scope.DangKyLopHocPhan=function(){
                 $http({
                     method:"GET",
-                    url:"http://127.0.0.1:8000/api/kiem-tra-mon-hoc-cua-lop-hoc-phan-dang-ky",
+                    url:"{{env('SERVER_URL')}}/api/kiem-tra-mon-hoc-cua-lop-hoc-phan-dang-ky",
                     params:{
-                        "id_mon_hoc":$id_mon,
-                        "id_sinh_vien":$id_sinh_vien
+                        "id_mon_hoc":$id_mon_hoc,
+                        "id_sinh_vien":{{Session::get('id_sinh_vien')}}
                     },
                     headers:{
-                        "Authorization":"Bearer "+$access_token
+                        "Authorization":"Bearer {{Session::get('access_token')}}"
                     }
                 }).then(function(response){
                     if(response.data.status==1){
@@ -180,14 +180,14 @@
                         if (result.isConfirmed) {
                             $http({
                                 method:"POST",
-                                url:"http://127.0.0.1:8000/api/them-dang-ky-lop-hoc-phan",
+                                url:"{{env('SERVER_URL')}}/api/them-dang-ky-lop-hoc-phan",
                                 params:{
-                                    "id_sinh_vien":$id_sinh_vien,
-                                    "id_mon_hoc":$id_mon,
+                                    "id_sinh_vien":{{Session::get('id_sinh_vien')}},
+                                    "id_mon_hoc":$id_mon_hoc,
                                     "id_lop_hoc_phan":$scope.id_lop_hoc_phan_dang_chon
                                 },
                                 headers:{
-                                    "Authorization":"Bearer "+$access_token,
+                                    "Authorization":"Bearer {{Session::get('access_token')}}",
                                 }
                             }).then(function(data){
                                 Swal.fire('Thành công!', 'Đăng ký lớp học phần thành công, xin vui lòng liên hệ với phòng đào tạo để đóng học phí', 'success')

@@ -68,22 +68,22 @@
     $(document).ready(function(){
         $.ajax({
         method: "GET",
-        url: "http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/"+$id_sinh_vien,
+        url: "{{env('SERVER_URL')}}/api/danh-sach-dang-ky-mon-cua-sinh-vien/{{Session::get('id_sinh_vien')}}",
         headers:{
-            "Authorization":"Bearer "+$access_token,
+            "Authorization":"Bearer {{Session::get('access_token')}}",
         }
         })
         .done(function( data ) {
-            $arr=JSON.parse(data)
+            $arr=data.dang_sach_mon_no;
             console.log($arr);
             $arr.forEach(item => {
                 var mon_hoc='<p style="font-size:1.5em; font-weight: bold;">'+item.ten_mon_hoc+'</p>';
                 $("#ds-mon-dang-ky").append(mon_hoc);
                 $.ajax({
                 method: "GET",
-                url: "http://127.0.0.1:8000/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&id_sinh_vien="+$id_sinh_vien,
+                url: "{{env('SERVER_URL')}}/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&id_sinh_vien="+{{Session::get('id_sinh_vien')}},
                 headers:{
-                    "Authorization":"Bearer "+$access_token,
+                    "Authorization":"Bearer {{Session::get('access_token')}}",
                 }
                 }).done(function(data_info){
                     //console.log(data_info);
@@ -103,9 +103,9 @@
         });
         $.ajax({
             method: "GET",
-            url: "http://127.0.0.1:8000/api/danh-sach-lop-dang-ky/"+$id_sinh_vien,
+            url: "{{env('SERVER_URL')}}/api/danh-sach-lop-dang-ky/{{Session::get('id_sinh_vien')}}",
             headers:{
-                "Authorization":"Bearer "+$access_token,
+                "Authorization":"Bearer {{Session::get('access_token')}}",
             }
         }).done(function(data){
             $lichHoc=data.lop_dang_ky;
@@ -118,7 +118,7 @@
                 var $tenGiangVien2=$lichHoc[i].giang_vien_2!=null?$lichHoc[i].giang_vien_2.ten_gv:'Trống';
 
 
-                var $buttonHuyDangKy=$lichHoc[i].cho_phep_huy_dang_ky?'</p><button class="huy-dang-ky-mon" data-id-dang-ky="'+$lichHoc[i].id+'" data-id-mon-hoc="'+$lichHoc[i].mon_hoc.id_mon_hoc+'" data-id-sinh-vien="'+$id_sinh_vien+'">Hủy đăng ký</button></td>':'';
+                var $buttonHuyDangKy=$lichHoc[i].cho_phep_huy_dang_ky?'</p><button class="huy-dang-ky-mon" data-id-dang-ky="'+$lichHoc[i].id+'" data-id-mon-hoc="'+$lichHoc[i].mon_hoc.id_mon_hoc+'" data-id-sinh-vien="'+{{Session::get('id_sinh_vien')}}+'">Hủy đăng ký</button></td>':'';
                 var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Lớp: '+$lichHoc[i].lop_hoc.ten_lop_hoc+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy;
                 var $tdThoiKhoaBieu='<td><strong>Lịch học</strong>';
                 var $tableThoiKhoaBieu
@@ -157,13 +157,13 @@
     $(document).on('click', '.nut-dang-ky-mon', function(event){
         var element = $(event.target);
         console.log(element.data("id_mon_hoc"));
-        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc")+'&id_sinh_vien='+$id_sinh_vien;
+        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc");
     });
     $(document).on('click', '.huy-dang-ky-mon', function(event){
         var element = $(event.target);
         $id_mon_hoc=element.data("id-mon-hoc");
         $id_dang_ky=element.data("id-dang-ky");
-        console.log($id_sinh_vien);
+
         console.log($id_mon_hoc);
         console.log($id_dang_ky);
 
@@ -179,14 +179,14 @@
         if (result.isConfirmed) {
             $.ajax({
             method:"POST",
-            url:"http://127.0.0.1:8000/api/huy-dang-ky-lop-hoc-phan",
+            url:"{{env('SERVER_URL')}}/api/huy-dang-ky-lop-hoc-phan",
             data:{
-                "id_sinh_vien":$id_sinh_vien,
+                "id_sinh_vien":{{Session::get('id_sinh_vien')}},
                 "id_mon_hoc":$id_mon_hoc,
                 "id_dang_ky":$id_dang_ky
             },
             headers:{
-            "Authorization":"Bearer "+$access_token,
+            "Authorization":"Bearer {{Session::get('access_token')}}",
             }
             }).done(function(data){
                 if(data.status==1){
@@ -214,13 +214,13 @@
     });
 
     app.controller("DangKyHocPhanController",function($scope,$http){
-        $http.get("http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2").then($response=>{
+        $http.get("{{env('SERVER_URL')}}/api/danh-sach-dang-ky-mon-cua-sinh-vien/2").then($response=>{
             $scope.monRot=$response.data;
             console.log($scope.monRot);
 
         })
         $scope.HienThiButtonDangKy=function($id,$khoa_hoc){
-                $http.get('http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2').then($response=>{
+                $http.get('{{env('SERVER_URL')}}/api/danh-sach-dang-ky-mon-cua-sinh-vien/2').then($response=>{
                     console.log($id);
                 })
             }

@@ -3,7 +3,7 @@
 <h1>THỜI KHÓA BIỂU</h1>
 <div ng-app="myApp" ng-controller="ThoiKhoaBieuController">
     <div class="alert alert-info" role="alert">
-    Sinh viên chọn tuần để xem lịch
+    Sinh viên chọn học kỳ để xem lịch
     </div>
     <div>
         {{-- <label for="">Năm học: </label>
@@ -79,9 +79,9 @@
 
         $http({
             method:'GET',
-            url:'http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/'+$id_sinh_vien,
+            url:'http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/{{Session::get('id_sinh_vien')}}',
             headers:{
-                'Authorization':"Bearer "+$access_token,
+                'Authorization':"Bearer {{Session::get('access_token')}}",
             }
         }).then($response=>{
             $scope.thoiKhoaBieu=$response.data;

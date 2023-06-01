@@ -64,9 +64,9 @@
         var $thongbao;
         $http({
             method:'GET',
-            url:"http://127.0.0.1:8000/api/danh-sach-thong-bao/"+$id_sinh_vien,
+            url:"{{env('SERVER_URL')}}/api/danh-sach-thong-bao/"+{{Session::get('id_sinh_vien')}},
             headers:{
-                'Authorization':"Bearer "+$access_token,
+                'Authorization':"Bearer {{Session::get('access_token')}}",
             }
         }).then($response=>{
             $thongbao=$scope.danh_sach_thong_bao=$response.data;
@@ -92,9 +92,9 @@
                             $scope.danh_sach_thong_bao[i].trang_thai_thong_bao=1;
                             $http({
                                 method:"POST",
-                                url:"http://127.0.0.1:8000/api/cap-nhat-trang-thai-da-doc-cua-thong-bao/"+$scope.danh_sach_thong_bao[i].id,
+                                url:"{{env('SERVER_URL')}}/api/cap-nhat-trang-thai-da-doc-cua-thong-bao/"+$scope.danh_sach_thong_bao[i].id,
                                 headers:{
-                                    "Authorization":"Bearer "+$access_token
+                                    "Authorization":"Bearer {{Session::get('access_token')}}"
                                 }
                             });
                         }

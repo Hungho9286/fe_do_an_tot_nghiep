@@ -142,9 +142,9 @@
 
         $http({
             method:"GET",
-            url:"http://127.0.0.1:8000/api/sinh-vien/"+$id_sinh_vien,
+            url:"{{env('SERVER_URL')}}/api/sinh-vien/{{Session::get('id_sinh_vien')}}",
             headers:{
-                "Authorization":"Bearer "+$access_token,
+                "Authorization":"Bearer {{Session::get('access_token')}}",
             }
         }).then($response=>{
             $scope.sinhvien=$response.data

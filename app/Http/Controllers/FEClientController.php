@@ -27,7 +27,7 @@ class FEClientController extends Controller
         return view('layouts.fe.donghocphi');
     }
     function dangKyHocPhan(){
-        // $url="http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2";
+        // $url=env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2";
         // $ch=curl_init($url);
         // curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -38,7 +38,7 @@ class FEClientController extends Controller
 
         // curl_close($ch);
         // dd($data);
-        // $data=Http::get("http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2");
+        // $data=Http::get(env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2");
         // dd($data->json());
         return view('layouts.fe.dangkyhocphan');
     }
@@ -236,7 +236,7 @@ class FEClientController extends Controller
         return view('layouts.fe.dangnhap');
     }
     function xuLyDangNhap(Request $request){
-        $url="http://127.0.0.1:8000/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+        $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
@@ -248,17 +248,21 @@ class FEClientController extends Controller
         $data=json_decode($head);
         //dd($data->sinh_vien->id);
         if($data->token!=null){
-            $response = new Response('Set Cookie');
-            $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
-            $response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
-            return $response;
+            // $response = new Response('Set Cookie');
+            // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
+            session()->put('access_token',$data->token);
+            session()->put('id_sinh_vien', $data->sinh_vien->id);
+            //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
+            return redirect()->route('trang-chu');
         }
         return redirect()->route('dang-nhap');
     }
     function logOut(Request $request){
-        $accessToken = $request->cookie('access_token');
-        $id_sinh_vien=$request->cookie('id_sinh_vien');
-        $url="http://127.0.0.1:8000/api/logout?id=".$id_sinh_vien;
+        // $accessToken = $request->cookie('access_token');
+        // $id_sinh_vien=$request->cookie('id_sinh_vien');
+        $accessToken = session()->get('access_token');
+        $id_sinh_vien=session()->get('id_sinh_vien');
+        $url=env('SERVER_URL')."/api/logout?id=".$id_sinh_vien;
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POST,true);
@@ -272,8 +276,10 @@ class FEClientController extends Controller
         $data=json_decode($head);
         //dd($data);
         if($data->code=201){
-            $response =response('Goodbye_token')->cookie('access_token', '', 0);
-            $response->cookie('id_sinh_vien', '', 0);
+            session()->forget('id_sinh_vien');
+            session()->forget('access_token');
+            // $response =response('Goodbye_token')->cookie('access_token', '', 0);
+            // $response->cookie('id_sinh_vien', '', 0);
             return redirect()->route('dang-nhap');
         }
     }

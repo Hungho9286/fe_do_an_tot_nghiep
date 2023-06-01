@@ -27,8 +27,7 @@ Route::middleware('checklogin')->group(function(){
     Route::get('/xem-diem',[FEClientController::class,'xemDiem']);
     Route::post('/xu-ly-dong-hoc-phi-momo-qr',[FEClientController::class,'xuLyDongHocPhiMoMoQR'])->name('xu-ly-thanh-toan-momo-qr');
     Route::post('/xu-ly-dong-hoc-phi-momo-atm',[FEClientController::class,'xuLyDongHocPhiMoMoATM'])->name('xu-ly-thanh-toan-momo-atm');
-
-    Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon']);
+    Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon'])->middleware('checknomon');
     Route::get('/', function () {
         return view('layouts.fe.trangchu');
     })->name('trang-chu');

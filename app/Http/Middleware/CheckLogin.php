@@ -18,15 +18,16 @@ class CheckLogin
     {
         //$accessToken=$request->header('Authorization');
         //dd($request);
-        $accessToken = $request->cookie('access_token');
-        $id_sinh_vien=$request->cookie('id_sinh_vien');
+        $accessToken = session()->get('access_token');
+        $id_sinh_vien=session()->get('id_sinh_vien');
+        //dd(session()->get('id_sinh_vien'));
         //dd($id_sinh_vien);
         //dd($accessToken);
         if($request->is('dang-nhap')&&($accessToken==null||$id_sinh_vien==null)){
             return $next($request);
         }
         if($accessToken!=null){
-            $url="http://127.0.0.1:8000/api/check-login?id=".$id_sinh_vien;
+            $url=env('SERVER_URL')."/api/check-login?id=".$id_sinh_vien;
 
             $ch = curl_init();
             curl_setopt($ch,CURLOPT_URL,$url);
