@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use App\Models\ThanhToanMomo;
+use Illuminate\Http\Response;
+
 class FEClientController extends Controller
 {
     function home(){
@@ -25,7 +27,7 @@ class FEClientController extends Controller
         return view('layouts.fe.donghocphi');
     }
     function dangKyHocPhan(){
-        // $url="http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2";
+        // $url=env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2";
         // $ch=curl_init($url);
         // curl_setopt($ch, CURLOPT_URL, $url);
 
@@ -36,7 +38,7 @@ class FEClientController extends Controller
 
         // curl_close($ch);
         // dd($data);
-        // $data=Http::get("http://127.0.0.1:8000/api/danh-sach-dang-ky-mon-cua-sinh-vien/2");
+        // $data=Http::get(env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2");
         // dd($data->json());
         return view('layouts.fe.dangkyhocphan');
     }
@@ -115,54 +117,57 @@ class FEClientController extends Controller
             return Redirect::to($jsonResult['payUrl']);
         // }
     }
-    function luuThongTinDangKy(Request $request){
-        if ($request->all()) {
-            try {
-                // dd($request->ip());
-                //dd($referer = $request->header('Referer'));
-                //dd($userAgent = $request->header('User-Agent'));
-                //dd($cookie = $request->header('Cookie'));
-                if($request->resultCode==0){
-                    //dd($request->all());
-                    $thanh_toan_momo=ThanhToanMomo::create([
-                        "orderId"=>$request->orderId,
-                        "requestId"=>$request->requestId,
-                        "amount"=>$request->amount,
-                        "orderInfo"=>$request->orderInfo,
-                        "orderType"=>$request->orderType,
-                        "transId"=>$request->transId,
-                        "resultCode"=>$request->resultCode,
-                        "message"=>$request->message,
-                        "payType"=>$request->payType,
-                        "responseTime"=>$request->responseTime,
-                        "extraData"=>$request->extraData,
-                        "signature"=>$request->signature,
-                    ]);
+        function luuThongTinDangKy(Request $request){
+            // if ($request->all()) {
+            //     try {
+                    // dd($request->ip());
+                    //dd($referer = $request->header('Referer'));
+                    //dd($userAgent = $request->header('User-Agent'));
+                    //dd($cookie = $request->header('Cookie'));
+                    $data=$request->all();
+                    if($data["resultCode"]==0){
+                        //dd($request->all());
+                        $thanh_toan_momo=ThanhToanMomo::create([
+                            "orderId"=>$data["orderId"],
+                            "requestId"=>$data["requestId"],
+                            "amount"=>$data["amount"],
+                            "orderInfo"=>$data["orderInfo"],
+                            "orderType"=>$data["orderType"],
+                            "transId"=>$data["transId"],
+                            "resultCode"=>$data["resultCode"],
+                            "message"=>$data["message"],
+                            "payType"=>$data["payType"],
+                            "responseTime"=>$data["responseTime"],
+                            "extraData"=>$data["extraData"],
+                            "signature"=>$data["signature"],
+                        ]);
 
-                    return "Thanh toán thành công";
+                        // return "Thanh toán thành công";
+                        return response()->noContent();
 
 
-                }
-                else {
-                    return "Not OK";
-                }
-            } catch (\Throwable $th) {
-                return 'ERROR';
-            }
+                    }
+                    // else {
+                    //     return "Not OK";
+                    // }
+                // } catch (\Throwable $th) {
+                //     // return 'ERROR';
+                // }
+            // }
         }
-    }
 
     function xuLyDongHocPhiMoMoATM(Request $request){
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
+
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Đóng tiền học phí nè";
-        $amount = "50000";
+        $orderInfo = "Thanh toán qua MoMo";
+        $amount = "10000";
         $orderId = time() ."";
-        $redirectUrl = "http://127.0.0.1:8000/cam-on-dong-hoc-phi";
-        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $redirectUrl = "http://127.0.0.1:8001/cam-on-dong-hoc-phi";
+        $ipnUrl = "http://127.0.0.1:8001/api/xu-li-dong-hoc-phi";
         $extraData = "";
 
 
@@ -181,26 +186,7 @@ class FEClientController extends Controller
             $requestType = "payWithATM";
             // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
             //before sign HMAC SHA256 signature
-            $rawHash =
-            "accessKey=" . $accessKey .
-            "&amount=" . $amount .
-            "&extraData=" . $extraData .
-            "&ipnUrl=" . $ipnUrl .
-            "&orderId=" . $orderId .
-            "&orderInfo=" . $orderInfo .
-            "&partnerCode=" . $partnerCode .
-            "&redirectUrl=" . $redirectUrl .
-            "&requestId=" . $requestId .
-            "&requestType=" . $requestType;
-            // $rawHash =
-            // "accessKey=" . $accessKey .
-            // "&amount=" . $amount .
-            // "&extraData=" . $extraData .
-            // "&orderId=" . $orderId .
-            // "&orderInfo=" . $orderInfo .
-            // "&partnerCode=" . $partnerCode .
-            // "&requestId=" . $requestId .
-            // "&requestType=" . $requestType;
+            $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
             $signature = hash_hmac("sha256", $rawHash, $secretKey);
             $data = array('partnerCode' => $partnerCode,
                 'partnerName' => "Test",
@@ -217,9 +203,10 @@ class FEClientController extends Controller
                 'signature' => $signature);
             $result = $this->execPostRequest($endpoint, json_encode($data));
             $jsonResult = json_decode($result, true);  // decode json
-           // dd($jsonResult);
+            //dd($jsonResult);
             //Just a example, please check more in there
 
+    // header('Location: ' . $jsonResult['payUrl']);
             return Redirect::to($jsonResult['payUrl']);
         // }
     }
@@ -244,5 +231,56 @@ class FEClientController extends Controller
     }
     function chonLopDangKyMon(Request $request){
         return view('layouts.fe.chonlophocphandangky');
+    }
+    function dangNhap(){
+        return view('layouts.fe.dangnhap');
+    }
+    function xuLyDangNhap(Request $request){
+        $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data->sinh_vien->id);
+        if($data->token!=null){
+            // $response = new Response('Set Cookie');
+            // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
+            session()->put('access_token',$data->token);
+            session()->put('id_sinh_vien', $data->sinh_vien->id);
+            //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
+            return redirect()->route('trang-chu');
+        }
+        return redirect()->route('dang-nhap');
+    }
+    function logOut(Request $request){
+        // $accessToken = $request->cookie('access_token');
+        // $id_sinh_vien=$request->cookie('id_sinh_vien');
+        $accessToken = session()->get('access_token');
+        $id_sinh_vien=session()->get('id_sinh_vien');
+        $url=env('SERVER_URL')."/api/logout?id=".$id_sinh_vien;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS,
+        //     "id=".$request->id_sinh_vien);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+        $head=curl_exec($ch);
+        //dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data);
+        if($data->code=201){
+            session()->forget('id_sinh_vien');
+            session()->forget('access_token');
+            // $response =response('Goodbye_token')->cookie('access_token', '', 0);
+            // $response->cookie('id_sinh_vien', '', 0);
+            return redirect()->route('dang-nhap');
+        }
     }
 }

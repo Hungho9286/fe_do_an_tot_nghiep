@@ -3,22 +3,24 @@
 <h1>THỜI KHÓA BIỂU</h1>
 <div ng-app="myApp" ng-controller="ThoiKhoaBieuController">
     <div class="alert alert-info" role="alert">
-    Sinh viên chọn tuần để xem lịch
+    Sinh viên chọn học kỳ để xem lịch
     </div>
     <div>
-        <label for="">Năm học: </label>
+        {{-- <label for="">Năm học: </label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example">
             <option selected>Chọn năm học</option>
             <option value="1">2020 - 2021</option>
             <option value="2">2021 - 2022</option>
             <option value="3">2022 - 2023</option>
-        </select>
+        </select> --}}
         <label for="">Học kỳ: </label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>chọn học kỳ</option>
-            <option value="1">Học kỳ 1</option>
+        <select id="chon-hoc-ky" class="form-select form-select-sm" aria-label=".form-select-sm example" ng-model="opitionHocKy">
+            <option value="1" selected>Học kỳ 1</option>
             <option value="2">Học kỳ 2</option>
             <option value="3">Học kỳ 3</option>
+            <option value="4">Học kỳ 4</option>
+            <option value="5">Học kỳ 5</option>
+            <option value="6">Học kỳ 6</option>
         </select>
     </div>
     {{-- <div class="text-right">
@@ -51,7 +53,7 @@
       <tr ng-repeat="tkb in thoiKhoaBieu">
         <th scope="row" style="background-color:beige"><%tkb.ten_phong_hoc%></th>
           <td ng-repeat="count in [1,2,3,4,5,6,7]">
-            <div ng-repeat="lp in tkb.lich|filter:{thu_trong_tuan:count}">
+            <div ng-repeat="lp in tkb.lich|filter:{thu_trong_tuan:count}|filter:{hoc_ky:opitionHocKy}">
                     <strong><%lp.mon_hoc%></strong>
                     <p><%lp.tiet_bat_dau%> &#8594; <%lp.tiet_ket_thuc%></p>
                     <p><%lp.thoi_gian_bat_dau%> &#8594; <%lp.thoi_gian_ket_thuc%></p>
@@ -74,9 +76,20 @@
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("ThoiKhoaBieuController",function($scope,$http){
-        $http.get('http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/2').then($response=>{
+
+        $http({
+            method:'GET',
+            url:'http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/{{Session::get('id_sinh_vien')}}',
+            headers:{
+                'Authorization':"Bearer {{Session::get('access_token')}}",
+            }
+        }).then($response=>{
             $scope.thoiKhoaBieu=$response.data;
         });
+        $scope.opitionHocKy="1";
+        // $("#chon-hoc-ky").val("1").change();
+
+
 });
 
 

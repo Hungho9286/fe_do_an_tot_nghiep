@@ -25,6 +25,7 @@ class FEGiangVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function xulythemthongbao(Request $request)
     {   
         $thongbao = new ThongBao;

@@ -1,6 +1,7 @@
-<!-- Included JS Files (Compressed) -->
-<script src="{{asset('gv/javascripts/foundation.min.js')}}"></script>
-<!-- Initialize JS Plugins -->
-<script src="{{asset('gv/javascripts/app.js')}}"></script>
-
-<script src="{{asset('post/js/script.js')}}"></script>
+<script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/js/sidebarmenu.js')}}"></script>
+<script src="{{asset('assets/js/app.min.js')}}"></script>
+<script src="{{asset('assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/libs/simplebar/dist/simplebar.js')}}"></script>
+<script src="{{asset('assets/js/dashboard.js')}}"></script>

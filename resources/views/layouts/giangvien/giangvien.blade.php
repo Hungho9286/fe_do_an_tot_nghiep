@@ -1,67 +1,85 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!doctype html>
+<html lang="en">
+
 <head>
-<title>Giảng Viên CKC</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href=" {{asset('gv/stylesheets/foundation.min.css')}}">
-<link rel="stylesheet" href=" {{asset('gv/stylesheets/main.css')}}">
-<link rel="stylesheet" href="{{asset('gv/stylesheets/app.css')}}">
-<script src="gv/javascripts/modernizr.foundation.js"></script>
-<link rel="stylesheet" href="{{asset('stylesheets/LigatureSymbols/ligature.css')}}">
-<link rel="stylesheet" href="{{asset('post/css/main.min.css')}} ">
-<link rel="stylesheet" href="{{asset('post/css/weather-icons.min.css')}}">
-  <link rel="stylesheet" href="{{asset('post/css/style.css')}}">
-  <link rel="stylesheet" href="{{asset('post/css/color.css')}}">
-  <link rel="stylesheet" href="{{asset('post/css/responsive.css')}}">
-  {{-- <link rel="stylesheet" href="{{asset('post/css/boxpost.css')}}"> --}}
-@yield('css')
-
-<!-- Google fonts -->
-<!-- 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modernize Free</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="{{asset('assets/css/styles.min.css')}}" />
   
-<link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')}}" rel="stylesheet">
-  <script src="{{asset('https://code.jquery.com/jquery-3.5.1.min.js')}}"></script>
-  <script src="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js')}}"></script>
-  <link href="{{asset('https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css')}}" rel="stylesheet">
-  <script src="{{asset('https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js')}}"></script> -->
-<!-- IE Fix for HTML5 Tags -->
-<!--[if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
 </head>
-<body>
-<div class="row" style="margin-left:250px; ">
-  <div class="three columns"> <a href="index.html"><img src="{{asset('gv/images/logo.png')}}" alt="" class="header_logo"></a> </div>
-  <div class="nine columns" style="padding:20px; text-align:right"> Xin Chào <a href="#" style="font-size:16px" title="instagram">Tên Giảng Viên</a> </div>
-</div>
-<div class="row page_wrap" style="margin-top:-2px;margin-left:250px;">
-  <!-- page wrap -->
-  <div class="twelve columns justify-content-md-center">
-    <!-- page wrap -->
-    @include('layouts.giangvien.blocks.header')
-    <!-- END Header -->
-    @include('layouts.giangvien.blocks.main')
-    <!-- Menu -->
-    @include('layouts.giangvien.blocks.menu')
-    <!-- END Menu-->
 
-    <div class="row">
-      <div class="twelve columns">
-        <ul id="menu3" class="footer_menu horizontal">
-          <li><a href="index.html">Home</a></li>
-        </ul>
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    @include('layouts.giangvien.blocks.menu')
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                <i class="ti ti-bell-ringing"></i>
+                <div class="notification bg-primary rounded-circle"></div>
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-mail fs-6"></i>
+                      <p class="mb-0 fs-3">My Account</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-list-check fs-6"></i>
+                      <p class="mb-0 fs-3">My Task</p>
+                    </a>
+                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+      <div class="container-fluid">
+        <!--  Row 1 -->
+        <div id="summernote"></div>
+        <script>
+          $('#summernote').summernote({
+            placeholder: 'Hello Bootstrap 5',
+            tabsize: 2,
+            height: 100
+          });
+        </script>
       </div>
     </div>
-    <script>$('ul#menu3').nav-bar();</script>
   </div>
-</div>
-<!-- end page wrap) -->
-@include('layouts.giangvien.blocks.footer')
-
-@yield('js')
+  @include('layouts.giangvien.blocks.footer')
 </body>
+
 </html>

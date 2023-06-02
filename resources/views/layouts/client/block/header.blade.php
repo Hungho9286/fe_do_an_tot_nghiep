@@ -33,16 +33,17 @@
                 </li>
             </ul>
             <!-- Log In Form -->
-            <form class="navbar-form navbar-right form-inline">
-                <div class="form-group">
-                    <label class="sr-only" for="emailAddress">Email address</label>
-                    <input type="email" class="form-control" id="emailAddress" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="pwd">Password</label>
-                    <input type="password" class="form-control" id="pwd" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-default">Sign in</button>
+            {{-- <div class="form-group">
+                <label class="sr-only" for="emailAddress">Email address</label>
+                <input type="email" class="form-control" id="emailAddress" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="pwd">Password</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Password">
+            </div> --}}
+            <form class="navbar-form navbar-right form-inline" method="POST" action="{{route('dang-xuat')}}">
+                @csrf
+                <button type="submit" class="btn btn-default">Đăng xuất</button>
             </form>
 
         </div>
@@ -62,7 +63,8 @@
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
                     <a href="#">
-                        <img class="img-responsive" src="{{asset('images/school/caothang_banner.png')}}"   alt="">
+                        {{-- <div style="width:100%; height:100%;background-image:image({{asset('images/school/caothang_banner.png')}}) inherit"></div> --}}
+                        <img class="img-responsive" src="{{asset('images/school/picture_banner_2.jpg')}}"   alt="">
                     </a>
                     {{-- <div class="carousel-caption">
                         <h3>Dramatically Engage</h3>
@@ -71,7 +73,7 @@
                 </div>
                 <div class="item">
                     <a href="#">
-                        <img class="img-responsive" src="{{asset('images/school/cong.jpg')}}"  alt="">
+                        <img class="img-responsive" src="{{asset('images/school/picture_banner_1.jpg')}}"  alt="">
                     </a>
                     {{-- <div class="carousel-caption">
                         <h3>Efficiently Unleash</h3>
@@ -80,7 +82,7 @@
                 </div>
                 <div class="item">
                     <a href="#">
-                        <img class="img-responsive" src="{{asset('images/school/dongho.jpg')}}" width="30%" alt="">
+                        <img class="img-responsive" src="{{asset('images/school/picture_banner_3.jpg')}}"  alt="">
                     </a>
                     {{-- <div class="carousel-caption">
                         <h3>Proactively Pontificate</h3>
