@@ -157,7 +157,7 @@
     $(document).on('click', '.nut-dang-ky-mon', function(event){
         var element = $(event.target);
         console.log(element.data("id_mon_hoc"));
-        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc");
+        window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon_hoc='+element.data("id_mon_hoc");
     });
     $(document).on('click', '.huy-dang-ky-mon', function(event){
         var element = $(event.target);

@@ -28,6 +28,7 @@ class CheckNoMon
         $data=json_decode($data);
         //dd($data);
         curl_close($ch);
+        //dd($data->dang_sach_mon_no);
         //dd($data);
         if($data->status==1){
             foreach($data->dang_sach_mon_no as $item){
@@ -46,10 +47,6 @@ class CheckNoMon
                     if($dataChoPhepDangKyMon->status==1){
                         return $next($request);
                     }
-                    else{
-                        return redirect()->route("trang-chu");
-                    }
-
                 }
             }
             return redirect()->route("trang-chu");

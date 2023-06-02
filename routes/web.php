@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FEClientController;
-use App\Http\Middleware\CheckLogin;
-
+use App\Http\Controllers\FEGiangVienController;
+use App\Http\Controllers\api\APIGiangVienController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,4 +34,8 @@ Route::middleware('checklogin')->group(function(){
 });
 Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy']);
 
-
+Route::get('/giangvien/trangchu',[FEGiangVienController::class,'index']);
+Route::get('/giangvien/lop-hoc-phan-cua-giang-vien',[FEGiangVienController::class,'lopHocPhanCuaGiangVien'])->name('danh-sach-lop-hoc-phan');
+Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);
+Route::get('/giangvien/thongbao/xoa/{id}',[FEGiangVienController::class,'destroy']);
+Route::post('/giangvien/thongbao',[FEGiangVienController::class,'xulythemthongbao'])->name('xu-ly-them-thong-bao');

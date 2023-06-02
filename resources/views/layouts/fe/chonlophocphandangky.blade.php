@@ -62,7 +62,7 @@
     var currentURL=window.location.href;
     console.log(currentURL);
     var searchParams =new URLSearchParams(currentURL);
-    var $id_mon_hoc=searchParams.get('id_mon');
+    var $id_mon_hoc=searchParams.get('id_mon_hoc');
     // var $khoa_hoc=searchParams.get('khoa_hoc');
     var $arrThu=["Thứ 2","Thứ 3", "Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ Nhật"];
     var app = angular.module("myApp", [],function($interpolateProvider) {
@@ -88,6 +88,7 @@
                 "Authorization":"Bearer {{Session::get('access_token')}}",
             }
         }).then(response=>{
+            //console.log(response.data);
             $scope.data=response.data;
             $scope.lich=$sce.trustAsHtml("<p>Trống</p>");
             console.log($scope.data);
