@@ -23,17 +23,8 @@ class APILopHocPhanController extends Controller
     {
         //
     }
-    public function laydssinhvien_lophocphan($id)
-    {
-       $chitietlophocphan = ChiTietLopHocPhan::where('id_lop_hoc_phan',$id)->get();
-        $arr_sv = array();
-       foreach($chitietlophocphan as $sv_lhp)
-       {
-        $sinhvien = SinhVien::find($sv_lhp->id_sinh_vien);
-        $arr_sv[]= $sinhvien;
-       }
-       return $arr_sv;
-    }
+
+
 
     /**
      * Store a newly created resource in storage.
