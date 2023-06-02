@@ -34,11 +34,11 @@
 <![endif]-->
 </head>
 <body>
-<div class="row">
+<div class="row" style="margin-left:250px; ">
   <div class="three columns"> <a href="index.html"><img src="{{asset('gv/images/logo.png')}}" alt="" class="header_logo"></a> </div>
   <div class="nine columns" style="padding:20px; text-align:right"> Xin Chào <a href="#" style="font-size:16px" title="instagram">Tên Giảng Viên</a> </div>
 </div>
-<div class="row page_wrap" style="margin-top:-2px;">
+<div class="row page_wrap" style="margin-top:-2px;margin-left:250px;">
   <!-- page wrap -->
   <div class="twelve columns justify-content-md-center">
     <!-- page wrap -->

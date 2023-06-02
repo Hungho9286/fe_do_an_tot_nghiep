@@ -9,6 +9,8 @@ use App\Models\ThoiKhoaBieu;
 use App\Models\ThoiGianBieu;
 use App\Models\GiangVien;
 use App\Models\PhongHoc;
+use App\Models\ChiTietLopHocPhan;
+use App\Models\SinhVien;
 
 class APILopHocPhanController extends Controller
 {
@@ -20,6 +22,17 @@ class APILopHocPhanController extends Controller
     public function index()
     {
         //
+    }
+    public function laydssinhvien_lophocphan($id)
+    {
+       $chitietlophocphan = ChiTietLopHocPhan::where('id_lop_hoc_phan',$id)->get();
+        $arr_sv = array();
+       foreach($chitietlophocphan as $sv_lhp)
+       {
+        $sinhvien = SinhVien::find($sv_lhp->id_sinh_vien);
+        $arr_sv[]= $sinhvien;
+       }
+       return $arr_sv;
     }
 
     /**

@@ -25,6 +25,27 @@ class FEGiangVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function xulythemthongbao(Request $request)
+    {   
+        $thongbao = new ThongBao;
+        
+        {
+            foreach($listsinhvien as $sinhvien)
+            {
+                $thongbao->fill([
+                    
+                    "tieu_de" =>$request->tieu_de."-".$request->ten_lop_hoc_phan,
+                    "noi_dung" =>$request->noi_dung,
+                    "id_loai_thong_bao" => 3,
+                    "id_giang_vien" => 1,
+                    "id_sinh_vien" => $sinhvien->id
+                    ]);
+                $thongbao->save();
+            }
+        }
+        return redirect('/giangvien/thongbao');
+    }
+
     public function create()
     {
         //
