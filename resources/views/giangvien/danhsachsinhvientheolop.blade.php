@@ -43,7 +43,9 @@
         }).then($response=>{
             $scope.lopHocPhan=$response.data;
 
-            console.log($scope.danhSachSinhVien);
+            $scope.XemThongTinSinhVien=function($id_sinh_vien){
+                window.location.href="/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{$id_lop_hoc_phan}}/thong-tin-sinh-vien?id_sinh_vien="+$id_sinh_vien;
+            }
         })
     });
 </script>

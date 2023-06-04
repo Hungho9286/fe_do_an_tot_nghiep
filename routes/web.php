@@ -39,4 +39,5 @@ Route::get('/giangvien/lop-hoc-phan-cua-giang-vien',[FEGiangVienController::clas
 Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);
 Route::get('/giangvien/thongbao/xoa/{id}',[FEGiangVienController::class,'destroy']);
 Route::post('/giangvien/thongbao',[FEGiangVienController::class,'xulythemthongbao'])->name('xu-ly-them-thong-bao');
-Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}',[FEGiangVienController::class,'danhSachSinhVienTheoLopHocPhan']);
+Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}',[FEGiangVienController::class,'danhSachSinhVienTheoLopHocPhan'])->name('lop-hoc-phan-cua-giang-vien');
+Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}/thong-tin-sinh-vien',[FEGiangVienController::class,'xemThongTinSinhVien']);
