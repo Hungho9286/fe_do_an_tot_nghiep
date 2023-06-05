@@ -23,6 +23,12 @@ class FEGiangVienController extends Controller
     public function lopHocPhanCuaGiangVien(){
         return view('giangvien.lophocphan');
     }
+    public function danhSachSinhVienTheoLopHocPhan($id){
+        return view('giangvien.danhsachsinhvientheolop',['id_lop_hoc_phan'=>$id]);
+    }
+    public function xemThongTinSinhVien($id_lop_hoc_phan,Request $request){
+        return view('giangvien.thongtinsinhvien',['id_lop_hoc_phan'=>$id_lop_hoc_phan,'id_sinh_vien'=>$request->id_sinh_vien]);
+    }
     /**
      * Show the form for creating a new resource.
      *
