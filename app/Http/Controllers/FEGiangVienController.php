@@ -20,6 +20,9 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.thongbaosv');
     }
+    public function lopHocPhanCuaGiangVien(){
+        return view('giangvien.lophocphan');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -27,14 +30,14 @@ class FEGiangVienController extends Controller
      */
     
     public function xulythemthongbao(Request $request)
-    {   
+    {
         $thongbao = new ThongBao;
-        
+
         {
             foreach($listsinhvien as $sinhvien)
             {
                 $thongbao->fill([
-                    
+
                     "tieu_de" =>$request->tieu_de."-".$request->ten_lop_hoc_phan,
                     "noi_dung" =>$request->noi_dung,
                     "id_loai_thong_bao" => 3,
