@@ -17,9 +17,9 @@ class CheckNoMon
     public function handle(Request $request, Closure $next)
     {
         $accessToken = session()->get('access_token');
-        $id_sinh_vien=session()->get('id_sinh_vien');
+        $ma_sv=session()->get('ma_sv');
         $id_mon_hoc=$request->id_mon_hoc;
-        $url=env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/".$id_sinh_vien;
+        $url=env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/".$ma_sv;
         $ch=curl_init($url);
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
@@ -33,7 +33,7 @@ class CheckNoMon
         if($data->status==1){
             foreach($data->dang_sach_mon_no as $item){
                 if($item->id_mon_hoc==$id_mon_hoc){
-                    $url=env('SERVER_URL')."/api/sinh-vien-duoc-phep-vao-trang-dang-ky-mon?id_sinh_vien=".$id_sinh_vien."&id_mon_hoc=".$item->id_mon_hoc;
+                    $url=env('SERVER_URL')."/api/sinh-vien-duoc-phep-vao-trang-dang-ky-mon?ma_sv=".$ma_sv."&id_mon_hoc=".$item->id_mon_hoc;
                     //dd($url);
                     $ch=curl_init($url);
                     curl_setopt($ch,CURLOPT_URL,$url);

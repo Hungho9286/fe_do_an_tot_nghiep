@@ -110,7 +110,7 @@
     app.controller("DiemController",function($scope,$http){
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('id_sinh_vien')}}/hoc-ky/1",
+            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('ma_sv')}}/hoc-ky/1",
             headers:{
                 "Authorization":"Bearer {{Session::get('access_token')}}"
             }
@@ -128,7 +128,7 @@
         })
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('id_sinh_vien')}}/hoc-ky/2",
+            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('ma_sv')}}/hoc-ky/2",
             headers:{
                 "Authorization":"Bearer {{Session::get('access_token')}}"
             }
@@ -149,7 +149,7 @@
         })
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('id_sinh_vien')}}/hoc-ky/3",
+            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('ma_sv')}}/hoc-ky/3",
             headers:{
                 "Authorization":"Bearer {{Session::get('access_token')}}"
             }

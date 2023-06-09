@@ -64,7 +64,7 @@
         var $thongbao;
         $http({
             method:'GET',
-            url:"{{env('SERVER_URL')}}/api/danh-sach-thong-bao/"+{{Session::get('id_sinh_vien')}},
+            url:"{{env('SERVER_URL')}}/api/danh-sach-thong-bao/{{Session::get('ma_sv')}}",
             headers:{
                 'Authorization':"Bearer {{Session::get('access_token')}}",
             }

@@ -27,7 +27,7 @@ class FEGiangVienController extends Controller
         return view('giangvien.danhsachsinhvientheolop',['id_lop_hoc_phan'=>$id]);
     }
     public function xemThongTinSinhVien($id_lop_hoc_phan,Request $request){
-        return view('giangvien.thongtinsinhvien',['id_lop_hoc_phan'=>$id_lop_hoc_phan,'id_sinh_vien'=>$request->id_sinh_vien]);
+        return view('giangvien.thongtinsinhvien',['id_lop_hoc_phan'=>$id_lop_hoc_phan,'ma_sv'=>$request->ma_sv]);
     }
     /**
      * Show the form for creating a new resource.
@@ -47,7 +47,7 @@ class FEGiangVienController extends Controller
                     "noi_dung" =>$request->noi_dung,
                     "id_loai_thong_bao" => 3,
                     "id_giang_vien" => 1,
-                    "id_sinh_vien" => $sinhvien->id
+                    "ma_sv" => $sinhvien->ma_sv
                     ]);
                 $thongbao->save();
             }
