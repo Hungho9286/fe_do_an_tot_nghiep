@@ -58,18 +58,9 @@
 
 </div>
 
-<div id="summernote"></div>
 
-<script>
-    $('#summernote').summernote({
-        placeholder: 'Hello Bootstrap 5',
-        tabsize: 2,
-        height: 100
-    });
-</script>
 @endsection
 @section('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
         var app = angular.module("myApp", [],function($interpolateProvider) {
@@ -90,7 +81,7 @@
                 $scope.showListLopHocPhan=false;
                 $scope.danhSachLopHocPhanCuaGiangVien.forEach(element => {
                     if(element.id_lop_hoc_phan==$id_lop_hoc_phan){
-                        window.location.href='/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/'+element.id_lop_hoc_phan;
+                        window.location.href='/giangvien/lop-hoc-phan-cua-giang-vien/'+element.id_lop_hoc_phan;
                     }
                 });
             }

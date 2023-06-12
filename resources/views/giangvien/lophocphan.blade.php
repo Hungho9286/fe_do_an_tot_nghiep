@@ -2,99 +2,60 @@
 
 @section('css')
 <style>
-a:hover,
-a:focus{
-    text-decoration: none;
-    outline: none;
+.div-post{
+    width:1000px;
 }
-.vertical-tab{
-    background: linear-gradient(#fff,#f5f5f5,#fff);
-    font-family: 'Poppins', sans-serif;
-    display: table;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+@media only screen and (width <= 1600px)  {
+  .div-post,
+  .div-infor,
+   {
+    max-width: 90%;
+  }
 }
-.vertical-tab .nav-tabs{
-    background-color: #fff;
-    display: table-cell;
-    width: 25%;
-    min-width: 25%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    vertical-align: top;
+@media only screen and (width <= 1400px)  {
+  .div-post,
+  .div-infor {
+    max-width: 80%;
+  }
 }
-.vertical-tab .nav-tabs li{ float: none; }
-.vertical-tab .nav-tabs li a{
-    color: #2e86de;
-    background: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 12px 10px 10px;
-    margin: 0 0 10px;
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-    transition: all 0.5s ease 0.1s;
+
+@media only screen and (width <= 1280px)  {
+  .div-post,
+  .div-infor {
+    max-width: 70%;
+  }
 }
-.vertical-tab .nav-tabs li a:hover,
-.vertical-tab .nav-tabs li.active a,
-.vertical-tab .nav-tabs li.active a:hover{
-    color: #fff;
-    background: #2e86de;
-    border: none;
-    box-shadow: 0 0 10px -4px #2e86de;
+
+@media only screen and (width <= 1024px)  {
+  .div-post,
+  .div-infor {
+    max-width: 55%;
+  }
 }
-.vertical-tab .nav-tabs li a:before{
-    content: '';
-    background-color: #2e86de;
-    height: 100%;
-    width: 0;
-    border-radius: 10px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: -1;
-    transition: all 0.4s ease 0s;
+
+@media only screen and (width <= 800px)  {
+  .div-post,
+  .div-infor {
+    max-width: 42%;
+  }
 }
-.vertical-tab .nav-tabs li a:hover:before,
-.vertical-tab .nav-tabs li.active a:before,
-.vertical-tab .nav-tabs li.active a:hover:before{
-    width: 100%;
-    opacity: 0;
+@media only screen and (width <= 600px)  {
+  .div-post,
+  .div-infor {
+    max-width: 27%;
+  }
 }
-.vertical-tab .tab-content{
-    color: #888;
-    background: transparent;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    line-height: 21px;
-    padding: 15px 15px 10px 15px;
-    display: table-cell;
+@media only screen and (width <= 400px)  {
+  .div-post,
+  .div-infor {
+    max-width: 15%;
+  }
 }
-.vertical-tab .tab-content h3{
-    color: #2e86de;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: capitalize;
-    margin: 0 0 4px;
-}
-@media only screen and (max-width: 479px){
-    .vertical-tab .nav-tabs{
-        width: 100%;
-        display: block;
-    }
-    .vertical-tab .nav-tabs li:last-child a{ margin: 0; }
-    .vertical-tab .tab-content{
-        font-size: 14px;
-        display: block;
-    }
+@media only screen and (width <= 200px)  {
+  .div-post,
+  .div-infor {
+    max-width: 7%;
+  }
 }
 </style>
 @endsection
@@ -103,38 +64,213 @@ a:focus{
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <div class="vertical-tab" role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#Section1" aria-controls="home" role="tab" data-toggle="tab">Section 1</a></li>
-                    <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab" data-toggle="tab">Section 2</a></li>
-                    <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab" data-toggle="tab">Section 3</a></li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content tabs">
-                    <div role="tabpanel" class="tab-pane fade in active" id="Section1">
-                        <h3>Section 1</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+ <div class="d-flex align-items-start">
+  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true"> Thông Báo </button>
+  <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"> Danh sách sinh viên </button>
+    
+  </div>
+  <div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"> 
+        <div class="div-post" >
+            <form action="" method="post" enctype = "multipart/form-data" >
+                 @csrf
+                 <div class="input-group">
+                  <span class="input-group-text">Tiêu đề</span>
+                  <input type="text" name="tieu_de" class="form-control">
+                </div>
+                <br>
+                <div class="mb-3" >
+                  
+                    <div id="summernote" name="noi_dung" ></div>
+                </div>
+        
+                <button type="submit" class="btn btn-primary">Đăng</button>
+              </form>
+              <div class="status-field-container write-post-container">
+                <div class="user-profile-box">
+                    <div class="user-profile">
+                        <img src="images/avatar/0306201537.jpg" alt="">
+                        <div>
+                            <p> Alex Carry</p>
+                            <small>August 13 1999, 09.18 pm</small>
+                        </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="Section2">
-                        <h3>Section 2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="Section3">
-                        <h3>Section 3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                    <div>
+                        
+                          <div class="dropdown no-arrow">
+                            <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-right shadow "
+                            aria-labelledby="userDropdown" data-toggle="modal" data-target="#exampleModalLong">
+                            <a class="dropdown-item"  href="#">
+                                <i class="fa fa-pencil-square-o fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sửa thông báo
+                            </a>
+                            <a class="dropdown-item " data-toggle="modal" data-target="#xoathongbao" href="#">
+                                <i class="fa fa-trash-o fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Xoá thông báo
+                            </a>
+                           
+                        </div>
+                          </div>
+                    
                     </div>
                 </div>
+                <div class="status-field">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
+                        laborum nihil accusantium odit laboriosam, sed sit autem! <a
+                            href="#">#This_Post_is_Better!!!!</a> </p>
+                    <img src="images/feed-image-1.png" alt="">
+      
+                </div>
+          
             </div>
         </div>
+       
     </div>
+    <div class="tab-pane fade div-infor" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" style="width:1000px">
+        <div ng-app="myApp" ng-controller="DanhSachSinhVienTheoLopHocPhanController">
+     
+            <ul class="list-group" >
+                <li class="list-group-item" ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
+                    <div class="row justify-content-around">
+                        <div class="col-8">
+                          <div>MSSV: <%sinhVien.mssv%></div>
+                          <div>Lớp: CĐTH20F</div>
+                          <div>Email: <%sinhVien.email%></div>
+                          <div>Tên: <%sinhVien.ho_ten%></div>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-success" ng-click="XemThongTinSinhVien(sinhVien.id)">Xem thông tin</button>
+                            <button type="button" class="btn btn-primary" ng-click="XemDiemSinhVien(sinhVien.id)">Xem điểm</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    
+  </div>
 </div>
+      {{-- pop up delete post --}}
+      <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<form action="" method="get">
+  <div class="modal fade" id="xoathongbao" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Xoá thông báo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         Bạn có chắc là xoá thông báo này
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+          <button type="button" class="btn btn-primary">Xoá thông báo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<!-- Modal -->
+<form action="" method="post" enctype="multipart/form-data">
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Thông báo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post" >
+            @csrf
+            <div class="input-group">
+             <span class="input-group-text">Tiêu đề</span>
+             <input type="text" name="tieu_de" class="form-control">
+           </div>
+           <br>
+           <div class="mb-3" style="border: solid 1px">
+               <div id="summernote2" name="noi_dung" ></div>
+           </div>
+   
+      
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Đăng thông báo',
+            tabsize: 2,
+            height: 100
+        });
+    </script>
+        <script>
+          $('#summernote2').summernote({
+           
+              tabsize: 2,
+              height: 100
+          });
+      </script>
 @endsection
 @section('js')
+
 <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js" id="google_shimpl"></script><script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+@section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    var app = angular.module("myApp", [],function($interpolateProvider) {
+    $interpolateProvider.startSymbol('<%');
+    $interpolateProvider.endSymbol('%>');
+    });
+    $id_giang_vien=1;
+    app.controller("DanhSachSinhVienTheoLopHocPhanController",function($scope,$http){
+        $http({
+            method:"GET",
+            url:"{{env('SERVER_URL')}}/api/giang-vien/danh-sach-lop-hoc-phan/"+$id_giang_vien,
+            params:{
+                'opition':1,
+                'id_lop_hoc_phan':{{$id_lop_hoc_phan}},
+            },
+            headers:{
+                "Authorizations":"Bearer token"
+            }
+        }).then($response=>{
+            $scope.lopHocPhan=$response.data;
 
+            $scope.XemThongTinSinhVien=function($id_sinh_vien){
+                window.location.href="/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{$id_lop_hoc_phan}}/thong-tin-sinh-vien?id_sinh_vien="+$id_sinh_vien;
+            }
+        })
+    });
+</script>
 @endsection

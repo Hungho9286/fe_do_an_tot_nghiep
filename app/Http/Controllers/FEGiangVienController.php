@@ -20,8 +20,8 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.thongbaosv');
     }
-    public function lopHocPhanCuaGiangVien(){
-        return view('giangvien.lophocphan');
+    public function lopHocPhanCuaGiangVien($id){
+        return view('giangvien.lophocphan',['id_lop_hoc_phan'=>$id]); 
     }
     public function danhSachSinhVienTheoLopHocPhan($id){
         return view('giangvien.danhsachsinhvientheolop',['id_lop_hoc_phan'=>$id]);
@@ -35,11 +35,11 @@ class FEGiangVienController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function xulythemthongbao(Request $request)
+    public function xulythemthongbao(Request $request , $id)
     {
         $thongbao = new ThongBao;
 
-        {
+        {   
             foreach($listsinhvien as $sinhvien)
             {
                 $thongbao->fill([
@@ -47,8 +47,8 @@ class FEGiangVienController extends Controller
                     "tieu_de" =>$request->tieu_de."-".$request->ten_lop_hoc_phan,
                     "noi_dung" =>$request->noi_dung,
                     "id_loai_thong_bao" => 3,
-                    "id_giang_vien" => 1,
-                    "id_sinh_vien" => $sinhvien->id
+                    "id_giang_vien" => $id,
+                    "id_sinh_vien" => 1
                     ]);
                 $thongbao->save();
             }

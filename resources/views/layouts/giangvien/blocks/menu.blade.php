@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/giang-vien/trang-chu">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -34,13 +34,40 @@
             <span>Danh sách lớp</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="danhsach-sv-lop" >
+                
                 <h6 class="collapse-header">Danh sách:</h6>
-                <a class="collapse-item" href="buttons.html">Buttons</a>
-                <a class="collapse-item" href="cards.html">Cards</a>
+               
+                
             </div>
         </div>
     </li>
+
+    <script>
+     
+   $(document).ready(function()
+   {
+    $.ajax({
+        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-hoc-phan/1',
+        method: "GET",
+        headers:{
+                "Authorizations":"Bearer token",
+            }
+    }).done(function($data)
+    {
+        console.log($data);
+        $data.forEach(element => {
+            $('#danhsach-sv-lop').append(
+        
+        '<a class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien/'+element.id_lop_hoc_phan+'"  >'+ element.lop_hoc.ten_lop_hoc+'-' + element.mon_hoc.ten_mon_hoc + '</a>'
+             
+         );
+        });
+       
+    })
+   }) 
+   
+    </script>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
