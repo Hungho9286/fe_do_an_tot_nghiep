@@ -79,7 +79,7 @@
 
         $http({
             method:'GET',
-            url:'http://127.0.0.1:8000/api/thoi-khoa-bieu-cua-sinh-vien/{{Session::get('id_sinh_vien')}}',
+            url:'{{env('SERVER_URL')}}/api/thoi-khoa-bieu-cua-sinh-vien/{{Session::get('ma_sv')}}',
             headers:{
                 'Authorization':"Bearer {{Session::get('access_token')}}",
             }

@@ -163,7 +163,7 @@
                     url:"{{env('SERVER_URL')}}/api/kiem-tra-mon-hoc-cua-lop-hoc-phan-dang-ky",
                     params:{
                         "id_mon_hoc":$id_mon_hoc,
-                        "id_sinh_vien":{{Session::get('id_sinh_vien')}}
+                        "ma_sv":"{{Session::get('ma_sv')}}"
                     },
                     headers:{
                         "Authorization":"Bearer {{Session::get('access_token')}}"
@@ -183,7 +183,7 @@
                                 method:"POST",
                                 url:"{{env('SERVER_URL')}}/api/them-dang-ky-lop-hoc-phan",
                                 params:{
-                                    "id_sinh_vien":{{Session::get('id_sinh_vien')}},
+                                    "ma_sv":"{{Session::get('ma_sv')}}",
                                     "id_mon_hoc":$id_mon_hoc,
                                     "id_lop_hoc_phan":$scope.id_lop_hoc_phan_dang_chon
                                 },

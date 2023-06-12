@@ -15,11 +15,11 @@
 
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Mã số sinh viên</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.mssv%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ma_sv%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Họ tên</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ho_ten%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ten_sinh_vien%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Ngày sinh</div>
@@ -142,7 +142,7 @@
 
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/sinh-vien/{{Session::get('id_sinh_vien')}}",
+            url:"{{env('SERVER_URL')}}/api/sinh-vien/{{Session::get('ma_sv')}}",
             headers:{
                 "Authorization":"Bearer {{Session::get('access_token')}}",
             }

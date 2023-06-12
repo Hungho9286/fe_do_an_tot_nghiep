@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use App\Models\ThanhToanMomo;
 use Illuminate\Http\Response;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class FEClientController extends Controller
 {
@@ -117,44 +118,157 @@ class FEClientController extends Controller
             return Redirect::to($jsonResult['payUrl']);
         // }
     }
-        function luuThongTinDangKy(Request $request){
-            // if ($request->all()) {
-            //     try {
-                    // dd($request->ip());
-                    //dd($referer = $request->header('Referer'));
-                    //dd($userAgent = $request->header('User-Agent'));
-                    //dd($cookie = $request->header('Cookie'));
-                    $data=$request->all();
-                    if($data["resultCode"]==0){
-                        //dd($request->all());
-                        $thanh_toan_momo=ThanhToanMomo::create([
-                            "orderId"=>$data["orderId"],
-                            "requestId"=>$data["requestId"],
-                            "amount"=>$data["amount"],
-                            "orderInfo"=>$data["orderInfo"],
-                            "orderType"=>$data["orderType"],
-                            "transId"=>$data["transId"],
-                            "resultCode"=>$data["resultCode"],
-                            "message"=>$data["message"],
-                            "payType"=>$data["payType"],
-                            "responseTime"=>$data["responseTime"],
-                            "extraData"=>$data["extraData"],
-                            "signature"=>$data["signature"],
-                        ]);
+    public function xuLyDongHocPhiPayPal(Request $request){
+        //dd($request->all());
+        $provider = new PayPalClient;
+        $config = [
+            'mode'    => 'sandbox',
+            'sandbox' => [
+                'client_id'         => env('PAYPAL_SANDBOX_CLIENT_ID'),
+                'client_secret'     => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
+                'app_id'            => 'APP-80W284485P519543T',
+            ],
 
-                        // return "Thanh toán thành công";
-                        return response()->noContent();
+            'payment_action' => 'Sale',
+            'currency'       => 'USD',
+            'notify_url'     => 'https://e731-125-235-239-91.ngrok-free.app/api/xu-ly-dong-hoc-phi-paypal',
+            'locale'         => 'en_US',
+            'validate_ssl'   => true,
+        ];
+        //dd($config);
+        $hocPhi=$request->hoc_phi;
 
+        $X_RapidAPI_Key='173ffdb7f4mshd1984723305752bp151783jsnccc3c3a9419d';
+        $X_RapidAPI_Host='currency-converter-by-api-ninjas.p.rapidapi.com';
+        // $query=array(
+        //     'have'=>"VND",
+        //     'want'=>"USD",
+        //     'amount'=>$hocPhi
+        // );
 
-                    }
-                    // else {
-                    //     return "Not OK";
-                    // }
-                // } catch (\Throwable $th) {
-                //     // return 'ERROR';
-                // }
-            // }
+        $url="https://currency-converter-by-api-ninjas.p.rapidapi.com/v1/convertcurrency?have=VND&want=USD&amount=".$hocPhi;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+
+            'X-RapidAPI-Key: ' . $X_RapidAPI_Key,
+            'X-RapidAPI-Host: ' . $X_RapidAPI_Host)
+        );
+        $dataExec=curl_exec($ch);
+        $data=json_decode($dataExec);
+
+        $provider->setApiCredentials($config);
+        $paypalToken=$provider->getAccessToken();
+
+        $response = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('xu-ly-dong-hoc-phi-paypal',['type'=>$request->type,"id"=>$request->id]),
+                "cancel_url" => route('cancel-dong-hoc-phi'),
+            ],
+            "purchase_units" => [
+                0 => [
+                    "amount" => [
+                        "currency_code" => "USD",
+                        "value" => $data->new_amount,
+                    ]
+                ]
+            ]
+        ]);
+        if (isset($response['id']) && $response['id'] != null) {
+
+            // redirect to approve href
+            foreach ($response['links'] as $links) {
+                if ($links['rel'] == 'approve') {
+                    return response()->json([
+                        'link'=>$links['href']
+                    ]);
+                }
+            }
+
+            return redirect()
+                ->route('createTransaction')
+                ->with('error', 'Something went wrong.');
+
+        } else {
+            return redirect()
+                ->route('createTransaction')
+                ->with('error', $response['message'] ?? 'Something went wrong.');
         }
+
+    }
+    function huyDongHocPhi(Request $request){
+        return view('layouts.fe.camondonghocphi');
+    }
+    function hienThiTrangCamOnDongHocPhi(Request $request){
+        return view('layouts.fe.camondonghocphi');
+    }
+    function luuThongTinDangKy(Request $request){
+        if(isset($request['token'])==false){
+            return redirect()->route('trang-chu');
+        }
+        //dd($request->all());
+        $ma_sv=session()->get('ma_sv');
+        $config = [
+            'mode'    => 'sandbox',
+            'sandbox' => [
+                'client_id'         => env('PAYPAL_SANDBOX_CLIENT_ID'),
+                'client_secret'     => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
+                'app_id'            => 'APP-80W284485P519543T',
+            ],
+
+            'payment_action' => 'Sale',
+            'currency'       => 'USD',
+            'notify_url'     => 'https://e731-125-235-239-91.ngrok-free.app/api/xu-ly-dong-hoc-phi-paypal',
+            'locale'         => 'en_US',
+            'validate_ssl'   => true,
+        ];
+        $provider = new PayPalClient;
+        $provider->setApiCredentials($config);
+        $provider->getAccessToken();
+        $response = $provider->capturePaymentOrder($request['token']);
+        //dd($response);
+        //dd($response);
+        if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+            //Xử lí thêm trong đây
+            $data=json_decode(json_encode($response));
+            //dd($data);
+            $rawHash="payment_id=" . $data->id . "&payer_email_address=" . $data->payer->email_address . "&payer_id=" . $data->payer->payer_id . "&gross_amount=" . $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->gross_amount->value . "&paypal_fee=". $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value . "&net_amount=" . $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->net_amount->value . "&currency_code=" . $data->purchase_units[0]->payments->captures[0]->amount->currency_code . "&id_hoc_phi=" . $request->id . "&ma_sv=" . $ma_sv . "&type=" . $request->type;
+            $signature=hash_hmac("sha256",$rawHash,env('PAYPAL_LIVE_CLIENT_SECRET'));
+            //dd($rawHash);
+            $data = array('payment_id' => $data->id,
+                'payer_email_address' => $data->payer->email_address,
+                "payer_id" =>  $data->payer->payer_id,
+                'gross_amount' => $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->gross_amount->value,
+                'paypal_fee' => $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->paypal_fee->value,
+                'net_amount' => $data->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown->net_amount->value ,
+                'currency_code' => $data->purchase_units[0]->payments->captures[0]->amount->currency_code,
+                'id_hoc_phi' => $request->id,
+                'type'=>$request->type,
+                'ma_sv' => $ma_sv,
+                'signature' => $signature);
+            $url=env('SERVER_URL')."/api/xu-ly-dong-hoc-phi-paypal";
+            $result=$this->execPostRequest($url,json_encode($data));
+            $resultJson=json_decode($result);
+           // dd($resultJson);
+            if($resultJson->status==1){
+                return redirect()
+                ->route('cam-on-dong-hoc-phi')
+                ->with('success', 'Đóng học phí thành công.');
+            }else{
+                return redirect()
+                ->route('cam-on-dong-hoc-phi')
+                ->with('error', 'Lỗi hệ thống!.');
+            }
+
+        } else {
+            return redirect()
+                ->route('trang-chu')
+                ->with('error', $response['message'] ?? 'Something went wrong.');
+        }
+    }
 
     function xuLyDongHocPhiMoMoATM(Request $request){
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
@@ -167,7 +281,7 @@ class FEClientController extends Controller
         $amount = "10000";
         $orderId = time() ."";
         $redirectUrl = "http://127.0.0.1:8001/cam-on-dong-hoc-phi";
-        $ipnUrl = "http://127.0.0.1:8001/api/xu-li-dong-hoc-phi";
+        $ipnUrl = "https://e731-125-235-239-91.ngrok-free.app/api/xu-ly-dong-hoc-phi-momo";
         $extraData = "";
 
 
@@ -188,6 +302,7 @@ class FEClientController extends Controller
             //before sign HMAC SHA256 signature
             $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
             $signature = hash_hmac("sha256", $rawHash, $secretKey);
+
             $data = array('partnerCode' => $partnerCode,
                 'partnerName' => "Test",
                 "storeId" => "MomoTestStore",
@@ -235,6 +350,7 @@ class FEClientController extends Controller
     function dangNhap(){
         return view('layouts.fe.dangnhap');
     }
+
     function xuLyDangNhap(Request $request){
         $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
@@ -251,7 +367,7 @@ class FEClientController extends Controller
             // $response = new Response('Set Cookie');
             // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
             session()->put('access_token',$data->token);
-            session()->put('id_sinh_vien', $data->sinh_vien->id);
+            session()->put('ma_sv', $data->sinh_vien->ma_sv);
             //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
             return redirect()->route('trang-chu');
         }
@@ -261,8 +377,8 @@ class FEClientController extends Controller
         // $accessToken = $request->cookie('access_token');
         // $id_sinh_vien=$request->cookie('id_sinh_vien');
         $accessToken = session()->get('access_token');
-        $id_sinh_vien=session()->get('id_sinh_vien');
-        $url=env('SERVER_URL')."/api/logout?id=".$id_sinh_vien;
+        $ma_sv=session()->get('ma_sv');
+        $url=env('SERVER_URL')."/api/logout?ma_sv=".$ma_sv;
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POST,true);
@@ -276,7 +392,7 @@ class FEClientController extends Controller
         $data=json_decode($head);
         //dd($data);
         if($data->code=201){
-            session()->forget('id_sinh_vien');
+            session()->forget('ma_sv');
             session()->forget('access_token');
             // $response =response('Goodbye_token')->cookie('access_token', '', 0);
             // $response->cookie('id_sinh_vien', '', 0);

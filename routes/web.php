@@ -31,8 +31,10 @@ Route::middleware('checklogin')->group(function(){
         return view('layouts.fe.trangchu');
     })->name('trang-chu');
 });
-Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'luuThongTinDangKy']);
-
+Route::post('dong-hoc-phi-paypal',[FEClientController::class,'xuLyDongHocPhiPayPal'])->name('dong-hoc-phi-qua-paypal');
+Route::get('/xu-ly-dong-hoc-phi-paypal',[FEClientController::class,'luuThongTinDangKy'])->name('xu-ly-dong-hoc-phi-paypal');
+Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'hienThiTrangCamOnDongHocPhi'])->name('cam-on-dong-hoc-phi');
+Route::get('/cancel-dong-hoc-phi',[FEClientController::class,'huyDongHocPhi'])->name('cancel-dong-hoc-phi');
 Route::get('/giang-vien/trang-chu',[FEGiangVienController::class,'index'])->name('trang-chu-giang-vien');
 Route::get('/giangvien/lop-hoc-phan-cua-giang-vien/{id}',[FEGiangVienController::class,'lopHocPhanCuaGiangVien'])->name('danh-sach-lop-hoc-phan');
 Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);

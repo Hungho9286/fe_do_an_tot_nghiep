@@ -30,7 +30,7 @@
         <div style=" width:170%;">
             <p>Danh sách lớp đăng ký chờ duyệt</p>
             <div style="width:100%; height: 500px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;">
-                <table class="table table-hover" id="thoi-khoa-bieu">
+                <table class="table" id="thoi-khoa-bieu">
                     {{-- <tr>
                         <td>
                             <strong>Thông tin lớp</strong>
@@ -47,6 +47,28 @@
                                     <th>Phòng học</th>
                                     <th>Thời gian</th>
                                 </tr>
+                            </table>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Thông tin lớp</strong>
+                            <p>Mã lớp:</p>
+                            <p>Giảng viên:</p>
+                            <p>Giảng viên phụ:</p>
+                            <button>Hủy đăng ký</button>
+                        </td>
+                        <td>
+                            <strong>Lịch học</strong>
+                            <p>Thứ</p>
+                            <table class="table">
+                                <tr>
+                                    <th>Phòng học</th>
+                                    <th>Thời gian</th>
+                                </tr>
+
                             </table>
 
                         </td>
@@ -68,7 +90,7 @@
     $(document).ready(function(){
         $.ajax({
         method: "GET",
-        url: "{{env('SERVER_URL')}}/api/danh-sach-dang-ky-mon-cua-sinh-vien/{{Session::get('id_sinh_vien')}}",
+        url: "{{env('SERVER_URL')}}/api/danh-sach-dang-ky-mon-cua-sinh-vien/{{Session::get('ma_sv')}}",
         headers:{
             "Authorization":"Bearer {{Session::get('access_token')}}",
         }
@@ -81,7 +103,7 @@
                 $("#ds-mon-dang-ky").append(mon_hoc);
                 $.ajax({
                 method: "GET",
-                url: "{{env('SERVER_URL')}}/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&id_sinh_vien="+{{Session::get('id_sinh_vien')}},
+                url: "{{env('SERVER_URL')}}/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&ma_sv={{Session::get('ma_sv')}}",
                 headers:{
                     "Authorization":"Bearer {{Session::get('access_token')}}",
                 }
@@ -103,7 +125,7 @@
         });
         $.ajax({
             method: "GET",
-            url: "{{env('SERVER_URL')}}/api/danh-sach-lop-dang-ky/{{Session::get('id_sinh_vien')}}",
+            url: "{{env('SERVER_URL')}}/api/danh-sach-lop-dang-ky/{{Session::get('ma_sv')}}",
             headers:{
                 "Authorization":"Bearer {{Session::get('access_token')}}",
             }
@@ -114,12 +136,20 @@
             var $strHtml="";
             for(let i=0;i<$lichHoc.length;i=i+1){
                 console.log($lichHoc[i]);
-                var $tenGiangVien1=$lichHoc[i].giang_vien_1!=null?$lichHoc[i].giang_vien_1.ten_gv:'Trống';
-                var $tenGiangVien2=$lichHoc[i].giang_vien_2!=null?$lichHoc[i].giang_vien_2.ten_gv:'Trống';
-
-
-                var $buttonHuyDangKy=$lichHoc[i].cho_phep_huy_dang_ky?'</p><button class="huy-dang-ky-mon" data-id-dang-ky="'+$lichHoc[i].id+'" data-id-mon-hoc="'+$lichHoc[i].mon_hoc.id_mon_hoc+'" data-id-sinh-vien="'+{{Session::get('id_sinh_vien')}}+'">Hủy đăng ký</button></td>':'';
-                var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Lớp: '+$lichHoc[i].lop_hoc.ten_lop_hoc+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy;
+                var $tenGiangVien1=$lichHoc[i].giang_vien_1!=null?$lichHoc[i].giang_vien_1.ten_giang_vien:'Trống';
+                var $tenGiangVien2=$lichHoc[i].giang_vien_2!=null?$lichHoc[i].giang_vien_2.ten_giang_vien:'Trống';
+                var $buttonHuyDangKy="";
+                if($lichHoc[i].da_dong_tien==1){
+                    $buttonHuyDangKy='</p><span  class="label label-success">Chờ duyệt</span >';
+                }
+                else{
+                    $buttonHuyDangKy=$lichHoc[i].cho_phep_huy_dang_ky?'</p><button class="huy-dang-ky-mon" data-id-dang-ky="'+$lichHoc[i].id+'" data-id-mon-hoc="'+$lichHoc[i].mon_hoc.id_mon_hoc+'" data-id-sinh-vien="'+{{Session::get('ma_sv')}}+'">Hủy đăng ký</button>':'';
+                }
+                if($lichHoc[i].lop_hoc==null){
+                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy+'</td>';
+                }else{
+                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Lớp: '+$lichHoc[i].lop_hoc.ten_lop_hoc+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy+'</td>';
+                }
                 var $tdThoiKhoaBieu='<td><strong>Lịch học</strong>';
                 var $tableThoiKhoaBieu
                 var $tdThoiKhoaBieuThem="";
@@ -141,13 +171,14 @@
                         if(count==0){
                             $tdThoiKhoaBieuThem=$tdThoiKhoaBieuThemTemp;
                         }else{
-                            $tdThoiKhoaBieuThem=$tdThoiKhoaBieuThem+'</table>'
+                            $tdThoiKhoaBieuThem=$tdThoiKhoaBieuThem+"</table>";
                         }
                     }
                 }
                 $tdThoiKhoaBieu=$tdThoiKhoaBieu+$tdThoiKhoaBieuThem+'</td>';
                 console.log($tdThoiKhoaBieu);
-                $strEnd=$tdThongTinLopHoc+$tdThoiKhoaBieu;
+                $strEnd="<tr>"+$tdThongTinLopHoc+$tdThoiKhoaBieu+"</tr>";
+                console.log($strEnd);
                 $('#thoi-khoa-bieu').append($strEnd);
 
             }
@@ -181,9 +212,9 @@
             method:"POST",
             url:"{{env('SERVER_URL')}}/api/huy-dang-ky-lop-hoc-phan",
             data:{
-                "id_sinh_vien":{{Session::get('id_sinh_vien')}},
-                "id_mon_hoc":$id_mon_hoc,
-                "id_dang_ky":$id_dang_ky
+                ma_sv:"{{Session::get('ma_sv')}}",
+                id_mon_hoc:$id_mon_hoc,
+                id_dang_ky:$id_dang_ky
             },
             headers:{
             "Authorization":"Bearer {{Session::get('access_token')}}",
@@ -204,7 +235,7 @@
         }
         })
 
-        //window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc")+'&id_sinh_vien='+$id_sinh_vien;
+        //window.location.href='/chon-lop-dang-ky-mon?type=dang_ky_lop&id_mon='+element.data("id_mon_hoc")+'&ma_sv='+$ma_sv;
     });
 </script>
 {{-- <script>
@@ -227,42 +258,3 @@
     })
 </script> --}}
 @endsection
-{{-- <td>
-    <div>
-        <strong>Lịch học</strong>
-        <p>Thứ: Thứ 2</p>
-        <table class="table">
-            <tr>
-                <th>Phòng học:</th>
-                <th>Thời gian</th>
-            </tr>
-            <tr>
-                <td>F7.14</td>
-                <td>
-                    <p>Tiết học: 4 -> 6</p>
-                    <p>Thời gian: 09:05:00 -> 09:50:00</p>
-                </td>
-            </tr>
-            <tr>
-                <td>F7.3</td>
-                <td>
-                    <p>Tiết học: 6 -> 7</p>
-                    <p>Thời gian: 10:45:00 -> 11:30:00</p>
-                </td>
-            </tr>
-            <p>Thứ: Thứ 4</p>
-            <table class="table">
-                <tr>
-                    <th>Phòng học:</th>
-                    <th>Thời gian</th>
-                </tr>
-                <tr>
-                    <td>F7.3</td>
-                    <td>
-                        <p>Tiết học: 1 -> 3</p>
-                        <p>Thời gian: 06:30:00 -> 07:15:00</p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </td> --}}
