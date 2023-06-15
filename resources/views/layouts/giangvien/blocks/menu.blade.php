@@ -48,7 +48,7 @@
    $(document).ready(function()
    {
     $.ajax({
-        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-hoc-phan/1',
+        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1',
         method: "GET",
         headers:{
                 "Authorizations":"Bearer token",
@@ -59,7 +59,7 @@
         $data.forEach(element => {
             $('#danhsach-sv-lop').append(
         
-        '<a class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien/'+element.id_lop_hoc_phan+'"  >'+ element.lop_hoc.ten_lop_hoc+'-' + element.mon_hoc.ten_mon_hoc + '</a>'
+        '<a class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1'+'"  >'+ element.lop_hoc.ten_lop_hoc+'-' + element.mon_hoc.ten_mon_hoc + '</a>'
              
          );
         });

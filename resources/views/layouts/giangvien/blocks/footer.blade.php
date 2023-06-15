@@ -7,6 +7,8 @@
 
  <!-- Custom scripts for all pages-->
  <script src="{{asset('giangvien/js/sb-admin-2.min.js')}}"></script>
+ <script src="{{asset('giangvien/js/view/view.js')}}"></script>
+ <script src="{{asset('giangvien/js/view/modal.js')}}"></script>
 
  <!-- Page level plugins -->
  <script src="{{asset('giangvien/vendor/chart.js/Chart.min.js')}}"></script>
