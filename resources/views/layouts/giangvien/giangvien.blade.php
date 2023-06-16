@@ -13,7 +13,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-  
+
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.js"></script> --}}
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('giangvien/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -26,8 +28,8 @@
     <!-- Custom styles for this template-->
 
     <link href="{{asset('giangvien/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>   
-    <link rel="stylesheet" href="{{ asset('giangvien/post/style.css') }}"> 
+    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('giangvien/post/style.css') }}">
 
     @yield('css')
 
@@ -59,7 +61,7 @@
             </div>
             <!-- End of Main Content -->
 
-    
+
 
         </div>
         <!-- End of Content Wrapper -->
