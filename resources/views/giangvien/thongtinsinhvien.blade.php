@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('content')
-<a href="{{route('lop-hoc-phan-cua-giang-vien',['id'=>$id_lop_hoc_phan])}}" class="btn btn-outline-primary">Trở lại</a>
+<a href="{{route('danh-sach-lop-hoc-phan',['id'=>$id_lop_hoc_phan,'type'=>1])}}" class="btn btn-outline-primary">Trở lại</a>
 <div class="row" style="border: 1px solid rgb(112, 108, 108); margin-top: 20px;" ng-app="myApp" ng-controller="SinhVienController">
     <div class="col-md-6" style="border-right:5px solid rgb(177, 173, 173);">
         {{-- Thông tin sinh viên --}}

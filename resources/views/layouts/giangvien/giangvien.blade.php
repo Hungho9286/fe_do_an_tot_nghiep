@@ -14,7 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
   
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.js"></script>
+    
     <!-- Custom fonts for this template-->
     <link href="{{asset('giangvien/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link
