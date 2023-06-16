@@ -31,8 +31,8 @@
                         </div>
                     </div>
                     <div class="media-body" >
-                        <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_thong_bao)"><%thongbao.tieu_de%></a></h2>
-                        <p>Người gửi: <strong><%thongbao.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.ngay_tao|date:'dd/MM/yyyy'%></p>
+                        <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.thong_bao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_doc)"><%thongbao.thong_bao.tieu_de%></a></h2>
+                        <p>Người gửi: <strong><%thongbao.thong_bao.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
                     </div>
                 </div>
             </article>
@@ -73,7 +73,7 @@
             console.log($thongbao);
             var $dem_so_thong_bao_chua_doc=0;
             for(let i=0;i<$thongbao.length;i++){
-                if($thongbao[i].trang_thai_thong_bao==0){
+                if($thongbao[i].trang_thai_doc==0){
                     $dem_so_thong_bao_chua_doc=$dem_so_thong_bao_chua_doc+1;
                 }
             }
@@ -87,9 +87,9 @@
             $scope.content="";
             $scope.hienThiNoiDungThongBao=function($id){
                 for (let i = 0; i < $scope.danh_sach_thong_bao.length; i++) {
-                    if($scope.danh_sach_thong_bao[i].id==$id){
-                        if($scope.danh_sach_thong_bao[i].trang_thai_thong_bao==0){
-                            $scope.danh_sach_thong_bao[i].trang_thai_thong_bao=1;
+                    if($scope.danh_sach_thong_bao[i].thong_bao.id==$id){
+                        if($scope.danh_sach_thong_bao[i].trang_thai_doc==0){
+                            $scope.danh_sach_thong_bao[i].trang_thai_doc=1;
                             $http({
                                 method:"POST",
                                 url:"{{env('SERVER_URL')}}/api/cap-nhat-trang-thai-da-doc-cua-thong-bao/"+$scope.danh_sach_thong_bao[i].id,
@@ -98,7 +98,7 @@
                                 }
                             });
                         }
-                        $scope.content=$scope.danh_sach_thong_bao[i].noi_dung;
+                        $scope.content=$scope.danh_sach_thong_bao[i].thong_bao.noi_dung;
                         console.log("Dô");
                         console.log($scope.content);
                         break;
