@@ -19,22 +19,22 @@ function togglePostForm() {
 
     return true;
 
-});
+    });
   // var inputField = document.getElementById('tieu_de_post');
   // var textareaField = document.getElementById('summernote_post');
   // var submitButton = document.getElementById('btn-dang-thong-bao');
-  
+
   // submitButton.disabled = true; // Mặc định là true
 
   // inputField.addEventListener('input', handleInputChange);
   // textareaField.addEventListener('input', handleInputChange);
-  
+
   // function handleInputChange() {
   //   var inputText = inputField.value.trim();
 
-  
+
   //   if (inputText !== '' )
-    
+
   //    {
   //     submitButton.disabled = false;
   //   } else {
@@ -54,7 +54,7 @@ var totalCheckbox = checkboxes.length;
 //   checkboxes[i].checked = true;
 // }
 checkboxList.addEventListener('change', function(event) {
-  
+
   var clickedCheckbox = event.target;
 
   if (clickedCheckbox === selectAllCheckbox) {
@@ -99,7 +99,7 @@ checkboxList.addEventListener('change', function(event) {
 
     // }
 
-    
+
 
 
 });

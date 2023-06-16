@@ -97,12 +97,8 @@
 
                                 <button class="btn btn-primary" id="togglePostButton" onclick="togglePostForm()">Thông báo
                                     nội dung nào đó cho lớp học của bạn</button>
-
-
-
-
                                 <div id="postForm" style="display: none">
-                             
+
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -123,7 +119,7 @@
                                         </li>
                                         <li >
                                             <label class="dropdown-item">
-                                                <input type="checkbox" id="checkbox-all" class="form-check-input checkbox-item"> Tất cả sinh viên2  
+                                                <input type="checkbox" id="checkbox-all" class="form-check-input checkbox-item"> Tất cả sinh viên2
                                             </label>
                                         </li>
                                             <li ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
@@ -135,7 +131,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                              
+
                                     <br>
                                     <form  id="form_post" action="" method="post">
                                         <div class="row-1">
@@ -150,10 +146,10 @@
                                             <button type="submit" class="btn btn-primary" id="btn-dang-thong-bao">Đăng</button>
                                             <button class="btn btn-primary" id="togglePostButton"
                                                 onclick="togglePostForm()">Huỷ</button>
-                                           
+
                                         </div>
                                     </form>
-                                   
+
 
                                 </div>
 
@@ -174,7 +170,7 @@
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </div>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow "
+                                                    <div class="dropdown-menu dropdown-menu-right shadow"
                                                         aria-labelledby="userDropdown" >
                                                         <a class="dropdown-item" href="#" data-toggle="modal"
                                                         data-target="#suathongbao" ng-click='noi_dung_tb(tb)'>
@@ -182,7 +178,7 @@
                                                                 class="fa fa-pencil-square-o fa-sm fa-fw mr-2 text-gray-400"></i>
                                                             Sửa thông báo
                                                         </a>
-                                                        <a class="dropdown-item " data-toggle="modal"
+                                                        <a class="dropdown-item" data-toggle="modal"
                                                             data-target="#xoathongbao" href="#">
                                                             <i class="fa fa-trash-o fa-sm fa-fw mr-2 text-gray-400"></i>
                                                             Xoá thông báo
@@ -202,9 +198,9 @@
 
                                     </div>
                                 </div>
-                                
-                                    
-                           
+
+
+
 
                             </div>
 
@@ -267,7 +263,7 @@
 
 
                 <!-- Modal -->
-               
+
                     <div class="modal fade" id="suathongbao" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -301,22 +297,22 @@
                                         </li> --}}
                                     </ul>
                                 </div>
-                          
+
                                 <br>
 
                                 <div class="row-1">
                                     <div class="input-group">
                                         <span class="input-group-text">Tiêu đề</span>
                                         <input id="tieu_de_modal"  type="text" name="tieu_de" value="<%tieu_de%>" class="form-control" >
-                                    
+
                                     </div>
                                     <br>
                                     <div class="mb-3">
                                         <div id="summernote_modal" ></div>
                                         {{-- <textarea class="noi_dung" id="summernote_modal" name="noi_dung" ng-bind-html="trustHtml(noi_dung)"> </textarea> --}}
                                     </div>
-                                  
-                                   
+
+
                                 </div>
 
 
@@ -326,7 +322,7 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                     <button value="" type="submit" class="btn btn-primary" id="btn-luu-thay-doi-thong-bao">Lưu thay đổi</button>
                                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -370,6 +366,7 @@
 
 
         });
+
     </script>
 
 
@@ -398,7 +395,7 @@
         });
 
         app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http,$sce) {
-            
+
             $scope.trustHtml = function(htmlContent) {
 
                   return $sce.trustAsHtml(htmlContent);
@@ -406,20 +403,17 @@
 
              $scope.noi_dung_tb = function(thongbao)
              {
-                
 
-               
+
+
                 $scope.id = thongbao.id;
                 $scope.tieu_de = thongbao.tieu_de;
                 $scope.noi_dung = thongbao.noi_dung;
                 $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
                 $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
-                
-                $(document).ready(function(){
                     var summernoteElement = $('#summernote_modal');
                      // Sau đó, sử dụng phương thức summernote để set giá trị
-                 summernoteElement.summernote('code',  $scope.noi_dung);
-                })
+                    summernoteElement.summernote('code',  $scope.noi_dung);
              }
 
             $http({
@@ -439,10 +433,10 @@
                     window.location.href =
                         "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
                         $ma_sv;
-              
+
                     }
             })
-            
+
         $http({
                 method: "GET",
                 url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan",
@@ -461,8 +455,6 @@
 
 
         $(document).ready(function() {
-
-
             $("#btn-dang-thong-bao").click(function() {
 
                 var json_obj = {
@@ -477,7 +469,7 @@
 
                 }
                 $(".checked-sv").each(function() {
-                    
+
                     if ($(this).is(':checked')) {
                         $mssv = $(this).attr('data-ma-sv');
                         var sv_obj = {
@@ -504,12 +496,12 @@
                     }
                 })
                 }
-                else 
+                else
                 {
                     console.log('Lỗi');
                 }
 
-             
+
                 console.log(json_obj.danh_sach_sinh_vien);
             });
 
@@ -517,7 +509,7 @@
 
         });
 
-        
- 
+
+
     </script>
 @endsection
