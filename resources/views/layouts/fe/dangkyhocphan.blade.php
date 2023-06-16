@@ -110,7 +110,7 @@
             console.log($arr);
             $arr.forEach(item => {
                 var mon_hoc='<p style="font-size:1.5em; font-weight: bold;">'+item.ten_mon_hoc+'</p>';
-                $("#ds-dang-ky-mon-no").append(mon_hoc);
+                // $("#ds-dang-ky-mon-no").append(mon_hoc);
                 $.ajax({
                 method: "GET",
                 url: "{{env('SERVER_URL')}}/api/mo-dang-ky-mon?id_mon_hoc="+item.id_mon_hoc+"&ma_sv={{Session::get('ma_sv')}}",
@@ -125,7 +125,7 @@
                     if($thong_tin_dang_ky.trang_thai==1){
                         var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"&#9;Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
                         var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
-                        $("#ds-dang-ky-mon-no").append(ngay_mo,nutDangKy);
+                        $("#ds-dang-ky-mon-no").append(mon_hoc,ngay_mo,nutDangKy);
                     }else{
                         $("#ds-dang-ky-mon-no").append("<p>Chưa mở đăng ký</p>")
                     }

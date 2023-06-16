@@ -63,7 +63,7 @@
 
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -177,7 +177,12 @@
 
             $scope.HienThiLichHoc=function($id_lop_hoc_phan,$hoc_ky_hien_tai,$thoi_khoa_bieu_cua_sinh_vien,$danhSachLopHocPhanDangKy,$thoiKhoaBieuDangKyLopHocPhan){
                 console.log($hoc_ky_hien_tai);
+                console.log("thoi khoa bieu cua sinh vien");
                 console.log($thoi_khoa_bieu_cua_sinh_vien);
+                console.log("danh sach lop hoc phan dang ky");
+                console.log($danhSachLopHocPhanDangKy);
+                console.log("thoi khoa bieu dang ky lop hoc phan");
+                console.log($thoiKhoaBieuDangKyLopHocPhan);
 
                 for (let index = 0; index < $scope.data.length; index++) {
                     $scope.lich=$sce.trustAsHtml("<p>Trống</p>");
@@ -197,8 +202,9 @@
 
                                 if(element.thu==i+1){
                                     classtr='class="alert alert-success"';
+                                    $scope.trung_lich=false;
                                     $thoiKhoaBieuDangKyLopHocPhan.forEach(elementThoiKhoaBieu => {
-                                        if(elementThoiKhoaBieu.thu_trong_tuan==element.lich){
+                                        if(elementThoiKhoaBieu.thu_trong_tuan==element.thu){
                                             elementThoiKhoaBieu.lich_hoc.forEach(elementMonHoc => {
                                                 elementMonHoc.lich_hoc.forEach(elementLichHoc => {
                                                     var start = element.tiet_bat_dau;
@@ -243,7 +249,7 @@
                                     if($scope.ket_thuc_chuong_trinh==false){
                                         $thoi_khoa_bieu_cua_sinh_vien.forEach(elementThoiKhoaBieu => {
                                             elementThoiKhoaBieu.lich.forEach(elementLich => {
-                                                if(element.thu=elementLich.thu_trong_tuan&&elementLich.hoc_ky==$hoc_ky_hien_tai){
+                                                if(element.thu==elementLich.thu_trong_tuan&&elementLich.hoc_ky==$hoc_ky_hien_tai){
                                                     var start = element.tiet_bat_dau;
                                                     var end = element.tiet_ket_thuc;
                                                     var arrayLich1 = Array.from({ length: end - start + 1 }, (_, index) => index + start);
