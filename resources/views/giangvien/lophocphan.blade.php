@@ -319,8 +319,9 @@
                                     </div>
                                     <br>
                                     <div class="mb-3">
-                                        <div class="noi_dung" id="summernote_modal" ng-model="noi_dung"></div>
-                                        {{-- <textarea class="noi_dung" id="summernote_modal" name="noi_dung" ng-bind-html="trustHtml(noi_dung)"> </textarea> --}}
+                                        {{-- <div class="noi_dung" id="summernote_modal" ng-model="noi_dung"></div> --}}
+                                        {{-- <textarea class="noi_dung" id="summernote_post" name="noi_dung" data-noi-dung="" required></textarea> --}}
+                                        <textarea class="noi_dung" id="summernote_modal" name="noi_dung_modal" ></textarea>
                                     </div>
 
 
@@ -343,6 +344,7 @@
 
 
                 <script>
+
                     $('#summernote_post').summernote({
                         placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
                         tabsize: 2,
@@ -359,10 +361,6 @@
 
 
                     });
-                </script>
-                <script>
-                    
-                    var $content="abc";
                     $('#summernote_modal').summernote({
                         placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
                         tabsize: 2,
@@ -378,10 +376,9 @@
                         ],
 
 
-                    }).summernote('code',$content);
-
-
+                    });
                 </script>
+
 
 
 @endsection
@@ -393,7 +390,7 @@
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
                     integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
                 </script>
-
+                <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
                 </script>
@@ -433,8 +430,11 @@
                 $scope.noi_dung = thongbao.noi_dung;
                 $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
                 $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
+
+                console.log($scope.noi_dung);
                 // $(document).ready(function() {
-                //     $('#summernote_modal').summernote('code', $scope.noi_dung);
+                //     $("#summernote_modal").append($scope.noi_dung);
+
                 // });
 
                 // })
