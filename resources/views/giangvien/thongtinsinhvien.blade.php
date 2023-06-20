@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('content')
-<a href="{{route('lop-hoc-phan-cua-giang-vien',['id'=>$id_lop_hoc_phan])}}" class="btn btn-outline-primary">Trở lại</a>
+<a href="{{route('danh-sach-lop-hoc-phan',['id'=>$id_lop_hoc_phan,'type'=>1])}}" class="btn btn-outline-primary">Trở lại</a>
 <div class="row" style="border: 1px solid rgb(112, 108, 108); margin-top: 20px;" ng-app="myApp" ng-controller="SinhVienController">
     <div class="col-md-6" style="border-right:5px solid rgb(177, 173, 173);">
         {{-- Thông tin sinh viên --}}
@@ -14,11 +14,11 @@
 
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Mã số sinh viên</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.mssv%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ma_sv%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Họ tên</div>
-            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ho_ten%></span></div>
+            <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.ten_sinh_vien%></span></div>
         </div>
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Ngày sinh</div>
@@ -141,7 +141,7 @@
 
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/sinh-vien/{{$id_sinh_vien}}",
+            url:"{{env('SERVER_URL')}}/api/sinh-vien/{{$ma_sv}}",
             headers:{
                 "Authorization":"Bearer token",
             }

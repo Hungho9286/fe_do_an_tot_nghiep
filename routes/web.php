@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FEClientController;
 use App\Http\Controllers\FEGiangVienController;
-use App\Http\Controllers\api\APIGiangVienController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,8 +39,11 @@ Route::post('/dong-hoc-phi-vnpay',[FEClientController::class,'xuLyDongHocPhiVNPa
 Route::get('/cam-on-dong-hoc-phi-vnpay',[FEClientController::class,'luuThongTinDongHocPhiVNPay'])->name('luu-thong-tin-dong-hoc-phi-vnpay');
 Route::get('/giang-vien/trang-chu',[FEGiangVienController::class,'index'])->name('trang-chu-giang-vien');
 Route::get('/giangvien/lop-hoc-phan-cua-giang-vien',[FEGiangVienController::class,'lopHocPhanCuaGiangVien'])->name('danh-sach-lop-hoc-phan');
+
 Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);
 Route::get('/giangvien/thongbao/xoa/{id}',[FEGiangVienController::class,'destroy']);
-Route::post('/giangvien/thongbao',[FEGiangVienController::class,'xulythemthongbao'])->name('xu-ly-them-thong-bao');
+Route::get('/giangvien/thongbao/lay-thong-bao-sua',[FEGiangVienController::class,'laythongbao'])->name('lay-thong-bao');
+Route::get('/giangvien/thongbao/sua',[FEGiangVienController::class,'suathongbao']);
 Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}',[FEGiangVienController::class,'danhSachSinhVienTheoLopHocPhan'])->name('lop-hoc-phan-cua-giang-vien');
 Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}/thong-tin-sinh-vien',[FEGiangVienController::class,'xemThongTinSinhVien']);
+

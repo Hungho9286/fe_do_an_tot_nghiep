@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\ThongBao;
+use App\Models\SinhVien;
+use App\Models\LopHocPhan;
+use DB;
 class FEGiangVienController extends Controller
 {
     /**
@@ -16,12 +20,36 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.trangchu');
     }
+    public function laythongbao(Request $request)
+    {
+        $url=env('SERVER_URL').'/api/giang-vien/thong-bao/lay-thong-bao/'.$request->id;
+        $l_post = $this->execGetRequest($url);
+        $data = json_decode($l_post);
+
+        $url = env('SERVER_URL').'/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1?option=1&id_lop_hoc_phan='.$request->id_lop_hoc_phan;
+        $l_post_sv = $this->execGetRequest($url);
+        $data_sv = json_decode($l_post_sv );
+
+        $id_lop_hoc_phan = $request->id_lop_hoc_phan;
+        
+
+        return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv_lhp'=>$data_sv->danh_sach_sinh_vien,'id_lop_hoc_phan'=>$id_lop_hoc_phan]);
+    }
+    
     public function thongbaosinhvien()
     {
         return view('giangvien.thongbaosv');
     }
-    public function lopHocPhanCuaGiangVien(){
-        return view('giangvien.lophocphan');
+    public function lopHocPhanCuaGiangVien(Request $request ){
+        $url=env('SERVER_URL').'/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan?id='.$request->id.'&type='.$request->type;
+        $l_post = $this->execGetRequest($url);
+        $danh_sach_thong_bao = json_decode($l_post);
+        //Sửa ma_gv
+        // $url = env('SERVER_URL').'/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1?id_lop_hoc_phan='.$request->id.'&option=1';
+        // $ds_sv = $this->execGetRequest($url);
+        // $danh_sach_sinh_vien = json_decode($ds_sv);
+   
+        return view('giangvien.lophocphan',['id_lop_hoc_phan'=>$request->id,'danh_sach_thong_bao'=>$danh_sach_thong_bao]); 
     }
     public function danhSachSinhVienTheoLopHocPhan($id){
         return view('giangvien.danhsachsinhvientheolop',['id_lop_hoc_phan'=>$id]);
@@ -29,31 +57,33 @@ class FEGiangVienController extends Controller
     public function xemThongTinSinhVien($id_lop_hoc_phan,Request $request){
         return view('giangvien.thongtinsinhvien',['id_lop_hoc_phan'=>$id_lop_hoc_phan,'ma_sv'=>$request->ma_sv]);
     }
+
+    function execGetRequest($url)
+    {
+        $ch = curl_init($url);
+        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        //         'Content-Type: application/json',
+        //         'Content-Length: ' . strlen($data))
+        // );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+        return $result;
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function xulythemthongbao(Request $request)
-    {
-        $thongbao = new ThongBao;
-
-        {
-            foreach($listsinhvien as $sinhvien)
-            {
-                $thongbao->fill([
-
-                    "tieu_de" =>$request->tieu_de."-".$request->ten_lop_hoc_phan,
-                    "noi_dung" =>$request->noi_dung,
-                    "id_loai_thong_bao" => 3,
-                    "id_giang_vien" => 1,
-                    "ma_sv" => $sinhvien->ma_sv
-                    ]);
-                $thongbao->save();
-            }
-        }
-        return redirect('/giangvien/thongbao');
-    }
+    
+    
+    
 
     public function create()
     {
@@ -111,11 +141,5 @@ class FEGiangVienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $thongbao=Thongbao::find($id);
-        $thongbao->delete();
-        $thongbao->save();
-        return redirect('/giangvien/thongbao');
-    }
+   
 }

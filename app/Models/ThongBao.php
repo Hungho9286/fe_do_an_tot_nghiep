@@ -9,5 +9,5 @@ class ThongBao extends Model
 {
     use HasFactory;
     protected $table="bang_thong_baos";
-    protected $fillable =['tieu_de','noi_dung'];
+    protected $fillable =['tieu_de','noi_dung','ma_gv','id_lop_hoc','created_at'];
 }
