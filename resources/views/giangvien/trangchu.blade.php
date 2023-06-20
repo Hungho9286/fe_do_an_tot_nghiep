@@ -81,7 +81,7 @@
                 $scope.showListLopHocPhan=false;
                 $scope.danhSachLopHocPhanCuaGiangVien.forEach(element => {
                     if(element.id_lop_hoc_phan==$id_lop_hoc_phan){
-                        window.location.href='/giangvien/lop-hoc-phan-cua-giang-vien/?id='+element.id_lop_hoc_phan+'&type=1';
+                        window.location.href='/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1';
                     }
                 });
             }

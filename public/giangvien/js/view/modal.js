@@ -1,24 +1,24 @@
-var inputField = document.getElementById('tieu_de_modal');
-var textareaField = document.getElementById('summernote_modal');
-var submitButton = document.getElementById('btn-luu-thay-doi-thong-bao');
+// var inputField = document.getElementById('tieu_de_modal');
+// var textareaField = document.getElementById('summernote_modal');
+// var submitButton = document.getElementById('btn-luu-thay-doi-thong-bao');
 
-submitButton.disabled = true; // Mặc định là true
+// submitButton.disabled = true; // Mặc định là true
 
-inputField.addEventListener('input', handleInputChange);
-textareaField.addEventListener('input', handleInputChange);
+// inputField.addEventListener('input', handleInputChange);
+// textareaField.addEventListener('input', handleInputChange);
 
-function handleInputChange() {
-  var inputText = inputField.value.trim();
+// function handleInputChange() {
+//   var inputText = inputField.value.trim();
 
 
-  if (inputText !== '' )
+//   if (inputText !== '' )
   
-   {
-    submitButton.disabled = false;
-  } else {
-    submitButton.disabled = true;
-  }
-}
+//    {
+//     submitButton.disabled = false;
+//   } else {
+//     submitButton.disabled = true;
+//   }
+// }
 var checkboxList_modal = document.getElementById('checkboxList_modal');
 var checkboxes_modal = checkboxList_modal.getElementsByClassName('checkbox-item_modal');
 var selectAllCheckbox_modal = checkboxes_modal[0];
