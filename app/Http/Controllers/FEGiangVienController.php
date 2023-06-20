@@ -20,6 +20,22 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.trangchu');
     }
+    public function laythongbao(Request $request)
+    {
+        $url=env('SERVER_URL').'/api/giang-vien/thong-bao/lay-thong-bao/'.$request->id;
+        $l_post = $this->execGetRequest($url);
+        $data = json_decode($l_post);
+
+        $url = env('SERVER_URL').'/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1?option=1&id_lop_hoc_phan='.$request->id_lop_hoc_phan;
+        $l_post_sv = $this->execGetRequest($url);
+        $data_sv = json_decode($l_post_sv );
+
+        $id_lop_hoc_phan = $request->id_lop_hoc_phan;
+        
+
+        return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv_lhp'=>$data_sv->danh_sach_sinh_vien,'id_lop_hoc_phan'=>$id_lop_hoc_phan]);
+    }
+    
     public function thongbaosinhvien()
     {
         return view('giangvien.thongbaosv');
@@ -125,11 +141,5 @@ class FEGiangVienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $thongbao=Thongbao::find($id);
-        $thongbao->delete();
-        $thongbao->save();
-        return redirect('/giangvien/thongbao');
-    }
+   
 }

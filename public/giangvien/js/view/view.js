@@ -31,9 +31,8 @@ function togglePostForm() {
   
   // function handleInputChange() {
   //   var inputText = inputField.value.trim();
-
   
-  //   if (inputText !== '' )
+  //   if (inputText !== '')
     
   //    {
   //     submitButton.disabled = false;
@@ -50,9 +49,9 @@ var lastCheckboxisChecked = checkboxes[checkboxes.length - 1];
 var totalCheckbox = checkboxes.length;
 
 // Mặc định, chọn tất cả các checkbox
-// for (var i = 0; i < checkboxes.length; i++) {
-//   checkboxes[i].checked = true;
-// }
+for (var i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].checked = true;
+}
 checkboxList.addEventListener('change', function(event) {
   
   var clickedCheckbox = event.target;

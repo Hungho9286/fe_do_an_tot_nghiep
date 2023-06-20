@@ -170,7 +170,7 @@
                                                 <div>
                                                     <p><%tb.ten_giang_vien%></p>
                                                     <small><%tb.ngay_tao%></small>
-                                                    <div data-post-id="<%tb.id%>"></div>
+
                                                 </div>
                                             </div>
                                             <div>
@@ -182,14 +182,15 @@
                                                     </div>
                                                     <div class="dropdown-menu dropdown-menu-right shadow "
                                                         aria-labelledby="userDropdown">
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                                            data-target="#suathongbao" ng-click='noi_dung_tb(tb)'>
+                                                        <a class="dropdown-item" href="/giangvien/thongbao/lay-thong-bao-sua?id=<%tb.id%>&id_lop_hoc_phan={{$id_lop_hoc_phan}}"  
+                                                           >
                                                             <i
                                                                 class="fa fa-pencil-square-o fa-sm fa-fw mr-2 text-gray-400"></i>
                                                             Sửa thông báo
                                                         </a>
-                                                        <a class="dropdown-item " data-toggle="modal"
-                                                            data-target="#xoathongbao" href="#">
+                                                        <a class="dropdown-item btn-thong-bao-xoa " data-toggle="modal"
+                                                            data-target="#xoathongbao" href=""
+                                                            data-post-id="<%tb.id%>">
                                                             <i class="fa fa-trash-o fa-sm fa-fw mr-2 text-gray-400"></i>
                                                             Xoá thông báo
                                                         </a>
@@ -275,79 +276,14 @@
 
                 <!-- Modal -->
 
-                <div class="modal fade" id="suathongbao" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Thông báo</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Danh sách sinh viên
-                                    </button>
-
-                                    <ul class="dropdown-menu" id="checkboxList_modal"
-                                        aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" id="checkbox-all"
-                                                    class="form-check-input checkbox-item_modal"> Tất cả sinh viên
-                                            </label>
-                                        </li>
-                                        {{-- <li ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" class="form-check-input checked-sv checkbox-item_modal"
-                                                    data-ma-sv='<%sinhVien.ma_sv%>'> <%sinhVien.ma_sv%> -
-                                                <%sinhVien.ten_sinh_vien%>
-                                            </label>
-                                        </li> --}}
-                                    </ul>
-                                </div>
-
-                                <br>
-
-                                <div class="row-1">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Tiêu đề</span>
-                                        <input id="tieu_de_modal" type="text" name="tieu_de" value="<%tieu_de%>"
-                                            class="form-control">
-
-                                    </div>
-                                    <br>
-                                    <div class="mb-3">
-                                        <div class="noi_dung" id="summernote_modal" ng-model="noi_dung"></div>
-                                        {{-- <textarea class="noi_dung" id="summernote_modal" name="noi_dung" ng-bind-html="trustHtml(noi_dung)"> </textarea> --}}
-                                    </div>
-
-
-                                </div>
-
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <button value="" type="submit" class="btn btn-primary"
-                                    id="btn-luu-thay-doi-thong-bao">Lưu thay đổi</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
+              
 
 
 
 
                 <script>
                     $('#summernote_post').summernote({
+
                         placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
                         tabsize: 2,
                         height: 150,
@@ -359,11 +295,15 @@
                             ['para', ['ul', 'ol', 'paragraph']],
                             ['height', ['height']],
                             ['insert', ['link']],
-                        ],
 
+
+                        ],
+                    
 
                     });
                 </script>
+
+
                 <script>
                     $('#summernote_modal').summernote({
                         placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
@@ -377,6 +317,7 @@
                             ['para', ['ul', 'ol', 'paragraph']],
                             ['height', ['height']],
                             ['insert', ['link']],
+                      
                         ],
 
 
@@ -385,178 +326,205 @@
 
 
             @endsection
-            @section('js')
-                <script src="{{ asset('giangvien/js/view/view.js') }}"></script>
-                <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js"
-                    id="google_shimpl"></script>
-                <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
-                </script>
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('giangvien/js/view/view.js') }}"></script>
+    <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js"
+        id="google_shimpl"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+    </script>
 
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-                </script>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                    crossorigin="anonymous">
-            @section('js')
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-                <script>
-                    var app = angular.module("myApp", [], function($interpolateProvider) {
-                        $interpolateProvider.startSymbol('<%');
-                        $interpolateProvider.endSymbol('%>');
-                    });
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var message_delete = localStorage.getItem("message_delete");
+        if (message_delete) {
+            Swal.fire('Đã xoá thành công ');
+            localStorage.removeItem("message_delete");
+        }
+        var message_add = localStorage.getItem("message_add");
+        if (message_add) {
+            Swal.fire('Đã thêm thành công ');
+            localStorage.removeItem("message_add");
+        }
+        var message_edit = localStorage.getItem("message_edit");
+        if (message_edit) {
+            Swal.fire('Đã sửa thành công ');
+            localStorage.removeItem("message_edit");
+        }
 
-                    app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http, $sce) {
+        var app = angular.module("myApp", [], function($interpolateProvider) {
+            $interpolateProvider.startSymbol('<%');
+            $interpolateProvider.endSymbol('%>');
+        });
 
-                        $scope.trustHtml = function(htmlContent) {
+        app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http, $sce) {
 
-                            return $sce.trustAsHtml(htmlContent);
+            $scope.trustHtml = function(htmlContent) {
+
+                return $sce.trustAsHtml(htmlContent);
+            };
+
+            $scope.noi_dung_tb = function(thongbao) {
+
+
+
+                $scope.id = thongbao.id;
+                $scope.tieu_de = thongbao.tieu_de;
+                $scope.noi_dung = thongbao.noi_dung;
+                $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
+                $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
+
+                $('#summernote_modal').append($scope.noi_dung);
+                
+            }
+          
+
+            $http({
+                method: "GET",
+                url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1",
+                params: {
+                    'option': 1,
+                    'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
+                },
+                headers: {
+                    "Authorizations": "Bearer token"
+                }
+            }).then($response => {
+                $scope.lopHocPhan = $response.data;
+
+                $scope.XemThongTinSinhVien = function($ma_sv) {
+                    window.location.href =
+                        "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
+                        $ma_sv;
+
+                }
+            })
+
+            $http({
+                method: "GET",
+                url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan",
+                params: {
+                    'type': 1,
+                    'id': {{ $id_lop_hoc_phan }},
+                },
+                headers: {
+                    "Authorizations": "Bearer token"
+                }
+            }).then($response => {
+                $scope.thongbao = $response.data;
+                console.log($response.data);
+            })
+        });
+        var postID = 0;
+  
+     
+      
+     
+        $(document).on('click', '.btn-thong-bao-xoa', function(event) {
+            var element = $(event.target);
+
+            postID = element.attr('data-post-id');
+
+        });
+
+        $(document).ready(function() {
+
+
+            $("#btn-xoa-thong-bao").click(function() {
+
+
+
+                $.ajax({
+                    method: 'POST',
+                    // headers:"@",
+                    url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/xoa-thong-bao?id=" +
+                        postID
+
+                }).done(function($response) {
+                    if ($response.status == 1) {
+                        var message_delete = "Thông báo xoá";
+                        localStorage.setItem("message_delete", message_delete);
+                        location.reload();
+                    }
+                })
+
+
+
+            });
+
+
+
+
+        });
+
+
+        $(document).ready(function() {
+
+
+
+            $("#btn-dang-thong-bao").click(function() {
+
+                var json_obj = {
+                    'id': {{ $id_lop_hoc_phan }},
+                    'type': 1,
+                    'ma_gv': "GVCNTT1",
+                    'tieu_de': $("#tieu_de_post").val(),
+                    'noi_dung': $(".noi_dung").val(),
+                    'danh_sach_sinh_vien': [
+
+                    ]
+
+                }
+                $(".checked-sv").each(function() {
+
+                    if ($(this).is(':checked')) {
+                        $mssv = $(this).attr('data-ma-sv');
+                        var sv_obj = {
+                            'ma_sinh_vien': $mssv
                         };
+                        json_obj.danh_sach_sinh_vien.push(sv_obj);
+                    }
+                })
 
-                        $scope.noi_dung_tb = function(thongbao) {
 
 
 
-                            $scope.id = thongbao.id;
-                            $scope.tieu_de = thongbao.tieu_de;
-                            $scope.noi_dung = thongbao.noi_dung;
-                            $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
-                            $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
-
-                            $(document).ready(function() {
-                                var summernoteElement = $('#summernote_modal');
-                                // Sau đó, sử dụng phương thức summernote để set giá trị
-                                summernoteElement.summernote('code', $scope.noi_dung);
-                            })
+                if (json_obj.danh_sach_sinh_vien.length > 0 && json_obj.noi_dung != '' && json_obj
+                    .tieu_de != '') {
+                    $.ajax({
+                        method: "POST",
+                        // headers:"@",
+                        url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/them-thong-bao",
+                        data: JSON.stringify(json_obj),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json'
+                    }).done(function(data) {
+                        if (data.status == 1) {
+                            var message_add = "Thông báo thêm";
+                            localStorage.setItem("message_add", message_add);
+                            location.reload();
                         }
-                        app.directive('summernote', function() {
-                            return {
-                                restrict: 'A',
-                                link: function(scope, element) {
-                                    angular.element(element).summernote();
-                                }
-                            };
-                        });
-
-                        $http({
-                            method: "GET",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1",
-                            params: {
-                                'opition': 1,
-                                'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
-                            },
-                            headers: {
-                                "Authorizations": "Bearer token"
-                            }
-                        }).then($response => {
-                            $scope.lopHocPhan = $response.data;
-
-                            $scope.XemThongTinSinhVien = function($ma_sv) {
-                                window.location.href =
-                                    "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
-                                    $ma_sv;
-
-                            }
-                        })
-
-                        $http({
-                            method: "GET",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan",
-                            params: {
-                                'type': 1,
-                                'id': {{ $id_lop_hoc_phan }},
-                            },
-                            headers: {
-                                "Authorizations": "Bearer token"
-                            }
-                        }).then($response => {
-                            $scope.thongbao = $response.data;
-                            console.log($response.data);
-                        })
-                    });
-
-                    $("#btn-xoa-thong-bao").click(function() {
-
-                        var postId = $(this).data('post-id');
-                        var json_obj = {
-                            'id': postId,
-                            'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
-                            'type': 1,
-                        }
-                        $.ajax({
-                            method: 'GET',
-                            // headers:"@",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/xoa-thong-bao/id=",
-                            data: {},
-
-                        })
-
-                    });
-
-                    $(document).ready(function() {
+                    })
+                } else {
+                    console.log('Lỗi');
+                }
 
 
 
-                        $("#btn-dang-thong-bao").click(function() {
-
-                            var json_obj = {
-                                'id': {{ $id_lop_hoc_phan }},
-                                'type': 1,
-                                'ma_gv': "GVCNTT1",
-                                'tieu_de': $("#tieu_de_post").val(),
-                                'noi_dung': $(".noi_dung").val(),
-                                'danh_sach_sinh_vien': [
-
-                                ]
-
-                            }
-                            $(".checked-sv").each(function() {
-
-                                if ($(this).is(':checked')) {
-                                    $mssv = $(this).attr('data-ma-sv');
-                                    var sv_obj = {
-                                        'ma_sinh_vien': $mssv
-                                    };
-                                    json_obj.danh_sach_sinh_vien.push(sv_obj);
-                                }
-                            })
+                console.log(json_obj);
+            });
 
 
 
-                            if (json_obj.danh_sach_sinh_vien.length > 0) {
-                                $.ajax({
-                                    method: "POST",
-                                    // headers:"@",
-                                    url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/them-thong-bao",
-                                    data: JSON.stringify(json_obj),
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: 'json'
-                                }).done(function(data) {
-                                    if (data.status == 1) {
-                                        location.reload();
-                                    }
-                                })
-                            } else {
-                                console.log('Lỗi');
-                            }
-
-
-                            // console.log(json_obj.danh_sach_sinh_vien);
-                        });
-
-
-
-                    });
-                    $(document).ready(function() {
-
-
-
-
-
-
-                    });
-                </script>
-            @endsection
+        });
+    </script>
+@endsection
