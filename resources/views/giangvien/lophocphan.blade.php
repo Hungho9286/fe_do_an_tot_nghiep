@@ -258,7 +258,7 @@
                             </style>
                             <div>
                                 <table class="table">
-                                    <thead class="thead-dark">
+                                    <thead class="thead-dark"> 
                                         <tr>
                                             <th scope="col">Mã số sinh viên</th>
                                             <th scope="col">Họ Tên</th>
