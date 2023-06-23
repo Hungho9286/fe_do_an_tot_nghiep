@@ -63,7 +63,8 @@
 
     </div>
     <div class="modal-footer">
-        <a href="/giangvien/lop-hoc-phan-cua-giang-vien?id={{$id_lop_hoc_phan}}&type=1" type="button" class="btn btn-secondary" >Đóng</a>
+        <a href="/giangvien/lop-hoc-phan-cua-giang-vien?id={{ $id_lop_hoc_phan }}&type=1" type="button"
+            class="btn btn-secondary">Đóng</a>
         <button type="submit" class="btn btn-primary" id="btn-luu-thay-doi-thong-bao">Lưu thay đổi</button>
     </div>
     </div>
@@ -109,14 +110,14 @@
     <script>
         $(document).ready(function() {
 
-           $('')
+
 
             $('#btn-luu-thay-doi-thong-bao').click(function() {
-                var PostID = {{$thong_bao->id}};
+                var PostID = {{ $thong_bao->id }};
                 var tieu_de = $('#tieu_de_modal').val();
                 var noi_dung = $('#summernote_modal').val();
 
-                var danh_sach_sinh_vien =[];
+                var danh_sach_sinh_vien = [];
 
                 $(".checked-sv").each(function() {
 
@@ -129,30 +130,46 @@
                     }
                 })
 
-               
+
 
                 var json_obj = {
-                    'id_thong_bao':{{$thong_bao->id}},
+                    'id_thong_bao': {{ $thong_bao->id }},
                     'tieu_de': tieu_de,
                     'noi_dung': noi_dung,
-                    'danh_sach_sinh_vien':danh_sach_sinh_vien
+                    'danh_sach_sinh_vien': danh_sach_sinh_vien
                 }
-                console.log(json_obj);
-                $.ajax({
-                    data: json_obj,
-                    dataType: 'json',
-                    method: 'POST',
-                    // headers:"@",
-                    url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/sua-thong-bao/" + PostID,
+                if (json_obj.danh_sach_sinh_vien.length == 0) {
+                    Swal.fire('Hãy chọn sinh viên để gửi thông báo');
+                } else {
+                    if (json_obj.tieu_de === "")
+                        Swal.fire('Không để trống tiêu đề');
+                    else
+                        if(json_obj.noi_dung === "")
+                        Swal.fire('Không để trống nội dung');
+                }
 
-                }).done(function($response) {
-                    if ($response.status == 1) {
-                        var message_edit = "Thông báo sửa";
-                        localStorage.setItem("message_edit", message_edit);
-                        window.location.href = '/giangvien/lop-hoc-phan-cua-giang-vien?id=' + {{$id_lop_hoc_phan}}+ '&type=1';
-                    }
-                })
-             
+                if (json_obj.danh_sach_sinh_vien.length > 0 && json_obj.noi_dung != '' && json_obj
+                    .tieu_de != '') {
+                    $.ajax({
+                        data: json_obj,
+                        dataType: 'json',
+                        method: 'POST',
+                      
+                        // headers:"@",
+                        url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/sua-thong-bao/" +
+                            PostID,
+
+                    }).done(function($response) {
+                        if ($response.status == 1) {
+                            var message_edit = "Thông báo sửa";
+                            localStorage.setItem("message_edit", message_edit);
+                            window.location.href = '/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                                {{ $id_lop_hoc_phan }} + '&type=1';
+                        }
+                    })
+                }
+
+
 
             })
 

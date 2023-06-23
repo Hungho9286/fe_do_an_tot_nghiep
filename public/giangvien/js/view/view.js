@@ -1,7 +1,7 @@
 function togglePostForm() {
     var postForm = document.getElementById("postForm");
     var toggleButton = document.getElementById("togglePostButton");
-
+    
     if (postForm.style.display == "none") {
       postForm.style.display = "block";
       toggleButton.style.display = "none";
@@ -11,6 +11,58 @@ function togglePostForm() {
     }
   }
 
+  
+  
+  function NhapDiem(button) {
+ 
+   
+    var row = button.parentNode.parentNode;
+    var savebtn = row.querySelector('button:nth-child(2)');
+    var cancelbtn = row.querySelector('button:nth-child(3)');
+    var inputs = row.querySelectorAll('input[type="number"]');
+    button.style.display = 'none';
+    savebtn.style.display = '';
+    cancelbtn.style.display = '';
+    inputs.forEach(function(input) {
+      input.readOnly = !input.readOnly;
+     
+    });
+  }
+  function isNumber(value) {
+    return /^-?\d+(\.\d+)?\s*$/.test(value);
+  }
+  function LuuDiem(button) {
+    var row = button.parentNode.parentNode;
+    var inputs = row.querySelectorAll('input[type="number"]');
+    var editButton = row.querySelector('button:first-child');
+    var cancelButton = row.querySelector('button:nth-child(3)');
+
+   
+    inputs.forEach(function(input) {
+      input.readOnly = true;
+    });
+    button.style.display = 'none';
+    editButton.style.display = '';
+    cancelButton.style.display = 'none';
+    inputs.style.display ="block"
+    Swal.fire('Thêm điểm thành công');
+  
+  }
+  
+  function HuyThemDiem(button) {
+    var row = button.parentNode.parentNode;
+    var inputs = row.querySelectorAll('input[type="number"]');
+    var editButton = row.querySelector('button:first-child');
+    var saveButton = row.querySelector('button:nth-child(2)');
+    
+    inputs.forEach(function(input) {
+      input.readOnly = true;
+    });
+    
+    button.style.display = 'none';
+    editButton.style.display = '';
+    saveButton.style.display = 'none';
+  }
 
   $("#form_post").submit(function (e) {
 

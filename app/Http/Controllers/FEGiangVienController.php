@@ -40,6 +40,14 @@ class FEGiangVienController extends Controller
     {
         return view('giangvien.thongbaosv');
     }
+    public function diemsinhvien($id)
+    {
+        $url = env('SERVER_URL').'/api/giang-vien/lop-hoc-phan/bang-diem/'.$id;
+        $l_diem_sv = $this->execGetRequest($url);
+        $bang_diem_sv = json_decode($l_diem_sv );
+
+        return view('giangvien.diemsinhvien',['bang_diem_sv'=> $bang_diem_sv]);
+    }
     public function lopHocPhanCuaGiangVien(Request $request ){
         $url=env('SERVER_URL').'/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan?id='.$request->id.'&type='.$request->type;
         $l_post = $this->execGetRequest($url);
@@ -107,9 +115,9 @@ class FEGiangVienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return view('giangvien.thongtingiangvien');
     }
 
     /**
