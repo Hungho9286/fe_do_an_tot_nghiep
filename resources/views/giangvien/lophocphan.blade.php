@@ -199,9 +199,7 @@
                                             <p ng-bind-html="trustHtml(tb.noi_dung)"></p>
                                             <a class="dropdown-item" href="#" data-toggle="modal"
                                             data-target="#suathongbao" ng-click='noi_dung_tb(tb)'>
-                                            <i
-                                                class="fa fa-pencil-square-o fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Sửa thông báo
+
                                         </a>
                                         </div>
 
