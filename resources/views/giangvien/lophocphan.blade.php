@@ -355,8 +355,6 @@
 
 
                         ],
-
-                            ],
                             // callbacks: {
                             //     onImageUpload: function(files) {
                             //         var maxSizeInBytes = 2 * 1024 * 1024; // 5MB
