@@ -86,7 +86,9 @@
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
                             aria-selected="false"> Danh sách sinh viên </button>
-
+                        <button class="nav-link" id="v-pills-mark-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mark"
+                            type="button" role="tab" aria-controls="v-pills-mark" aria-selected="false"> Bảng điểm
+                        </button>
                     </div>
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
@@ -107,22 +109,14 @@
                                             Danh sách sinh viên
                                         </button>
 
-                                        <ul class="dropdown-menu"  id="checkboxList" aria-labelledby="dropdownMenuButton">
-                                          <li >
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" id="checkbox-all" class="form-check-input checkbox-item"> Tất cả sinh viên
-                                            </label>
-                                        </li>
-                                        <li >
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" id="checkbox-all" class="form-check-input checkbox-item"> Tất cả sinh viên1
-                                            </label>
-                                        </li>
-                                        <li >
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" id="checkbox-all" class="form-check-input checkbox-item"> Tất cả sinh viên2
-                                            </label>
-                                        </li>
+                                        <ul class="dropdown-menu" id="checkboxList" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="checkbox-all"
+                                                        class="form-check-input checkbox-item"> Tất cả sinh viên
+                                                </label>
+                                            </li>
+
                                             <li ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
                                                 <label class="dropdown-item">
                                                     <input type="checkbox" class="form-check-input checked-sv checkbox-item"
@@ -138,12 +132,11 @@
                                         <div class="row-1">
                                             <div class="input-group">
                                                 <span class="input-group-text">Tiêu đề</span>
-                                                <input id="tieu_de_post" type="text" name="tieu_de" class="form-control"
-                                                    required>
+                                                <input id="tieu_de_post" type="text" name="tieu_de" class="form-control">
                                             </div>
                                             <br>
                                             <div class="mb-3">
-                                                <textarea class="noi_dung" id="summernote_post" name="noi_dung" data-noi-dung="" required></textarea>
+                                                <textarea class="noi_dung" id="summernote_post" name="noi_dung" data-noi-dung=""></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-primary"
                                                 id="btn-dang-thong-bao">Đăng</button>
@@ -239,7 +232,73 @@
                             </div>
 
                         </div>
+                        <div class="tab-pane fade div-infor" id="v-pills-mark" role="tabpanel"
+                            aria-labelledby="v-pills-mark-tab" style="width:1000px">
+                            <div style="display:flex;">
 
+                                <button type="button" style="margin-right: 10px" class="btn btn-success"
+                                    id="import">Import</button>
+                                <button type="button" style="margin-right: 10px" class="btn btn-success"
+                                    id="export">Export</button>
+
+                            </div>
+
+
+                            <br>
+                            <style>
+                                .table-mark td input:focus {
+                                    outline: none;
+                                    border: none;
+                                }
+
+                                .table-mark td input {
+                                    outline: none;
+                                    border: none;
+                                    width: 40px;
+                                }
+                            </style>
+                            <div>
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Mã số sinh viên</th>
+                                            <th scope="col">Họ Tên</th>
+                                            <th scope="col">Chuyên cần</th>
+                                            <th scope="col">Trung bình kiểm tra</th>
+                                            <th scope="col">Thi lần 1</th>
+                                            <th scope="col">Thi lần 2</th>
+                                            <th scope="col">Tổng kết 1</th>
+                                            <th scope="col">Tổng kết 2 </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="diem in bangdiem " class="table-mark">
+                                            <td scope="row"><%diem.ma_sv%></td>
+                                            <td> <%diem.ten_sinh_vien%></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="chuyen_can"  value="<%diem.chuyen_can%>"></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tbkt"  value="<%diem.tbkt%>"></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="thi_1"  value="<%diem.thi_1%>"></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="thi_2"  value="<%diem.thi_2%>"></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tong_ket_1"  value="<%diem.tong_ket_1%>"></td>
+                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tong_ket_2"  value="<%diem.tong_ket_2%>"></td>
+                                            <td style="display: flex">
+                                              <button  class="btn btn-success"
+                                                    id="nhapdiem" onclick="NhapDiem(this)">Nhập điểm</button>
+                                              <button type="button" style="margin-right: 10px ;display: none"  onclick="LuuDiem(this)"
+                                                    class="btn btn-primary luudiem save"  data-mark-mssv="<%diem.ma_sv%>">Lưu </button>
+                                              <button type="button" style="margin-right: 10px;display: none" id="huythemdiem"
+                                                    class="btn btn-danger" class="cancel"
+                                                    onclick="HuyThemDiem(this)">Huỷ</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 {{-- pop up delete post --}}
@@ -280,25 +339,57 @@
 
 
                 <script>
-
-                    $('#summernote_post').summernote({
-
-                        placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
-                        tabsize: 2,
-                        height: 150,
-                        toolbar: [
-                            ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['fontname', ['fontname']],
-                            ['fontsize', ['fontsize']],
-                            ['color', ['color']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['height', ['height']],
-                            ['insert', ['link']],
+                    $.getScript('https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js', function() {
+                        $('#summernote_post').summernote({
+                            disableDragAndDrop: true,
+                            placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
+                            tabsize: 2,
+                            maximumImageFileSize: 2 * 1024 * 1024,
+                            height: 150,
+                            toolbar: [
+                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                                ['fontname', ['fontname']],
+                                ['fontsize', ['fontsize']],
+                                ['color', ['color']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['height', ['height']],
+                                ['insert', ['link', ]], // 'picture'
 
 
                         ],
 
+                            ],
+                            // callbacks: {
+                            //     onImageUpload: function(files) {
+                            //         var maxSizeInBytes = 2 * 1024 * 1024; // 5MB
 
+                            //         // Kiểm tra kích thước tệp ảnh
+                            //         for (var i = 0; i < files.length; i++) {
+                            //             var fileSize = files[i].size;
+                            //             if (fileSize > maxSizeInBytes) {
+                            //                 Swal.fire('Kích thước tệp ảnh không được vượt quá 2MB');
+                            //                 return false; // Ngăn chặn việc tải lên ảnh
+                            //             } else {
+                            //                 var image = files[0];
+                            //                 var reader = new FileReader();
+
+                            //                 reader.onloadend = function() {
+                            //                     var imgBase64 = reader.result;
+                            //                     // Chỗ này xảy ra lỗi TypeError: $(...).summernote is not a function mà sửa hoài không được
+                            //                     $('#summernote_post').summernote('insertImage', imgBase64);
+                            //                 }
+
+                            //                 if (image) {
+                            //                     reader.readAsDataURL(image);
+                            //                 }
+                            //                 Swal.fire('Thêm rồi đó');
+                            //             }
+                            //         }
+
+
+                            //     }
+                            // }
+                        });
                     });
                 </script>
 
@@ -322,91 +413,89 @@
 
                     });
                 </script>
-
-
             @endsection
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('giangvien/js/view/view.js') }}"></script>
-    <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js"
-        id="google_shimpl"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
-    </script>
+            @section('js')
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="{{ asset('giangvien/js/view/view.js') }}"></script>
+                <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js"
+                    id="google_shimpl"></script>
+                <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+                </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
-        var message_delete = localStorage.getItem("message_delete");
-        if (message_delete) {
-            Swal.fire('Đã xoá thành công ');
-            localStorage.removeItem("message_delete");
-        }
-        var message_add = localStorage.getItem("message_add");
-        if (message_add) {
-            Swal.fire('Đã thêm thành công ');
-            localStorage.removeItem("message_add");
-        }
-        var message_edit = localStorage.getItem("message_edit");
-        if (message_edit) {
-            Swal.fire('Đã sửa thành công ');
-            localStorage.removeItem("message_edit");
-        }
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+                </script>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                    crossorigin="anonymous">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+                <script>
+                    var message_delete = localStorage.getItem("message_delete");
+                    if (message_delete) {
+                        Swal.fire('Đã xoá thành công ');
+                        localStorage.removeItem("message_delete");
+                    }
+                    var message_add = localStorage.getItem("message_add");
+                    if (message_add) {
+                        Swal.fire('Đã thêm thành công ');
+                        localStorage.removeItem("message_add");
+                    }
+                    var message_edit = localStorage.getItem("message_edit");
+                    if (message_edit) {
+                        Swal.fire('Đã sửa thành công ');
+                        localStorage.removeItem("message_edit");
+                    }
 
-        var app = angular.module("myApp", [], function($interpolateProvider) {
-            $interpolateProvider.startSymbol('<%');
-            $interpolateProvider.endSymbol('%>');
-        });
+                    var app = angular.module("myApp", [], function($interpolateProvider) {
+                        $interpolateProvider.startSymbol('<%');
+                        $interpolateProvider.endSymbol('%>');
+                    });
 
-        app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http, $sce) {
+                    app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http, $sce) {
 
-            $scope.trustHtml = function(htmlContent) {
+                        $scope.trustHtml = function(htmlContent) {
 
-                return $sce.trustAsHtml(htmlContent);
-            };
+                            return $sce.trustAsHtml(htmlContent);
+                        };
 
-            $scope.noi_dung_tb = function(thongbao) {
+                        $scope.noi_dung_tb = function(thongbao) {
 
 
 
-                $scope.id = thongbao.id;
-                $scope.tieu_de = thongbao.tieu_de;
-                $scope.noi_dung = thongbao.noi_dung;
-                $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
-                $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
+                            $scope.id = thongbao.id;
+                            $scope.tieu_de = thongbao.tieu_de;
+                            $scope.noi_dung = thongbao.noi_dung;
+                            $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
+                            $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
 
                 $('#summernote_modal').append($scope.noi_dung);
 
             }
 
 
-            $http({
-                method: "GET",
-                url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1",
-                params: {
-                    'option': 1,
-                    'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
-                },
-                headers: {
-                    "Authorizations": "Bearer token"
-                }
-            }).then($response => {
-                $scope.lopHocPhan = $response.data;
+                        $http({
+                            method: "GET",
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1",
+                            params: {
+                                'option': 1,
+                                'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
+                            },
+                            headers: {
+                                "Authorizations": "Bearer token"
+                            }
+                        }).then($response => {
+                            $scope.lopHocPhan = $response.data;
 
-                $scope.XemThongTinSinhVien = function($ma_sv) {
-                    window.location.href =
-                        "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
-                        $ma_sv;
+                            $scope.XemThongTinSinhVien = function($ma_sv) {
+                                window.location.href =
+                                    "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
+                                    $ma_sv;
 
-                }
-            })
+                            }
+                        })
 
             $http({
                 method: "GET",
@@ -431,99 +520,107 @@
         $(document).on('click', '.btn-thong-bao-xoa', function(event) {
             var element = $(event.target);
 
-            postID = element.attr('data-post-id');
+                        postID = element.attr('data-post-id');
 
-        });
+                    });
 
-        $(document).ready(function() {
-
-
-            $("#btn-xoa-thong-bao").click(function() {
+                    $(document).ready(function() {
 
 
-
-                $.ajax({
-                    method: 'POST',
-                    // headers:"@",
-                    url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/xoa-thong-bao?id=" +
-                        postID
-
-                }).done(function($response) {
-                    if ($response.status == 1) {
-                        var message_delete = "Thông báo xoá";
-                        localStorage.setItem("message_delete", message_delete);
-                        location.reload();
-                    }
-                })
+                        $("#btn-xoa-thong-bao").click(function() {
 
 
 
-            });
+                            $.ajax({
+                                method: 'POST',
+                                // headers:"@",
+                                url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/xoa-thong-bao?id=" +
+                                    postID
+
+                            }).done(function($response) {
+                                if ($response.status == 1) {
+                                    var message_delete = "Thông báo xoá";
+                                    localStorage.setItem("message_delete", message_delete);
+                                    location.reload();
+                                }
+                            })
 
 
 
-
-        });
-
-
-        $(document).ready(function() {
-
-
-
-            $("#btn-dang-thong-bao").click(function() {
-
-                var json_obj = {
-                    'id': {{ $id_lop_hoc_phan }},
-                    'type': 1,
-                    'ma_gv': "GVCNTT1",
-                    'tieu_de': $("#tieu_de_post").val(),
-                    'noi_dung': $(".noi_dung").val(),
-                    'danh_sach_sinh_vien': [
-
-                    ]
-
-                }
-                $(".checked-sv").each(function() {
-
-                    if ($(this).is(':checked')) {
-                        $mssv = $(this).attr('data-ma-sv');
-                        var sv_obj = {
-                            'ma_sinh_vien': $mssv
-                        };
-                        json_obj.danh_sach_sinh_vien.push(sv_obj);
-                    }
-                })
+                        });
 
 
 
 
-                if (json_obj.danh_sach_sinh_vien.length > 0 && json_obj.noi_dung != '' && json_obj
-                    .tieu_de != '') {
-                    $.ajax({
-                        method: "POST",
-                        // headers:"@",
-                        url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/them-thong-bao",
-                        data: JSON.stringify(json_obj),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: 'json'
-                    }).done(function(data) {
-                        if (data.status == 1) {
-                            var message_add = "Thông báo thêm";
-                            localStorage.setItem("message_add", message_add);
-                            location.reload();
-                        }
-                    })
-                } else {
-                    console.log('Lỗi');
-                }
+                    });
+
+
+                    $(document).ready(function() {
 
 
 
-                console.log(json_obj);
-            });
+                        $("#btn-dang-thong-bao").click(function() {
+
+                            var json_obj = {
+                                'id': {{ $id_lop_hoc_phan }},
+                                'type': 1,
+                                'ma_gv': "GVCNTT1",
+                                'tieu_de': $("#tieu_de_post").val(),
+                                'noi_dung': $(".noi_dung").val(),
+                                'danh_sach_sinh_vien': [
+
+                                ]
+
+                            }
+                            $(".checked-sv").each(function() {
+
+                                if ($(this).is(':checked')) {
+                                    $mssv = $(this).attr('data-ma-sv');
+                                    var sv_obj = {
+                                        'ma_sinh_vien': $mssv
+                                    };
+                                    json_obj.danh_sach_sinh_vien.push(sv_obj);
+                                }
+                            })
+
+
+                            if (json_obj.danh_sach_sinh_vien.length == 0) {
+                                Swal.fire('Hãy chọn sinh viên để gửi thông báo');
+                            } else {
+                                if (json_obj.tieu_de === "")
+                                    Swal.fire('Không để trống tiêu đề');
+                                else
+                                if (json_obj.noi_dung === "")
+                                    Swal.fire('Không để trống nội dung');
+                            }
+
+
+                            if (json_obj.danh_sach_sinh_vien.length > 0 && json_obj.noi_dung != '' && json_obj
+                                .tieu_de != '') {
+                                $.ajax({
+                                    method: "POST",
+                                    // headers:"@",
+                                    url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/them-thong-bao",
+                                    data: JSON.stringify(json_obj),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: 'json'
+                                }).done(function(data) {
+                                    if (data.status == 1) {
+                                        var message_add = "Thông báo thêm";
+                                        localStorage.setItem("message_add", message_add);
+                                        location.reload();
+                                    }
+                                })
+                            }
+
+
+                            // console.log(json_obj);
+                        });
 
 
 
-        });
-    </script>
-@endsection
+                    });
+
+
+                </script>
+            @endsection
