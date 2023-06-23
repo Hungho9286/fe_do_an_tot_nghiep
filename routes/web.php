@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FEClientController;
 use App\Http\Controllers\FEGiangVienController;
+use App\Http\Controllers\ThoiKhoaBieuController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,3 +48,7 @@ Route::get('/giangvien/thongbao/sua',[FEGiangVienController::class,'suathongbao'
 Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}',[FEGiangVienController::class,'danhSachSinhVienTheoLopHocPhan'])->name('lop-hoc-phan-cua-giang-vien');
 Route::get('/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{id}/thong-tin-sinh-vien',[FEGiangVienController::class,'xemThongTinSinhVien']);
 
+Route::get('giang-vien/lop-hoc-phan/xem-diem/{id}',[FEGiangVienController::class,'diemsinhvien']);
+Route::get('/giang-vien/thong-tin-giang-vien',[FEGiangVienController::class,'show'])->name('thong-tin-giang-vien');
+
+Route::get('/giang-vien/thoi-khoa-bieu',[ThoiKhoaBieuController::class,'thoikhoabieu_giangvien'])->name('thoi-khoa-bieu-giang-vien');

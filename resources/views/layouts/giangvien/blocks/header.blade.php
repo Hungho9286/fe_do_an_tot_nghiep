@@ -132,17 +132,17 @@
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
+        <li class="nav-item dropdown no-arrow" >
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Lê Viết Hoàng Nguyên</span>
                 <img class="img-profile rounded-circle"
-                    src="img/undraw_profile.svg">
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('thong-tin-giang-vien')}}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
@@ -165,3 +165,23 @@
     </ul>
 
 </nav>
+@section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<script>
+    var app_giangvien = angular.module("ThongTinGiangVien", [],function($interpolateProvider) {
+    $interpolateProvider.startSymbol('<%');
+    $interpolateProvider.endSymbol('%>');
+    });
+    app_giangvienư.controller("ThongTinGiangVienController",function($scope,$http){
+        $http.get('{{env('SERVER_URL')}}/api/giang-vien/GVCNTT1').then($response=>{
+            $scope.ThongTinGiangVien=$response.data;
+            console.log($response.data);
+            console.log("Doo");
+        });
+});
+  
+</script>
+@endsection
