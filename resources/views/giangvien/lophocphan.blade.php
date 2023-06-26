@@ -552,7 +552,10 @@
                               dataType: 'json',
 
                           }).done(function($response) {
-                        
+                            if($response.status ==1)
+                            {
+                                Swal.fire('Hãy chọn sinh viên để gửi thông báo');
+                            }
                           })
 
                             });
