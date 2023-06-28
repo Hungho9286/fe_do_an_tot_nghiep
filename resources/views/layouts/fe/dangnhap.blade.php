@@ -24,7 +24,7 @@
           <form method="POST" action="{{route('xu-ly-dang-nhap')}}" class="login">
             @csrf
             <div class="field">
-              <input type="text" name="tai_khoan" placeholder="Tài khoản" required>
+              <input type="text" name="tai_khoan" placeholder="Tài khoản Sinh Viên" required>
             </div>
             <div class="field">
               <input type="password" name="mat_khau" placeholder="Mật khẩu" required>
@@ -35,10 +35,10 @@
               <input type="submit" value="Đăng nhập">
             </div>
           </form>
-          <form action="#" class="signup">
+          <form method ="POST" action="{{route('xu-ly-dang-nhap-gv')}}" class="signup">
             @csrf
             <div class="field">
-              <input type="text" name="tai_khoan" placeholder="Tài khoản" required>
+              <input type="text" name="tai_khoan" placeholder="Tài khoản Giảng Viên" required>
             </div>
             <div class="field">
               <input type="password"name="mat_khau" placeholder="Mật khẩu" required>
@@ -66,10 +66,7 @@
         loginForm.style.marginLeft = "0%";
         loginText.style.marginLeft = "0%";
       });
-      signupLink.onclick = (()=>{
-        signupBtn.click();
-        return false;
-      });
+   
     </script>
 
   </body>

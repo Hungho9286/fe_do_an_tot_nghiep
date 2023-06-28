@@ -18,7 +18,7 @@ use App\Http\Controllers\ThoiKhoaBieuController;
 
 Route::middleware('checklogin')->group(function(){
     Route::get('/dang-nhap',[FEClientController::class,'dangNhap'])->name('dang-nhap');
-    Route::post('/dang-nhap',[FEClientController::class,'xuLyDangNhap'])->name('xu-ly-dang-nhap');
+    Route::post('/dang-nhap',[FEClientController::class,'xuLyDangNhap'])->name('xu-ly-dang-nhap');  
     Route::post('/dang-xuat', [FEClientController::class, 'logOut'])->name('dang-xuat');
     Route::get('/thoi-khoa-bieu',[FEClientController::class,'thoiKhoaBieu']);
     Route::get('/thong-tin-ca-nhan',[FEClientController::class,'thongTinCaNhan']);
@@ -36,9 +36,13 @@ Route::post('dong-hoc-phi-paypal',[FEClientController::class,'xuLyDongHocPhiPayP
 Route::get('/xu-ly-dong-hoc-phi-paypal',[FEClientController::class,'luuThongTinDangKy'])->name('xu-ly-dong-hoc-phi-paypal');
 Route::get('/cam-on-dong-hoc-phi',[FEClientController::class,'hienThiTrangCamOnDongHocPhi'])->name('cam-on-dong-hoc-phi');
 Route::get('/cancel-dong-hoc-phi',[FEClientController::class,'huyDongHocPhi'])->name('cancel-dong-hoc-phi');
+
+
+Route::middleware('checkloginGV')->group(function(){
+Route::post('/dang-nhap-giang-vien',[FEClientController::class,'xulyDangNhap_GV'])->name('xu-ly-dang-nhap-gv');  
+Route::post('/dang-xuat-giang-vien', [FEClientController::class, 'dangXuatGV'])->name('dang-xuat-gv');
 Route::get('/giang-vien/trang-chu',[FEGiangVienController::class,'index'])->name('trang-chu-giang-vien');
 Route::get('/giangvien/lop-hoc-phan-cua-giang-vien',[FEGiangVienController::class,'lopHocPhanCuaGiangVien'])->name('danh-sach-lop-hoc-phan');
-
 Route::get('/giangvien/thongbao',[FEGiangVienController::class,'thongbaosinhvien']);
 Route::get('/giangvien/thongbao/xoa/{id}',[FEGiangVienController::class,'destroy']);
 Route::get('/giangvien/thongbao/lay-thong-bao-sua',[FEGiangVienController::class,'laythongbao'])->name('lay-thong-bao');
@@ -50,3 +54,4 @@ Route::get('giang-vien/lop-hoc-phan/xem-diem/{id}',[FEGiangVienController::class
 Route::get('/giang-vien/thong-tin-giang-vien',[FEGiangVienController::class,'show'])->name('thong-tin-giang-vien');
 
 Route::get('/giang-vien/thoi-khoa-bieu',[ThoiKhoaBieuController::class,'thoikhoabieu_giangvien'])->name('thoi-khoa-bieu-giang-vien');
+});
