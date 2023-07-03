@@ -30,6 +30,7 @@ class CheckNoMon
         curl_close($ch);
         //dd($data->dang_sach_mon_no);
         //dd($data);
+        
         if($data->status==1){
             foreach($data->dang_sach_mon_no as $item){
                 if($item->id_mon_hoc==$id_mon_hoc){

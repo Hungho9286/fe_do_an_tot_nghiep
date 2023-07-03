@@ -25,8 +25,8 @@ $data=json_decode($head);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Portal 3</title>
-
+    <title>Cổng thông tin trực tuyến CKC</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logos/logoct.png') }}" />
     <!-- Bootstrap Core CSS -->
 
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">

@@ -85,7 +85,7 @@
                         <div ng-repeat="thoi_khoa_bieu in tkb.lich_hoc">
                             <strong><%thoi_khoa_bieu.mon_hoc.ten_mon_hoc%></strong>
                             <div ng-repeat="lich_hoc_mon in thoi_khoa_bieu.lich_hoc">
-                                <p><%lich_hoc_mon.phong_hoc.ten_phong_hoc%></p>
+                                <p><%lich_hoc_mon.phong_hoc.ten_phong%></p>
                                 <p><%lich_hoc_mon.tiet_bat_dau.stt%> &#8594; <%lich_hoc_mon.tiet_ket_thuc.stt%></p>
                                 <p><%lich_hoc_mon.tiet_bat_dau.thoi_gian_bat_dau%> &#8594; <%lich_hoc_mon.tiet_ket_thuc.thoi_gian_ket_thuc%></p>
                             </div>

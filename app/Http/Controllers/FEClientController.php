@@ -269,10 +269,69 @@ class FEClientController extends Controller
                 ->with('error', $response['message'] ?? 'Something went wrong.');
         }
     }
+    function convertToNonAccent($string) {
+        $accented_chars = array(
+            'à', 'á', 'ạ', 'ả', 'ã', 'â', 'ầ', 'ấ', 'ậ', 'ẩ', 'ẫ', 'ă', 'ằ', 'ắ', 'ặ', 'ẳ', 'ẵ',
+            'è', 'é', 'ẹ', 'ẻ', 'ẽ', 'ê', 'ề', 'ế', 'ệ', 'ể', 'ễ',
+            'ì', 'í', 'ị', 'ỉ', 'ĩ',
+            'ò', 'ó', 'ọ', 'ỏ', 'õ', 'ô', 'ồ', 'ố', 'ộ', 'ổ', 'ỗ', 'ơ', 'ờ', 'ớ', 'ợ', 'ở', 'ỡ',
+            'ù', 'ú', 'ụ', 'ủ', 'ũ', 'ư', 'ừ', 'ứ', 'ự', 'ử', 'ữ',
+            'ỳ', 'ý', 'ỵ', 'ỷ', 'ỹ',
+            'đ',
+            'À', 'Á', 'Ạ', 'Ả', 'Ã', 'Â', 'Ầ', 'Ấ', 'Ậ', 'Ẩ', 'Ẫ', 'Ă', 'Ằ', 'Ắ', 'Ặ', 'Ẳ', 'Ẵ',
+            'È', 'É', 'Ẹ', 'Ẻ', 'Ẽ', 'Ê', 'Ề', 'Ế', 'Ệ', 'Ể', 'Ễ',
+            'Ì', 'Í', 'Ị', 'Ỉ', 'Ĩ',
+            'Ò', 'Ó', 'Ọ', 'Ỏ', 'Õ', 'Ô', 'Ồ', 'Ố', 'Ộ', 'Ổ', 'Ỗ', 'Ơ', 'Ờ', 'Ớ', 'Ợ', 'Ở', 'Ỡ',
+            'Ù', 'Ú', 'Ụ', 'Ủ', 'Ũ', 'Ư', 'Ừ', 'Ứ', 'Ự', 'Ử', 'Ữ',
+            'Ỳ', 'Ý', 'Ỵ', 'Ỷ', 'Ỹ',
+            'Đ'
+        );
+
+        $unaccented_chars = array(
+            'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
+            'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',
+            'i', 'i', 'i', 'i', 'i',
+            'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o',
+            'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u',
+            'y', 'y', 'y', 'y', 'y',
+            'd',
+            'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
+            'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E',
+            'I', 'I', 'I', 'I', 'I',
+            'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+            'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U',
+            'Y', 'Y', 'Y', 'Y', 'Y',
+            'D'
+        );
+
+        $string = str_replace($accented_chars, $unaccented_chars, $string);
+        return $string;
+    }
     function xuLyDongHocPhiVNPay(Request $request){
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $accessToken=session()->get('access_token');
         $vnp_Returnurl = route('luu-thong-tin-dong-hoc-phi-vnpay',['id_hoc_phi'=>$request->id,'type'=>$request->type,'ma_sv'=>session()->get('ma_sv')]);
+        $ch=curl_init(env('SERVER_URL')."/api/hoc-phi/thong-tin-hoc-phi/".$request->id."?type=".$request->type);
+        // curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data);
+        $info="";
+        if($request->type=="hoc_phi_mon"){
+            $tenmonhoc = $this->convertToNonAccent($data->mon_hoc->ten_mon_hoc);
+            $info="Dong hoc phi dang ky mon ".$tenmonhoc. ", Sinh Vien: ".session()->get('ma_sv');
+        }
+        if($request->type=="hoc_phi_hoc_ky"){
+            $info="Dong hoc phi hoc ky ".$data->thong_tin_hoc_phi->hoc_ky . ", Sinh vien: ".session()->get('ma_sv');
+        }
+        //dd($info);
         //Config input format
         //Expire
         $startTime = date("YmdHis");
@@ -292,7 +351,7 @@ class FEClientController extends Controller
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => "Thanh toan GD:". $vnp_TxnRef,
+            "vnp_OrderInfo" => $info,
             "vnp_OrderType" => "other",
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
@@ -327,6 +386,7 @@ class FEClientController extends Controller
     }
     function luuThongTinDongHocPhiVNPay(Request $request){
         //dd($request->all());
+        $vnp_ResponseCode=$request->vnp_ResponseCode;
         $url=env('SERVER_URL')."/api/xu-ly-dong-hoc-phi-vnpay";
         $inputData = array();
         $returnData = array();
@@ -358,7 +418,8 @@ class FEClientController extends Controller
         $vnp_Amount = $inputData['vnp_Amount']/100; // Số tiền thanh toán VNPAY phản hồi
         //dd($secureHash);
         if($secureHash==$request->vnp_SecureHash){
-            // $Status = 0; // Là trạng thái thanh toán của giao dịch chưa có IPN lưu tại hệ thống của merchant chiều khởi tạo URL thanh toán.
+            if($vnp_ResponseCode=="00"){
+                // $Status = 0; // Là trạng thái thanh toán của giao dịch chưa có IPN lưu tại hệ thống của merchant chiều khởi tạo URL thanh toán.
             $orderId = $inputData['vnp_TxnRef'];
             $vnp_RequestId = rand(1,10000); // Mã truy vấn
             $vnp_Command = "querydr"; // Mã api
@@ -420,6 +481,8 @@ class FEClientController extends Controller
                     }
                 }
             }
+            }
+
         }
 
     }
@@ -514,7 +577,7 @@ class FEClientController extends Controller
     function execPostRequest($url, $data)
     {
         $ch = curl_init($url);
-        
+
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

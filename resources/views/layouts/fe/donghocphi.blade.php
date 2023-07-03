@@ -119,7 +119,7 @@ h2 {
                         <%hoc_phi_mon.mon_hoc.mon_hoc.ten_mon_hoc%>
                     </td>
                     <td><%hoc_phi_mon.dang_ky_lop_hoc_phan.tien_dong%></td>
-                    <td><%hoc_phi_mon.ngay_mo%> &#8594; <%hoc_phi_mon.ngay_mo%></td>
+                    <td><%hoc_phi_mon.ngay_mo%> &#8594; <%hoc_phi_mon.ngay_dong%></td>
                     <td><input class="checked_hoc_phi" type="checkbox" value="" data-hoc-phi="<%hoc_phi_mon.dang_ky_lop_hoc_phan.tien_dong%>" data-id-hoc-phi="<%hoc_phi_mon.dang_ky_lop_hoc_phan.id%>" data-type="hoc_phi_mon"></td>
                 </tr>
                 <tr ng-repeat="hoc_phi_hoc_ky in danh_sach_hoc_phi_hoc_ky">
@@ -127,11 +127,16 @@ h2 {
                         Học phí học kỳ
                     </td>
                     <td>
-                        Học kì <%hoc_phi_hoc_ky.hoc_ky%>
+                        Học kì <%hoc_phi_hoc_ky.hoc_phi.hoc_ky%>
                     </td>
-                    <td><%hoc_phi_hoc_ky.so_tien%></td>
-                    <td><%hoc_phi_hoc_ky.ngay_bat_dau%>  &#8594; <%hoc_phi_hoc_ky.ngay_ket_thuc%></td>
-                    <td><input class="checked_hoc_phi" data-hoc-phi="<%hoc_phi_hoc_ky.so_tien%>" data-id-hoc-phi="<%hoc_phi_hoc_ky.id%>" type="checkbox" value="" data-type="hoc_phi_hoc_ky" ></td>
+                    <td><%hoc_phi_hoc_ky.hoc_phi.so_tien%></td>
+                    <td><%hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau%>  &#8594; <%hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc%></td>
+                    <td ng-if="ngayBatDau(hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau) < currentDate && ngayKetThuc(hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc) > currentDate">
+                        <input class="checked_hoc_phi" data-hoc-phi="<%hoc_phi_hoc_ky.hoc_phi.so_tien%>" data-id-hoc-phi="<%hoc_phi_hoc_ky.hoc_phi.id%>" type="checkbox" value="" data-type="hoc_phi_hoc_ky" >
+                    </td>
+                    <td ng-if="!(ngayBatDau(hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau) < currentDate && ngayKetThuc(hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc) > currentDate)">
+                        Đã kết thúc
+                    </td>
                 </tr>
               </tbody>
             </table>
@@ -171,6 +176,14 @@ h2 {
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("DanhSachHocPhiController",function($scope,$http){
+        $scope.currentDate = new Date();
+        console.log($scope.currentDate);
+        $scope.ngayBatDau=function(ngay_bat_dau){
+            return new Date(ngay_bat_dau);
+        }
+        $scope.ngayKetThuc=function(ngay_ket_thuc){
+            return new Date(ngay_ket_thuc);
+        }
         $http({
             url:"{{env('SERVER_URL')}}/api/danh-sach-dong-hoc-phi-cua-sinh-vien/{{Session::get('ma_sv')}}",
             method:"GET",

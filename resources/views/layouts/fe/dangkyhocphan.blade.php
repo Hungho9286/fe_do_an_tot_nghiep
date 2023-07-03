@@ -13,19 +13,20 @@
     </div>
 </div> --}}
 
-    <div class="col-md-5 ">
+    <div class="col-md-5 " style="font-size: 0.8em">
         <div >
-            <h1>
+            <strong style="font-size: 1.5em">
                 Đăng ký lớp học phần
-            </h1>
-            <div class="alert alert-info" role="alert"><h2>Danh sách môn học nợ</h2></div>
+            </strong>
+            <div class="alert alert-info" role="alert" style="font-size:1.4em"><strong>Danh sách môn học nợ</strong></div>
 
             <div id="ds-dang-ky-mon-no">
                 <div >
 
                 </div>
             </div>
-            <div class="alert alert-info" role="alert"><h2>Môn tín chỉ</h2></div>
+            <hr>
+            <div class="alert alert-info" role="alert" style="font-size:1.4em"><strong>Môn chứng chỉ</strong></div>
 
             <div id="ds-dang-ky-mon-chung-chi">
                 <div >
@@ -109,7 +110,7 @@
             $arrMonChungChi=data.danh_sach_mon_hoc_chung_chi;
             console.log($arr);
             $arr.forEach(item => {
-                var mon_hoc='<p style="font-size:1.5em; font-weight: bold;">'+item.ten_mon_hoc+'</p>';
+                var mon_hoc='<p style="font-size:1.2em; font-weight: bold;">'+item.ten_mon_hoc+'</p>';
                 // $("#ds-dang-ky-mon-no").append(mon_hoc);
                 $.ajax({
                 method: "GET",
@@ -121,14 +122,20 @@
                     //console.log(data_info);
                     //$thong_tin_dang_ky=JSON.parse(data_info);
                     $thong_tin_dang_ky=data_info;
-                    //console.log($thong_tin_dang_ky);
-                    if($thong_tin_dang_ky.trang_thai==1){
-                        var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"&#9;Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
-                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
+                        console.log($thong_tin_dang_ky);
+
+                        if($thong_tin_dang_ky.trang_thai==1){
+                        var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"<br>Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
+                        var nutDangKy="";
+                        if($thong_tin_dang_ky.da_dang_ky_mon==0)
+                            nutDangKy='<button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
+                        else
+                            nutDangKy='<p>Đã đăng ký</p>'
                         $("#ds-dang-ky-mon-no").append(mon_hoc,ngay_mo,nutDangKy);
-                    }else{
-                        $("#ds-dang-ky-mon-no").append("<p>Chưa mở đăng ký</p>")
-                    }
+                        }else{
+                            $("#ds-dang-ky-mon-no").append("<p>Chưa mở đăng ký</p>")
+                        }
+
                 })
             });
             $arrMonChungChi.forEach(item => {
@@ -145,13 +152,20 @@
                     //$thong_tin_dang_ky=JSON.parse(data_info);
                     $thong_tin_dang_ky=data_info;
                     //console.log($thong_tin_dang_ky);
+
                     if($thong_tin_dang_ky.trang_thai==1){
                         var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"&#9;Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
-                        var nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
-                        $("#ds-dang-ky-mon-chung-chi").append(ngay_mo,nutDangKy);
+                        var nutDangKy="";
+                        if($thong_tin_dang_ky.da_dang_ky_mon==0)
+                            nutDangKy='<br><button type="button" class="btn btn-success nut-dang-ky-mon" data-id_mon_hoc="'+item.id_mon_hoc+'">Đăng ký môn</button>';
+                        else
+                            nutDangKy='<p>Đã đăng ký</p>'
+                        $("#ds-dang-ky-mon-no").append(mon_hoc,ngay_mo,nutDangKy);
                     }else{
                         $("#ds-dang-ky-mon-chung-chi").append("<p>Chưa mở đăng ký</p>")
                     }
+
+
                 })
             });
 
@@ -199,7 +213,7 @@
                                     console.log($lichHoc[i].lich[k]);
                                     console.log("Dô cộng chuỗi");
                                     count=count+1;
-                                    $tdThoiKhoaBieuThem=$tdThoiKhoaBieuThem+'<tr><td>'+$lichHoc[i].lich[k].phong_hoc.ten_phong_hoc+'</td><td><p>Tiết học: '+$lichHoc[i].lich[k].tiet_bat_dau.stt+' -> '+$lichHoc[i].lich[k].tiet_ket_thuc.stt+'</p><p>Thời gian: '+$lichHoc[i].lich[k].tiet_bat_dau.thoi_gian_bat_dau+' -> '+$lichHoc[i].lich[k].tiet_bat_dau.thoi_gian_ket_thuc+'</p></td></tr>';
+                                    $tdThoiKhoaBieuThem=$tdThoiKhoaBieuThem+'<tr><td>'+$lichHoc[i].lich[k].phong_hoc.ten_phong+'</td><td><p>Tiết học: '+$lichHoc[i].lich[k].tiet_bat_dau.stt+' &#8594; '+$lichHoc[i].lich[k].tiet_ket_thuc.stt+'</p><p>Thời gian: '+$lichHoc[i].lich[k].tiet_bat_dau.thoi_gian_bat_dau+' &#8594; '+$lichHoc[i].lich[k].tiet_bat_dau.thoi_gian_ket_thuc+'</p></td></tr>';
                                 }
                             }
 

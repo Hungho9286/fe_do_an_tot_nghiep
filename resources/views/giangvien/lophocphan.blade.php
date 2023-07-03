@@ -190,8 +190,6 @@
                                         <div class="status-field">
                                             <h3 data-tieu-de='<%tb.tieu_de%>'><%tb.tieu_de%></h3>
                                             <p ng-bind-html="trustHtml(tb.noi_dung)"></p>
-                                            <a class="dropdown-item" href="#" data-toggle="modal"
-                                            data-target="#suathongbao" ng-click='noi_dung_tb(tb)'>
 
                                         </a>
                                         </div>
@@ -355,36 +353,6 @@
 
 
                         ],
-                            // callbacks: {
-                            //     onImageUpload: function(files) {
-                            //         var maxSizeInBytes = 2 * 1024 * 1024; // 5MB
-
-                            //         // Kiểm tra kích thước tệp ảnh
-                            //         for (var i = 0; i < files.length; i++) {
-                            //             var fileSize = files[i].size;
-                            //             if (fileSize > maxSizeInBytes) {
-                            //                 Swal.fire('Kích thước tệp ảnh không được vượt quá 2MB');
-                            //                 return false; // Ngăn chặn việc tải lên ảnh
-                            //             } else {
-                            //                 var image = files[0];
-                            //                 var reader = new FileReader();
-
-                            //                 reader.onloadend = function() {
-                            //                     var imgBase64 = reader.result;
-                            //                     // Chỗ này xảy ra lỗi TypeError: $(...).summernote is not a function mà sửa hoài không được
-                            //                     $('#summernote_post').summernote('insertImage', imgBase64);
-                            //                 }
-
-                            //                 if (image) {
-                            //                     reader.readAsDataURL(image);
-                            //                 }
-                            //                 Swal.fire('Thêm rồi đó');
-                            //             }
-                            //         }
-
-
-                            //     }
-                            // }
                         });
                     });
                 </script>
@@ -492,6 +460,16 @@
 
                             }
                         })
+                        $http({
+                            method: "GET",
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem/{{ $id_lop_hoc_phan }}",
+                            headers: {
+                                "Authorizations": "Bearer token"
+                            }
+                        }).then($response => {
+                            $scope.bangdiem = $response.data;
+                            console.log($response.data);
+                        })
 
             $http({
                 method: "GET",
@@ -510,9 +488,36 @@
         });
         var postID = 0;
 
+        $(document).on('click', '.save', function(event) {
+            var element = $(event.target);
+            var Mark_mssv = element.attr('data-mark-mssv');
+            var row = $(this).closest('tr');
+            var marks = {
+                'ma_sv': Mark_mssv
+            };
+            row.find('input[type="number"]').each(function() {
+            var inputValue = $(this).val();
+            var inputName = $(this).attr('name');
+            marks[inputName]=inputValue
+
+            });
+
+            console.log(marks);
 
 
+            $.ajax({
+                method: 'POST',
+                // headers:"@",
+                url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{$id_lop_hoc_phan}}",
+                data: marks,
+                dataType: 'json',
 
+            }).done(function($response) {
+                if($response.status==1)
+                    Swal.fire('Hãy chọn sinh viên để gửi thông báo');
+            })
+
+            });
         $(document).on('click', '.btn-thong-bao-xoa', function(event) {
             var element = $(event.target);
 
