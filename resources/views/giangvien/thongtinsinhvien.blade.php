@@ -2,7 +2,7 @@
 @section('css')
 @endsection
 @section('content')
-<a href="{{route('danh-sach-lop-hoc-phan',['id'=>$id_lop_hoc_phan,'type'=>1])}}" class="btn btn-outline-primary">Trở lại</a>
+<a onclick="goBack()" class="btn btn-outline-primary">Trở lại</a>
 <div class="row" style="border: 1px solid rgb(112, 108, 108); margin-top: 20px;" ng-app="myApp" ng-controller="SinhVienController">
     <div class="col-md-6" style="border-right:5px solid rgb(177, 173, 173);">
         {{-- Thông tin sinh viên --}}
@@ -130,6 +130,11 @@
   </div>
 @endsection
 @section('js')
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
@@ -143,8 +148,8 @@
             method:"GET",
             url:"{{env('SERVER_URL')}}/api/sinh-vien/{{$ma_sv}}",
             headers:{
-                "Authorization":"Bearer token",
-            }
+               "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+             },
         }).then($response=>{
             $scope.sinhvien=$response.data
             var $diachithuongtru=$scope.sinhvien.dia_chi_thuong_tru;

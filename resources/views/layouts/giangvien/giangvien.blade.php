@@ -24,7 +24,6 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
-
     <!-- Custom styles for this template-->
 
     <link href="{{asset('giangvien/css/sb-admin-2.min.css')}}" rel="stylesheet">
@@ -87,11 +86,11 @@
                     </button>
                 </div>
                 <div class="modal-body">Bạn có chắc là đăng xuất khỏi trang web này.</div>
-                <form action="{{route('dang-xuat-gv')}}" method="post">
+                <form action="{{route('dang-xuat-gv')}}" method="POST">
                 @csrf
                 <div class="modal-footer">
                     
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</a>
                     <button class="btn btn-primary" type="submit" href="">Đồng ý</button>
                 </div>
                 </form>
@@ -101,7 +100,10 @@
 
    
     @include('layouts.giangvien.blocks.footer')
+    
+    
 
+    
 </body>
 
 </html>

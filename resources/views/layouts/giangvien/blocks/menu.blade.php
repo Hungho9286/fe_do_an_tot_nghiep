@@ -28,14 +28,46 @@
             <i class="fas fa-school"></i>
             <span>Danh sách lớp</span>
         </a>
+         
+        
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded" id="danhsach-sv-lop" >
-                
-                <h6 class="collapse-header">Danh sách:</h6>
-               
-                
-            </div>
+        <a class="nav-link collapsed" data-toggle="collapse" href="#multiCollapseExample1"  aria-expanded="false" 
+        aria-controls="multiCollapseExample1">
+        <i class="fas fa-school"></i>
+             <span>Lớp học phần</span>
+        </a>
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" 
+        aria-controls="multiCollapseExample2">
+        <i class="fas fa-school"></i>
+         <span>Lớp chủ nhiệm</span>
+        </a>
+            
         </div>
+        <p>
+  
+ 
+</p>
+<div class="row">
+  <div class="col">
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="bg-white py-2 collapse-inner rounded" id="danhsach-sv-lop" >
+                    <h6 class="collapse-header">Lớp học phần:</h6>
+                
+
+        </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse" id="multiCollapseExample2">
+    <div class="bg-white py-2 collapse-inner rounded" id="danhsach-sv-lop-chu-nhiem" >
+    
+                <h6 class="collapse-header">Lớp chủ nhiệm:</h6>
+               
+
+            </div>
+    </div>
+  </div>
+</div>
     </li>
 
     <script>
@@ -43,24 +75,44 @@
    $(document).ready(function()
    {
     $.ajax({
-        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1',
+        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-hoc-phan/{{Session::get('ma_gv')}}',
         method: "GET",
         headers:{
-                "Authorizations":"Bearer token",
+                "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
             }
     }).done(function($data)
     {
-        console.log($data);
+        text="";
         $data.forEach(element => {
-            $('#danhsach-sv-lop').append(
+            if(element.lop_hoc!=null)
+                text=text+'<div class="row"> <a style="font-size:10px" class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1'+'"  >'+ element.lop_hoc.ten_lop_hoc+'-' + element.mon_hoc.ten_mon_hoc + '</a> </div>'
+            else
+            text=text+'<div class="row">  <a style="font-size:10px" class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1'+'"  >' + element.mon_hoc.ten_mon_hoc + '</a> </div>'
+        });
+        $('#danhsach-sv-lop').append(text);
+       
+    })
+    $.ajax({
+        url:'{{env("SERVER_URL")}}/api/giang-vien/danh-sach-lop-chu-nhiem/{{Session::get('ma_gv')}}',
+        method: "GET",
+        headers:{
+                "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+            }
+    }).done(function($data)
+    {
         
-        '<a class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1'+'"  >'+ element.lop_hoc.ten_lop_hoc+'-' + element.mon_hoc.ten_mon_hoc + '</a>'
+        // console.log($data);
+        $data.forEach(element => {
+            $('#danhsach-sv-lop-chu-nhiem').append(
+        
+        '<a class="collapse-item" href="/giangvien/lop-chu-nhiem-cua-giang-vien?id='+element.lop_hoc.id+'&type=0'+'"  >'+ element.lop_hoc.ten_lop_hoc + '</a>'
              
          );
         });
        
     })
    }) 
+   
    
     </script>
 

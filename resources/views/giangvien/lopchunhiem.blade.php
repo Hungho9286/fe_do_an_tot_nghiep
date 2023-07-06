@@ -74,7 +74,7 @@
 @endsection
 
 @section('content')
-    <div class="container" ng-app="myApp" ng-controller="DanhSachSinhVienTheoLopHocPhanController" >
+    <div class="container" ng-app="myApp" ng-controller="DanhSachSinhVienTheoLopChuNhiemController">
 
         <div class="row">
             <div class="col-md-6">
@@ -120,14 +120,14 @@
                                                 </label>
                                             </li>
 
-                                            <li ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
+
+                                            <li ng-repeat="sinhVien in DanhSachSinhVien">
                                                 <label class="dropdown-item">
                                                     <input type="checkbox" class="form-check-input checked-sv checkbox-item"
                                                         data-ma-sv='<%sinhVien.ma_sv%>'> <%sinhVien.ma_sv%> -
                                                     <%sinhVien.ten_sinh_vien%>
                                                 </label>
                                             </li>
-
                                         </ul>
                                     </div>
 
@@ -174,7 +174,7 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow "
                                                         aria-labelledby="userDropdown">
                                                         <a class="dropdown-item"
-                                                            href="/giangvien/thongbao/lay-thong-bao-sua?id=<%tb.id%>&id_lop_hoc={{ $id_lop_hoc_phan }}&type=1">
+                                                            href="/giangvien/thongbao/lay-thong-bao-sua?id=<%tb.id%>&id_lop_hoc={{ $id_lop_hoc }}&type=0">
                                                             <i
                                                                 class="fa fa-pencil-square-o fa-sm fa-fw mr-2 text-gray-400"></i>
                                                             Sửa thông báo
@@ -212,7 +212,7 @@
                             <div>
 
                                 <ul class="list-group">
-                                    <li class="list-group-item" ng-repeat="sinhVien in lopHocPhan.danh_sach_sinh_vien">
+                                    <li class="list-group-item" ng-repeat="sinhVien in DanhSachSinhVien">
                                         <div class="row justify-content-around">
                                             <div class="col-8">
                                                 <div>MSSV: <%sinhVien.ma_sv%></div>
@@ -223,8 +223,6 @@
                                             <div class="col-4">
                                                 <button type="button" class="btn btn-success"
                                                     ng-click="XemThongTinSinhVien(sinhVien.ma_sv)">Xem thông tin</button>
-                                                <button type="button" class="btn btn-primary"
-                                                    ng-click="XemDiemSinhVien(sinhVien.ma_sv)">Xem điểm</button>
                                             </div>
                                         </div>
                                     </li>
@@ -259,7 +257,7 @@
                             </style>
                             <div>
                                 <table class="table">
-                                    <thead class="thead-dark"> 
+                                    <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">Mã số sinh viên</th>
                                             <th scope="col">Họ Tên</th>
@@ -277,19 +275,29 @@
                                         <tr ng-repeat="diem in bangdiem " class="table-mark">
                                             <td scope="row"><%diem.ma_sv%></td>
                                             <td> <%diem.ten_sinh_vien%></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="chuyen_can"  value="<%diem.chuyen_can%>"></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tbkt"  value="<%diem.tbkt%>"></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="thi_1"  value="<%diem.thi_1%>"></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="thi_2"  value="<%diem.thi_2%>"></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tong_ket_1"  value="<%diem.tong_ket_1%>"></td>
-                                            <td><input readonly type="number" min = "0" max="10" class="input-field" name="tong_ket_2"  value="<%diem.tong_ket_2%>"></td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="chuyen_can" value="<%diem.chuyen_can%>">
+                                            </td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="tbkt" value="<%diem.tbkt%>"></td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="thi_1" value="<%diem.thi_1%>"></td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="thi_2" value="<%diem.thi_2%>"></td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="tong_ket_1" value="<%diem.tong_ket_1%>">
+                                            </td>
+                                            <td><input readonly type="number" min="0" max="10"
+                                                    class="input-field" name="tong_ket_2" value="<%diem.tong_ket_2%>">
+                                            </td>
                                             <td style="display: flex">
-                                              <button  class="btn btn-success"
-                                                    id="nhapdiem" onclick="NhapDiem(this)">Nhập điểm</button>
-                                              <button type="button" style="margin-right: 10px ;display: none"  onclick="LuuDiem(this)"
-                                                    class="btn btn-primary luudiem save"  data-mark-mssv="<%diem.ma_sv%>">Lưu </button>
-                                              <button type="button" style="margin-right: 10px;display: none" id="huythemdiem"
-                                                    class="btn btn-danger" class="cancel"
+                                                <button class="btn btn-success" id="nhapdiem"
+                                                    onclick="NhapDiem(this)">Nhập điểm</button>
+                                                <button type="button" style="margin-right: 10px ;display: none"
+                                                    onclick="LuuDiem(this)" class="btn btn-primary luudiem save"
+                                                    data-mark-mssv="<%diem.ma_sv%>">Lưu </button>
+                                                <button type="button" style="margin-right: 10px;display: none"
+                                                    id="huythemdiem" class="btn btn-danger" class="cancel"
                                                     onclick="HuyThemDiem(this)">Huỷ</button>
                                             </td>
                                         </tr>
@@ -301,7 +309,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- pop up delete post --}}
+
                 <!-- Button trigger modal -->
 
 
@@ -332,6 +340,12 @@
 
 
                 <!-- Modal -->
+
+
+
+
+
+
                 <script>
                     $.getScript('https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js', function() {
                         $('#summernote_post').summernote({
@@ -407,9 +421,6 @@
                 </script>
             @endsection
             @section('js')
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script src="{{ asset('giangvien/js/view/view.js') }}"></script>
                 <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202305300101/show_ads_impl_fy2021.js"
@@ -449,29 +460,60 @@
                         $interpolateProvider.endSymbol('%>');
                     });
 
-                    app.controller("DanhSachSinhVienTheoLopHocPhanController", function($scope, $http, $sce) {
 
-                        
+                    app.controller("DanhSachSinhVienTheoLopChuNhiemController", function($scope, $http, $sce) {
+
+                        $scope.trustHtml = function(htmlContent) {
+
+                            return $sce.trustAsHtml(htmlContent);
+                        };
+
+                        $scope.noi_dung_tb = function(thongbao) {
+
+
+
+                            $scope.id = thongbao.id;
+                            $scope.tieu_de = thongbao.tieu_de;
+                            $scope.noi_dung = thongbao.noi_dung;
+                            $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
+                            $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
+
+                            $('#summernote_modal').append($scope.noi_dung);
+
+                        }
+
 
                         $http({
                             method: "GET",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan/{{Session::get('ma_gv')}}",
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-chu-nhiem/{{ Session::get('ma_gv') }}",
                             params: {
-                                'option': 1,
-                                'id_lop_hoc_phan': {{ $id_lop_hoc_phan }},
+                                'option': 0,
+                                'id_lop_hoc': {{ $id_lop_hoc }},
                             },
-                            headers:{
-                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
-                                }
+                            headers: {
+                                "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                            }
                         }).then($response => {
-                            $scope.lopHocPhan = $response.data;
-                            
+                            $scope.lopChuNhiem = $response.data;
+                            console.log($scope.lopChuNhiem);
                             $scope.XemThongTinSinhVien = function($ma_sv) {
                                 window.location.href =
-                                    "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc_phan }}/thong-tin-sinh-vien?ma_sv=" +
+                                    "/giang-vien/danh-sach-lop-hoc-phan/danh-sach-sinh-vien/{{ $id_lop_hoc }}/thong-tin-sinh-vien?ma_sv=" +
                                     $ma_sv;
 
                             }
+                        })
+                        // danhsachsinhvien
+                        $http({
+                            method: "GET",
+                            url: "{{ env('SERVER_URL') }}/api/danh-sach-sinh-vien-chu-nhiem/{{ $id_lop_hoc }}",
+                            headers: {
+                                "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                            }
+                        }).then($response => {
+
+                            $scope.DanhSachSinhVien = $response.data;
+                            console.log($response.data);
                         })
 
 
@@ -479,68 +521,21 @@
                             method: "GET",
                             url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan",
                             params: {
-                                'type': 1,
-                                'id': {{ $id_lop_hoc_phan }},
+                                'type': 0,
+                                'id': {{ $id_lop_hoc }},
                             },
-                            headers:{
-                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
-                                }
+                            headers: {
+                                "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                            }
                         }).then($response => {
                             $scope.thongbao = $response.data;
                             console.log($response.data);
                         })
-                        $http({
-                            method: "GET",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem/{{ $id_lop_hoc_phan }}",
-                            headers: {
-                                "Authorization": "Bearer {{Session::get('access_token_gv')}}"
-                            }
-                        }).then($response => {
-                            $scope.bangdiem = $response.data;
-                            console.log($response.data);
-                        })
 
-                     
                     });
+
                     var postID = 0;
 
-
-                    
-                    $(document).on('click', '.save', function(event) {
-                            var element = $(event.target);
-                            var Mark_mssv = element.attr('data-mark-mssv');
-                            var row = $(this).closest('tr');
-                            var marks = {
-                                'ma_sv': Mark_mssv
-                            };
-                          row.find('input[type="number"]').each(function() {
-                          var inputValue = $(this).val();
-                          var inputName = $(this).attr('name');
-                           marks[inputName]=inputValue
-                          
-                          });
-
-                          console.log(marks);       
-                         
-
-                          $.ajax({
-                              method: 'POST',
-                              
-                              url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{$id_lop_hoc_phan}}",
-                              data: marks,
-                              dataType: 'json',
-                              headers:{
-                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
-                                }
-
-                          }).done(function($response) {
-                            if($response.status ==1)
-                            {
-                                Swal.fire('Thay đổi điểm thành công');
-                            }
-                          })
-
-                            });
 
                     $(document).on('click', '.btn-thong-bao-xoa', function(event) {
                         var element = $(event.target);
@@ -558,8 +553,8 @@
 
                             $.ajax({
                                 method: 'POST',
-                                headers:{
-                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+                                headers: {
+                                    "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
                                 },
                                 url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/xoa-thong-bao?id=" +
                                     postID
@@ -576,9 +571,6 @@
 
                         });
 
-
-
-
                     });
 
 
@@ -589,9 +581,10 @@
                         $("#btn-dang-thong-bao").click(function() {
 
                             var json_obj = {
-                                'id': {{ $id_lop_hoc_phan }},
-                                'type': 1,
-                                'ma_gv': '{{Session::get('ma_gv')}}',
+                                'id': {{ $id_lop_hoc }},
+                                'type': 0,
+                                'ma_gv': '{{ Session::get('ma_gv') }}',
+                                //Dô
                                 'tieu_de': $("#tieu_de_post").val(),
                                 'noi_dung': $(".noi_dung").val(),
                                 'danh_sach_sinh_vien': [
@@ -614,10 +607,10 @@
                             if (json_obj.danh_sach_sinh_vien.length == 0) {
                                 Swal.fire('Hãy chọn sinh viên để gửi thông báo');
                             } else {
-                                if (json_obj.tieu_de === "")
+                                if (json_obj.tieu_de == "")
                                     Swal.fire('Không để trống tiêu đề');
                                 else
-                                if (json_obj.noi_dung === "")
+                                if (json_obj.noi_dung == "" || json_obj.noi_dung == "<p><br></p>")
                                     Swal.fire('Không để trống nội dung');
                             }
 
@@ -626,9 +619,9 @@
                                 .tieu_de != '') {
                                 $.ajax({
                                     method: "POST",
-                                    headers:{
-                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
-                                },
+                                    headers: {
+                                        "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                                    },
                                     url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/them-thong-bao",
                                     data: JSON.stringify(json_obj),
                                     contentType: "application/json; charset=utf-8",
@@ -649,7 +642,5 @@
 
 
                     });
-
-                    
                 </script>
             @endsection

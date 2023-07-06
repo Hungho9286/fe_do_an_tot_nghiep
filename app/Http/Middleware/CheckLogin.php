@@ -20,11 +20,18 @@ class CheckLogin
         //dd($request);
         $accessToken = session()->get('access_token');
         $ma_sv=session()->get('ma_sv');
+        
         //dd($ma_sv);
         //dd(session()->get('id_sinh_vien'));
         //dd($id_sinh_vien);
         //dd($accessToken);
+        
         if($request->is('dang-nhap')&&($accessToken==null||$ma_sv==null)){
+            $accessTokenGV = session()->get('access_token_gv');
+            $ma_gv=session()->get('ma_gv');
+            if($accessTokenGV!=null&&$ma_gv!=null){
+                return redirect()->route('trang-chu-giang-vien');
+            }
             return $next($request);
         }
         if($accessToken!=null){

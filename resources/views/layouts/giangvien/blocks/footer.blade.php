@@ -12,9 +12,29 @@
 
  <!-- Page level plugins -->
  <script src="{{asset('giangvien/vendor/chart.js/Chart.min.js')}}"></script>
-
+ 
  <!-- Page level custom scripts -->
  <script src="{{asset('giangvien/js/demo/chart-area-demo.js')}}"></script>
  <script src="{{asset('giangvien/js/demo/chart-pie-demo.js')}}"></script>
- 
+ <script>
+        
+        $(document).ready(function(){
+
+            $.ajax({
+            type: "GET",
+            url:'{{env('SERVER_URL')}}/api/giang-vien/{{Session::get('ma_gv')}}',
+            headers:{
+                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+                }
+        }).done(function($data){
+            console.log("voo Ajax");
+            console.log($data);
+            $('#ten_giang_vien').append($data.ten_giang_vien);
+        })
+    })
+        
+
+        
+    
+    </script>
  @yield('js')

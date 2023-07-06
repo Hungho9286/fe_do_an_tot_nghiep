@@ -105,13 +105,20 @@
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
     });
+
     app.controller("ThongTinGiangVienController",function($scope,$http){
-        $http.get('{{env('SERVER_URL')}}/api/giang-vien/GVCNTT1').then($response=>{
+        $http({
+            url: '{{env('SERVER_URL')}}/api/giang-vien/{{Session::get('ma_gv')}}',
+            method: 'GET',
+            headers:{
+               "Authorization":"Bearer {{Session::get('access_token_gv')}}" 
+            },}
+        ).then($response=>{
             $scope.ThongTinGiangVien=$response.data;
             console.log($response.data);
             console.log("Doo");
         });
-});
+    });
   
 </script>
 @endsection

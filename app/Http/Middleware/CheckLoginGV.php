@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckLoginGV
+class checkLoginGV
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,23 @@ class CheckLoginGV
      */
     public function handle(Request $request, Closure $next)
     {
-        //$accessToken=$request->header('Authorization');
+       //$accessToken=$request->header('Authorization');
         //dd($request);
-        $accessToken = session()->get('access_token');
+        
+        $accessToken = session()->get('access_token_gv');
+
         $ma_gv=session()->get('ma_gv');
-        //dd($ma_sv);
-        //dd(session()->get('id_sinh_vien'));
-        //dd($id_sinh_vien);
-        //dd($accessToken);
+        // dd($accessToken);
+        //    All Null
+    
+        // dd($accessToken);
+        // //dd(session()->get('id_sinh_vien'));
+        // //dd($id_sinh_vien);
+        // //dd($accessToken);
+        // dd($ma_gv);
+        if($request->is('dang-nhap-giang-vien')&&($accessToken==null||$ma_gv==null)){
+            return $next($request);
+        }
         if($request->is('dang-nhap')&&($accessToken==null||$ma_gv==null)){
             return $next($request);
         }
@@ -34,7 +43,6 @@ class CheckLoginGV
             //curl_setopt($ch, CURLOPT_HEADER, TRUE);
             //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
             curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
-
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             $head = curl_exec($ch);
             curl_close($ch);
