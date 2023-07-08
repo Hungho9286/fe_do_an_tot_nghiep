@@ -2,8 +2,8 @@
 @section('content')
 <h1>THỜI KHÓA BIỂU</h1>
 <div ng-app="thoiKhoaBieuGiangVien" ng-controller="ThoiKhoaBieuController">
-   
-    
+
+
     {{-- <div class="text-right">
         <label for="">Tuần: </label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -29,7 +29,7 @@
         <th scope="col">Thứ 7</th>
         <th scope="col">CN</th>
       </tr>
-    </thead>  
+    </thead>
     <tbody id="body-table">
       <tr ng-repeat="tkb in thoiKhoaBieu">
         <th scope="row" style="background-color:beige"><%tkb.ten_phong_hoc%></th>
@@ -38,7 +38,8 @@
                     <strong><%lp.mon_hoc%></strong>
                     <p><%lp.tiet_bat_dau%> &#8594; <%lp.tiet_ket_thuc%></p>
                     <p><%lp.thoi_gian_bat_dau%> &#8594; <%lp.thoi_gian_ket_thuc%></p>
-                    <p><%lp.giang_vien_1%></p>
+                    <p ng-if="lp.giang_vien_1!='Empty'"><%lp.giang_vien_1%></p>
+                    <p ng-if="lp.giang_vien_1=='Empty'"><%lp.lop_hoc.giang_vien_chu_nhiem.ten_giang_vien%></p>
             </div>
           </td>
       </tr>
@@ -63,6 +64,6 @@
             console.log("Doo");
         });
 });
-  
+
 </script>
 @endsection

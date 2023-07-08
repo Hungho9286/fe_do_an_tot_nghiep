@@ -58,7 +58,8 @@
                             <strong><%lp.mon_hoc%></strong>
                             <p><%lp.tiet_bat_dau%> &#8594; <%lp.tiet_ket_thuc%></p>
                             <p><%lp.thoi_gian_bat_dau%> &#8594; <%lp.thoi_gian_ket_thuc%></p>
-                            <p><%lp.giang_vien_1%></p>
+                            <p ng-if="lp.giang_vien_1!='Empty'"><%lp.giang_vien_1%></p>
+                            <p ng-if="lp.giang_vien_1=='Empty'"><%lp.lop_hoc.giang_vien_chu_nhiem.ten_giang_vien%></p>
                     </div>
                 </td>
             </tr>
