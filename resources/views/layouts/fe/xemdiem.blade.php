@@ -24,7 +24,7 @@
             <tr class="">
                 <th scope="row"></th>
                 <td ><strong style="color: rgb(244, 85, 85)">Điểm TB HK1</strong></td>
-                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_1%></strong></td>
+                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_1 | number:2%></strong></td>
             </tr>
             {{-- <tr class="success">
                 <th scope="row">2</th>
@@ -55,7 +55,7 @@
             <tr class="">
                 <th scope="row"></th>
                 <td ><strong style="color: rgb(244, 85, 85)">Điểm TB HK2</strong></td>
-                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_2%></strong></td>
+                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_2 | number:2%></strong></td>
             </tr>
 
             {{-- <tr class="success">
@@ -86,8 +86,38 @@
             <tr class="">
                 <th scope="row"></th>
                 <td ><strong style="color: rgb(244, 85, 85)">Điểm TB HK3</strong></td>
-                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_3%></strong></td>
+                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_3 | number:2%></strong></td>
             </tr>
+            {{-- <tr class="success">
+                <th scope="row">2</th>
+                <td>CTDL - TT</td>
+                <td>5</td>
+            </tr> --}}
+        </tbody>
+    </table>
+    <h2>Chứng chỉ</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Môn học</th>
+                <th>Điểm tổng kết</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr ng-repeat="diem in danh_sach_diem_hoc_ki_8" ng-class="getClassInformation(diem.diem)">
+
+                    <th scope="row"><%$index+1%></th>
+                    <td ><%diem.ten_mon_hoc%></td>
+                    <td><%diem.diem==-1 ? '' : diem.diem %></td>
+
+            </tr>
+            {{-- <tr class="">
+                <th scope="row"></th>
+                <td ><strong style="color: rgb(244, 85, 85)">Điểm TB Chứng chỉ</strong></td>
+                <td><strong style="color: rgb(244, 85, 85)"><%trung_binh_hoc_ky_8%></strong></td>
+            </tr> --}}
             {{-- <tr class="success">
                 <th scope="row">2</th>
                 <td>CTDL - TT</td>
@@ -115,7 +145,9 @@
                 "Authorization":"Bearer {{Session::get('access_token')}}"
             }
         }).then(function($response){
+            console.log($response.data);
             $scope.danh_sach_diem_hoc_ki_1=$response.data;
+            var $sum=0;
             for(let i=0;i<$scope.danh_sach_diem_hoc_ki_1.length;i++){
                 if($scope.danh_sach_diem_hoc_ki_1[i].diem!=-1){
                     $sum=$sum+$scope.danh_sach_diem_hoc_ki_1[i].diem;
@@ -155,6 +187,7 @@
             }
         }).then(function($response){
             $scope.danh_sach_diem_hoc_ki_3=$response.data;
+            var $sum=0;
             for(let i=0;i<$scope.danh_sach_diem_hoc_ki_3.length;i++){
                 if($scope.danh_sach_diem_hoc_ki_3[i].diem!=-1){
                     $sum=$sum+$scope.danh_sach_diem_hoc_ki_3[i].diem;
@@ -162,6 +195,25 @@
                 }
             }
             $scope.trung_binh_hoc_ky_3=$sum/$scope.danh_sach_diem_hoc_ki_3.length;
+        })
+        $http({
+            method:"GET",
+            url:"{{env('SERVER_URL')}}/api/danh-sach-diem-cua-sinh-vien/{{Session::get('ma_sv')}}/hoc-ky/8",
+            headers:{
+                "Authorization":"Bearer {{Session::get('access_token')}}"
+            }
+        }).then(function($response){
+            $scope.danh_sach_diem_hoc_ki_8=$response.data;
+            var $sum=0;
+            for(let i=0;i<$scope.danh_sach_diem_hoc_ki_8.length;i++){
+                if($scope.danh_sach_diem_hoc_ki_8[i].diem!=-1){
+                    $sum=$sum+$scope.danh_sach_diem_hoc_ki_8[i].diem;
+                    console.log($scope.danh_sach_diem_hoc_ki_8[i].diem);
+                }
+            }
+            // $scope.trung_binh_hoc_ky_8=$sum/$scope.danh_sach_diem_hoc_ki_8.length;
+
+
         })
 
         $scope.getClassInformation=function(diem){

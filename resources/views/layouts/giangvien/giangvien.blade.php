@@ -13,25 +13,33 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-  
-  
-    
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.js"></script>
+
     <!-- Custom fonts for this template-->
-    <link href="{{asset('giangvien/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('giangvien/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    
+
+
     <!-- Custom styles for this template-->
 
-    <link href="{{asset('giangvien/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>   
-    <link rel="stylesheet" href="{{ asset('giangvien/post/style.css') }}"> 
+    <link href="{{ asset('giangvien/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('giangvien/post/style.css') }}">
 
     @yield('css')
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -50,17 +58,17 @@
             <div id="content">
 
                 <!-- Topbar -->
-               @include('layouts.giangvien.blocks.header')
+                @include('layouts.giangvien.blocks.header')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-               @include('layouts.giangvien.blocks.main')
+                @include('layouts.giangvien.blocks.main')
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-    
+
 
         </div>
         <!-- End of Content Wrapper -->
@@ -86,24 +94,24 @@
                     </button>
                 </div>
                 <div class="modal-body">Bạn có chắc là đăng xuất khỏi trang web này.</div>
-                <form action="{{route('dang-xuat-gv')}}" method="POST">
-                @csrf
-                <div class="modal-footer">
-                    
-                    <a class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</a>
-                    <button class="btn btn-primary" type="submit" href="">Đồng ý</button>
-                </div>
+                <form action="{{ route('dang-xuat-gv') }}" method="POST">
+                    @csrf
+                    <div class="modal-footer">
+
+                        <a class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</a>
+                        <button class="btn btn-primary" type="submit" href="">Đồng ý</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-   
-    @include('layouts.giangvien.blocks.footer')
-    
-    
 
-    
+    @include('layouts.giangvien.blocks.footer')
+
+
+
+
 </body>
 
 </html>

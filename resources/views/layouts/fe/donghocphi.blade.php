@@ -81,15 +81,21 @@ h2 {
 @endsection
 @section('content')
 <div ng-app="myApp" ng-controller="DanhSachHocPhiController">
-    đóng học phí
-    <form method="POST" enctype="application/x-www-form-urlencoded" action="{{route('xu-ly-thanh-toan-momo-qr')}}" target="_blank">
+    <h1>Đóng học phí</h1>
+    @if(session('error_parameter_request'))
+    <p>{{session('error_parameter_request')}}</p>
+    @endif
+    @if(session('error_server'))
+    <p>{{session('error_server')}}</p>
+    @endif
+    {{-- <form method="POST" enctype="application/x-www-form-urlencoded" action="{{route('xu-ly-thanh-toan-momo-qr')}}" target="_blank">
         @csrf
         <button>Đóng học phí momo QR</button>
     </form>
     <form method="POST" enctype="application/x-www-form-urlencoded" action="{{route('xu-ly-thanh-toan-momo-atm')}}" target="_blank">
         @csrf
         <button>Đóng học phí momo ATM</button>
-    </form>
+    </form> --}}
     <div class="container">
         <div class="table-responsive">
             <table class="table">
@@ -113,7 +119,7 @@ h2 {
                         <%hoc_phi_mon.mon_hoc.mon_hoc.ten_mon_hoc%>
                     </td>
                     <td><%hoc_phi_mon.dang_ky_lop_hoc_phan.tien_dong%></td>
-                    <td><%hoc_phi_mon.ngay_mo%> &#8594; <%hoc_phi_mon.ngay_mo%></td>
+                    <td><%hoc_phi_mon.ngay_mo%> &#8594; <%hoc_phi_mon.ngay_dong%></td>
                     <td><input class="checked_hoc_phi" type="checkbox" value="" data-hoc-phi="<%hoc_phi_mon.dang_ky_lop_hoc_phan.tien_dong%>" data-id-hoc-phi="<%hoc_phi_mon.dang_ky_lop_hoc_phan.id%>" data-type="hoc_phi_mon"></td>
                 </tr>
                 <tr ng-repeat="hoc_phi_hoc_ky in danh_sach_hoc_phi_hoc_ky">
@@ -121,19 +127,24 @@ h2 {
                         Học phí học kỳ
                     </td>
                     <td>
-                        Học kì <%hoc_phi_hoc_ky.hoc_ky%>
+                        Học kì <%hoc_phi_hoc_ky.hoc_phi.hoc_ky%>
                     </td>
-                    <td><%hoc_phi_hoc_ky.so_tien%></td>
-                    <td><%hoc_phi_hoc_ky.ngay_bat_dau%>  &#8594; <%hoc_phi_hoc_ky.ngay_ket_thuc%></td>
-                    <td><input class="checked_hoc_phi" data-hoc-phi="<%hoc_phi_hoc_ky.so_tien%>" data-id-hoc-phi="<%hoc_phi_hoc_ky.id%>" type="checkbox" value="" data-type="hoc_phi_hoc_ky" ></td>
+                    <td><%hoc_phi_hoc_ky.hoc_phi.so_tien%></td>
+                    <td><%hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau%>  &#8594; <%hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc%></td>
+                    <td ng-if="ngayBatDau(hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau) < currentDate && ngayKetThuc(hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc) > currentDate">
+                        <input class="checked_hoc_phi" data-hoc-phi="<%hoc_phi_hoc_ky.hoc_phi.so_tien%>" data-id-hoc-phi="<%hoc_phi_hoc_ky.hoc_phi.id%>" type="checkbox" value="" data-type="hoc_phi_hoc_ky" >
+                    </td>
+                    <td ng-if="!(ngayBatDau(hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau) < currentDate && ngayKetThuc(hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc) > currentDate)">
+                        Đã kết thúc
+                    </td>
                 </tr>
               </tbody>
             </table>
           </div>
       </div>
 
-
         <button id="btn-dong-hoc-phi-paypal">Đóng học phí qua PayPal</button>
+        <button id="btn-dong-hoc-phi-vnpay">Đóng học phí qua VNPay</button>
 </div>
 
 @endsection
@@ -143,11 +154,36 @@ h2 {
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
+    // var jsonArray={
+    //     "id":1,
+    //     "type":1,
+    //     "ma_gv": "GVCNTT1",
+    //     "tieu_de": $("#tieu-de-thong-bao").val(),
+    //     "noi_dung":$("#noi-dung-thon-bao").val(),
+    //     "danh_sach_sinh_vien":[]
+    // }
+    // var childSinhVien={
+    //     "id_sinh_vien":"0306201537"
+    // }
+    // jsonArray.danh_sach_sinh_vien.push(childSinhVien);
+    // var childSinhVien={
+    //     "id_sinh_vien":"0306201573"
+    // }
+
+    // console.log(jsonArray);
     var app = angular.module("myApp", [],function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("DanhSachHocPhiController",function($scope,$http){
+        $scope.currentDate = new Date();
+        console.log($scope.currentDate);
+        $scope.ngayBatDau=function(ngay_bat_dau){
+            return new Date(ngay_bat_dau);
+        }
+        $scope.ngayKetThuc=function(ngay_ket_thuc){
+            return new Date(ngay_ket_thuc);
+        }
         $http({
             url:"{{env('SERVER_URL')}}/api/danh-sach-dong-hoc-phi-cua-sinh-vien/{{Session::get('ma_sv')}}",
             method:"GET",
@@ -207,6 +243,44 @@ h2 {
             }).done(function(dataRequest){
                 window.location.href=dataRequest.link;
             })
+        })
+        $("#btn-dong-hoc-phi-vnpay").click(function(){
+        var $id=0;
+        var $type="";
+        var $hoc_phi=0;
+
+        $('.checked_hoc_phi').each(function(){
+
+            if($(this).is(":checked")){
+                $id=$(this).attr('data-id-hoc-phi');
+                $type=$(this).attr('data-type');
+                $hoc_phi=$(this).attr('data-hoc-phi');
+            }
+        });
+        // $(".checked_hoc_phi").forEach(element => {
+            // var $hocPhi={
+            //     "id_hoc_phi":element.data('id-hoc-phi')
+            // }
+            // if(element.data('type')==="hoc_phi_mon"){
+            //     $data.danh_sach_hoc_phi_mon.push($hocPhi);
+            // }
+            // else{
+            //     $data.danh_sach_hoc_phi_hoc_ky.push($hocPhi);
+            // }
+
+        // });
+        //console.log("id "+$id+" type "+$type);
+        $.ajax({
+            url:"/dong-hoc-phi-vnpay",
+            method:"POST",
+            data:{id:$id,type:$type,hoc_phi:$hoc_phi},
+            headers:{
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+
+        }).done(function(dataRequest){
+            window.location.href=dataRequest.link;
+        })
         })
     })
 </script>

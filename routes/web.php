@@ -22,7 +22,7 @@ Route::middleware('checklogin')->group(function(){
     Route::post('/dang-xuat', [FEClientController::class, 'logOut'])->name('dang-xuat');
     Route::get('/thoi-khoa-bieu',[FEClientController::class,'thoiKhoaBieu']);
     Route::get('/thong-tin-ca-nhan',[FEClientController::class,'thongTinCaNhan']);
-    Route::get('/dong-hoc-phi',[FEClientController::class,'dongHocPhi']);
+    Route::get('/dong-hoc-phi',[FEClientController::class,'dongHocPhi'])->name('dong-hoc-phi');
     Route::get('/dang-ky-hoc-phan',[FEClientController::class,'dangKyHocPhan']);
     Route::get('/xem-diem',[FEClientController::class,'xemDiem']);
     Route::post('/xu-ly-dong-hoc-phi-momo-qr',[FEClientController::class,'xuLyDongHocPhiMoMoQR'])->name('xu-ly-thanh-toan-momo-qr');

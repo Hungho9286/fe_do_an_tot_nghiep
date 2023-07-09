@@ -70,6 +70,10 @@
                 max-width: 7%;
             }
         }
+
+        #togglePostButton:hover {
+            border: solid 2px rgb(102, 135, 233);
+        }
     </style>
 @endsection
 
@@ -77,7 +81,12 @@
     <div class="container" ng-app="myApp" ng-controller="DanhSachSinhVienTheoLopChuNhiemController">
 
         <div class="row">
+
             <div class="col-md-6">
+
+                <div class="alert alert-primary" role="alert">
+                    <h4>Lớp: <%lophoc.ten_lop_hoc%></h4>
+                </div>
                 <div class="d-flex align-items-start">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
@@ -86,9 +95,9 @@
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
                             aria-selected="false"> Danh sách sinh viên </button>
-                        <button class="nav-link" id="v-pills-mark-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mark"
+                        {{-- <button class="nav-link" id="v-pills-mark-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mark"
                             type="button" role="tab" aria-controls="v-pills-mark" aria-selected="false"> Bảng điểm
-                        </button>
+                        </button> --}}
                     </div>
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
@@ -97,8 +106,13 @@
 
                             <div class="div-post">
 
-                                <button class="btn btn-primary" id="togglePostButton" onclick="togglePostForm()">Thông báo
-                                    nội dung nào đó cho lớp học của bạn</button>
+                                <button class="alert alert-primary" role="alert" id="togglePostButton"
+                                    onclick="togglePostForm()">
+                                    Thông
+                                    báo
+                                    nội dung nào đó cho lớp học của bạn
+                                </button>
+
 
 
 
@@ -234,10 +248,10 @@
                             aria-labelledby="v-pills-mark-tab" style="width:1000px">
                             <div style="display:flex;">
 
-                                <button type="button" style="margin-right: 10px" class="btn btn-success"
+                                {{-- <button type="button" style="margin-right: 10px" class="btn btn-success"
                                     id="import">Import</button>
                                 <button type="button" style="margin-right: 10px" class="btn btn-success"
-                                    id="export">Export</button>
+                                    id="export">Export</button> --}}
 
                             </div>
 
@@ -530,6 +544,18 @@
                         }).then($response => {
                             $scope.thongbao = $response.data;
                             console.log($response.data);
+                        })
+                        $http({
+                            method: "GET",
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc/{{ $id_lop_hoc }}",
+                            headers: {
+                                "Authorization": "Bearer {{ Session::get('access_token_gv') }}"
+                            }
+
+                        }).then($response => {
+                            $scope.lophoc = $response.data;
+
+
                         })
 
                     });

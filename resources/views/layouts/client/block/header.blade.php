@@ -9,11 +9,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span> Logo</a>
+            <a class="navbar-brand" href="#" style="display:flex;width:130%;height:100px">
+
+                        <img src="{{asset('assets/images/logos/logoctsvg.svg')}}" alt="" width="20%">
+
+                      <div style="margin:auto">
+                        Trường Cao Đẳng Kỹ Thuật Cao Thắng
+                      </div>
+
+            </a>
         </div>
         <!-- Navbar links -->
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="nav navbar-nav">
+        <div class="collapse navbar-collapse" id="navbar" style="margin-top:23px">
+            {{-- <ul class="nav navbar-nav">
                 <li class="active">
                     <a href="#">Home</a>
                 </li>
@@ -31,7 +39,7 @@
                         <li><a href="#">Synergize</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ul> --}}
             <!-- Log In Form -->
             {{-- <div class="form-group">
                 <label class="sr-only" for="emailAddress">Email address</label>
@@ -51,7 +59,7 @@
     </div>
     <!-- /.container -->
 </nav>
-<div class="jumbotron feature">
+<div class="jumbotron feature" style="margin-top:35px">
     <div class="container">
 
         <div id="feature-carousel" class="carousel slide" data-ride="carousel">
