@@ -21,6 +21,8 @@
                             foreach ($danh_sach_sv_lhp as $sv_lhp) {
                                 $flag = false;
                                 foreach ($danh_sach_sv_thong_bao as $sv_tb) {
+                                 
+                                   
                                     if ($sv_lhp->ma_sv == $sv_tb->ma_sv) {
                                         $flag = true;
                             
@@ -63,7 +65,7 @@
 
     </div>
     <div class="modal-footer">
-        <a href="/giangvien/lop-hoc-phan-cua-giang-vien?id={{ $id_lop_hoc_phan }}&type=1" type="button"
+        <a href="/giangvien/lop-hoc-phan-cua-giang-vien?id={{ $id_lop_hoc}}&type={{$type}}" type="button"
             class="btn btn-secondary">Đóng</a>
         <button type="submit" class="btn btn-primary" id="btn-luu-thay-doi-thong-bao">Lưu thay đổi</button>
     </div>
@@ -155,7 +157,9 @@
                         dataType: 'json',
                         method: 'POST',
                       
-                        // headers:"@",
+                        headers:{
+                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+                                },
                         url: "{{ env('SERVER_URL') }}/api/giang-vien/thong-bao/sua-thong-bao/" +
                             PostID,
 
@@ -163,8 +167,18 @@
                         if ($response.status == 1) {
                             var message_edit = "Thông báo sửa";
                             localStorage.setItem("message_edit", message_edit);
-                            window.location.href = '/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
-                                {{ $id_lop_hoc_phan }} + '&type=1';
+                            $type_lop = {{$type}};
+                            if( $type_lop==1)
+                            {
+                                window.location.href = '/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                                {{ $id_lop_hoc }} + '&type={{$type}}';
+                            }
+                            else 
+                            {
+                                window.location.href = '/giangvien/lop-chu-nhiem-cua-giang-vien?id=' +
+                                {{ $id_lop_hoc }} + '&type={{$type}}';
+                            }
+                            
                         }
                     })
                 }

@@ -12,40 +12,44 @@
 @endsection
 @section('content')
 <!-- Alert -->
-<div ng-app="myApp" ng-controller="ThongBaoController">
+<div ng-app="myApp" ng-controller="ThongBaoController" style="width: 150%">
 
 
 <div class="alert alert-info alert-dismissible" role="alert" ng-show="HienThiThongBaoCoTinMoi">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Thông báo:</strong> Bạn có <%so_luong_thong_bao_chua_doc%> thông báo mới!
 </div>
-<div class="scrollbar" id="style-5" >
-    <div class="force-overflow" >
-<!-- Bản thông báo -->
-        <div class="row" ng-repeat="thongbao in danh_sach_thong_bao">
-            <article class="col-xs-12">
-                <div class="media">
-                    <div class="media-left">
-                        <div >
-                            <img class="media-object" src="{{asset('images/mail.png')}}" width="30px"  alt="">
+<div class="col-md-4">
+    <div class="scrollbar" id="style-5" >
+        <div class="force-overflow" >
+    <!-- Bảng thông báo -->
+            <div class="row" ng-repeat="thongbao in danh_sach_thong_bao">
+                <article class="col-xs-12">
+                    <div class="media">
+                        <div class="media-left">
+                            <div >
+                                <img class="media-object" src="{{asset('images/mail.png')}}" width="30px"  alt="">
+                            </div>
+                        </div>
+                        <div class="media-body" >
+                            <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.thong_bao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_doc)"><%thongbao.thong_bao.tieu_de%></a></h2>
+                            <p>Người gửi: <strong><%thongbao.thong_bao.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
                         </div>
                     </div>
-                    <div class="media-body" >
-                        <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_thong_bao)"><%thongbao.tieu_de%></a></h2>
-                        <p>Người gửi: <strong><%thongbao.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.ngay_tao|date:'dd/MM/yyyy'%></p>
-                    </div>
-                </div>
-            </article>
+                </article>
+            </div>
+            <hr>
         </div>
-        <hr>
     </div>
 </div>
-<hr>
-<div style="width:100%">
-    <h1>Nội dung</h1>
-<div style="width:100%; height: 300px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;">
-    <%content%>
+<div class="col-md-8">
+    <div style="width:100%">
+        <h1>Nội dung</h1>
+    <div style="width:100%; height: 400px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;" ng-bind-html="content">
+        {{-- <%content%> --}}
+    </div>
 </div>
+
 </div>
 </div>
 @endsection
@@ -60,7 +64,7 @@
     $interpolateProvider.endSymbol('%>');
     });
 
-    app.controller("ThongBaoController",function($scope,$http){
+    app.controller("ThongBaoController",function($scope,$http,$sce){
         var $thongbao;
         $http({
             method:'GET',
@@ -73,7 +77,7 @@
             console.log($thongbao);
             var $dem_so_thong_bao_chua_doc=0;
             for(let i=0;i<$thongbao.length;i++){
-                if($thongbao[i].trang_thai_thong_bao==0){
+                if($thongbao[i].trang_thai_doc==0){
                     $dem_so_thong_bao_chua_doc=$dem_so_thong_bao_chua_doc+1;
                 }
             }
@@ -87,9 +91,9 @@
             $scope.content="";
             $scope.hienThiNoiDungThongBao=function($id){
                 for (let i = 0; i < $scope.danh_sach_thong_bao.length; i++) {
-                    if($scope.danh_sach_thong_bao[i].id==$id){
-                        if($scope.danh_sach_thong_bao[i].trang_thai_thong_bao==0){
-                            $scope.danh_sach_thong_bao[i].trang_thai_thong_bao=1;
+                    if($scope.danh_sach_thong_bao[i].thong_bao.id==$id){
+                        if($scope.danh_sach_thong_bao[i].trang_thai_doc==0){
+                            $scope.danh_sach_thong_bao[i].trang_thai_doc=1;
                             $http({
                                 method:"POST",
                                 url:"{{env('SERVER_URL')}}/api/cap-nhat-trang-thai-da-doc-cua-thong-bao/"+$scope.danh_sach_thong_bao[i].id,
@@ -98,7 +102,8 @@
                                 }
                             });
                         }
-                        $scope.content=$scope.danh_sach_thong_bao[i].noi_dung;
+                        $scope.content=$scope.danh_sach_thong_bao[i].thong_bao.noi_dung;
+                        $scope.content=$sce.trustAsHtml($scope.content);
                         console.log("Dô");
                         console.log($scope.content);
                         break;

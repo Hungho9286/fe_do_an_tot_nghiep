@@ -269,7 +269,255 @@ class FEClientController extends Controller
                 ->with('error', $response['message'] ?? 'Something went wrong.');
         }
     }
+    function convertToNonAccent($string) {
+        $accented_chars = array(
+            'à', 'á', 'ạ', 'ả', 'ã', 'â', 'ầ', 'ấ', 'ậ', 'ẩ', 'ẫ', 'ă', 'ằ', 'ắ', 'ặ', 'ẳ', 'ẵ',
+            'è', 'é', 'ẹ', 'ẻ', 'ẽ', 'ê', 'ề', 'ế', 'ệ', 'ể', 'ễ',
+            'ì', 'í', 'ị', 'ỉ', 'ĩ',
+            'ò', 'ó', 'ọ', 'ỏ', 'õ', 'ô', 'ồ', 'ố', 'ộ', 'ổ', 'ỗ', 'ơ', 'ờ', 'ớ', 'ợ', 'ở', 'ỡ',
+            'ù', 'ú', 'ụ', 'ủ', 'ũ', 'ư', 'ừ', 'ứ', 'ự', 'ử', 'ữ',
+            'ỳ', 'ý', 'ỵ', 'ỷ', 'ỹ',
+            'đ',
+            'À', 'Á', 'Ạ', 'Ả', 'Ã', 'Â', 'Ầ', 'Ấ', 'Ậ', 'Ẩ', 'Ẫ', 'Ă', 'Ằ', 'Ắ', 'Ặ', 'Ẳ', 'Ẵ',
+            'È', 'É', 'Ẹ', 'Ẻ', 'Ẽ', 'Ê', 'Ề', 'Ế', 'Ệ', 'Ể', 'Ễ',
+            'Ì', 'Í', 'Ị', 'Ỉ', 'Ĩ',
+            'Ò', 'Ó', 'Ọ', 'Ỏ', 'Õ', 'Ô', 'Ồ', 'Ố', 'Ộ', 'Ổ', 'Ỗ', 'Ơ', 'Ờ', 'Ớ', 'Ợ', 'Ở', 'Ỡ',
+            'Ù', 'Ú', 'Ụ', 'Ủ', 'Ũ', 'Ư', 'Ừ', 'Ứ', 'Ự', 'Ử', 'Ữ',
+            'Ỳ', 'Ý', 'Ỵ', 'Ỷ', 'Ỹ',
+            'Đ'
+        );
 
+        $unaccented_chars = array(
+            'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
+            'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',
+            'i', 'i', 'i', 'i', 'i',
+            'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o',
+            'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u',
+            'y', 'y', 'y', 'y', 'y',
+            'd',
+            'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
+            'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E',
+            'I', 'I', 'I', 'I', 'I',
+            'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+            'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U',
+            'Y', 'Y', 'Y', 'Y', 'Y',
+            'D'
+        );
+
+        $string = str_replace($accented_chars, $unaccented_chars, $string);
+        return $string;
+    }
+    function xuLyDongHocPhiVNPay(Request $request){
+
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $accessToken=session()->get('access_token');
+        $vnp_Returnurl = route('luu-thong-tin-dong-hoc-phi-vnpay',['id_hoc_phi'=>$request->id,'type'=>$request->type,'ma_sv'=>session()->get('ma_sv')]);
+        $ch=curl_init(env('SERVER_URL')."/api/hoc-phi/thong-tin-hoc-phi/".$request->id."?type=".$request->type);
+        // curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        curl_close($ch);
+        $data=json_decode($head);
+        //dd($data);
+        $info="";
+        if($request->type=="hoc_phi_mon"){
+            $tenmonhoc = $this->convertToNonAccent($data->mon_hoc->ten_mon_hoc);
+            $info="Dong hoc phi dang ky mon ".$tenmonhoc. ", Sinh Vien: ".session()->get('ma_sv');
+        }
+        if($request->type=="hoc_phi_hoc_ky"){
+            $info="Dong hoc phi hoc ky ".$data->thong_tin_hoc_phi->hoc_ky . ", Sinh vien: ".session()->get('ma_sv');
+        }
+        //dd($info);
+        //Config input format
+        //Expire
+        $startTime = date("YmdHis");
+        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
+        $vnp_TxnRef = rand(1,10000); //Mã giao dịch thanh toán tham chiếu của merchant
+        $vnp_Amount = $request->hoc_phi; // Số tiền thanh toán
+        $vnp_Locale = "vn"; //Ngôn ngữ chuyển hướng thanh toán
+        $vnp_BankCode = "VNBANK"; //Mã phương thức thanh toán
+        $vnp_IpAddr = $request->ip(); //IP Khách hàng thanh toán
+
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => env('VNP_TMNCODE'),
+            "vnp_Amount" => $vnp_Amount*100,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $info,
+            "vnp_OrderType" => "other",
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_ExpireDate"=>$expire
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = env('VNP_URL') . "?" . $query;
+        if (null!==env('VNP_HASHSECRET')) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, env('VNP_HASHSECRET'));//
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+
+        return response()->json(['link'=>$vnp_Url],201);
+    }
+    function luuThongTinDongHocPhiVNPay(Request $request){
+        //dd($request->all());
+        $vnp_ResponseCode=$request->vnp_ResponseCode;
+        $url=env('SERVER_URL')."/api/xu-ly-dong-hoc-phi-vnpay";
+        $inputData = array();
+        $returnData = array();
+        foreach ($request->all() as $key => $value) {
+                    if (substr($key, 0, 4) == "vnp_") {
+                        $inputData[$key] = $value;
+                    }
+                }
+        //dd($inputData);
+        $vnp_SecureHash = $inputData['vnp_SecureHash'];
+        unset($inputData['vnp_SecureHash']);
+        ksort($inputData);
+        $i = 0;
+        $hashData = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+        }
+        $inputDataSend=$inputData;
+        $queryString=$hashData."&vnp_SecureHash=".$vnp_SecureHash;
+        //dd($queryString);
+        $secureHash = hash_hmac('sha512', $hashData, env('VNP_HASHSECRET'));
+        $vnpTranId = $inputData['vnp_TransactionNo']; //Mã giao dịch tại VNPAY
+        $vnp_BankCode = $inputData['vnp_BankCode']; //Ngân hàng thanh toán
+        $vnp_Amount = $inputData['vnp_Amount']/100; // Số tiền thanh toán VNPAY phản hồi
+        //dd($secureHash);
+        if($secureHash==$request->vnp_SecureHash){
+            if($vnp_ResponseCode=="00"){
+                // $Status = 0; // Là trạng thái thanh toán của giao dịch chưa có IPN lưu tại hệ thống của merchant chiều khởi tạo URL thanh toán.
+            $orderId = $inputData['vnp_TxnRef'];
+            $vnp_RequestId = rand(1,10000); // Mã truy vấn
+            $vnp_Command = "querydr"; // Mã api
+            $vnp_TxnRef = $request->vnp_TxnRef; // Mã tham chiếu của giao dịch
+            $vnp_OrderInfo = "Query transaction"; // Mô tả thông tin
+            //$vnp_TransactionNo= ; // Tuỳ chọn, Mã giao dịch thanh toán của CTT VNPAY
+            $vnp_TransactionDate = $request->vnp_PayDate; // Thời gian ghi nhận giao dịch
+            $vnp_CreateDate = date('YmdHis'); // Thời gian phát sinh request
+            $vnp_IpAddr = $request->ip(); // Địa chỉ IP của máy chủ thực hiện gọi API
+
+
+            $datarq = array(
+                "vnp_RequestId" => $vnp_RequestId,
+                "vnp_Version" => "2.1.0",
+                "vnp_Command" => $vnp_Command,
+                "vnp_TmnCode" => env('VNP_TMNCODE'),
+                "vnp_TxnRef" => $vnp_TxnRef,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                //$vnp_TransactionNo= ;
+                "vnp_TransactionDate" => $vnp_TransactionDate,
+                "vnp_CreateDate" => $vnp_CreateDate,
+                "vnp_IpAddr" => $vnp_IpAddr
+            );
+
+            $format = '%s|%s|%s|%s|%s|%s|%s|%s|%s';
+
+            $dataHash = sprintf(
+                $format,
+                $datarq['vnp_RequestId'], //1
+                $datarq['vnp_Version'], //2
+                $datarq['vnp_Command'], //3
+                $datarq['vnp_TmnCode'], //4
+                $datarq['vnp_TxnRef'], //5
+                $datarq['vnp_TransactionDate'], //6
+                $datarq['vnp_CreateDate'], //7
+                $datarq['vnp_IpAddr'], //8
+                $datarq['vnp_OrderInfo']//9
+            );
+            //dd($dataHash);
+            $checksum = hash_hmac('SHA512', $dataHash, env('VNP_HASHSECRET'));
+            //dd($checksum);
+            $datarq["vnp_SecureHash"] = $checksum;
+            $txnData = $this->callAPI_auth("POST", env('API_URL'), json_encode($datarq));
+            $ispTxn = json_decode($txnData, true);
+            //dd($ispTxn);
+            //dd($request->all());
+            if($ispTxn["vnp_ResponseCode"]=="00"){
+                $jsonResult=$this->execPostRequest($url,json_encode($request->all()));
+                $jsonDecode=json_decode($jsonResult);
+                if($jsonDecode->status==1){
+                    return view('layouts.fe.camondonghocphi');
+                }
+                else{
+                    if($jsonDecode->status==3){
+                        return redirect()->route('dong-hoc-phi')->with('error_parameter_request',"Lỗi tham số");
+                    }
+                    else{
+                        return redirect()->route('dong-hoc-phi')->with('error_server',"Lỗi phía server");
+                    }
+                }
+            }
+            }
+
+        }
+
+    }
+    function callAPI_auth($method, $url, $data)
+    {
+        $curl = curl_init();
+        switch ($method) {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
+        // OPTIONS:
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json'
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        // EXECUTE:
+        $result = curl_exec($curl);
+        if (!$result) {
+            die("Connection Failure");
+        }
+        curl_close($curl);
+        return $result;
+    }
     function xuLyDongHocPhiMoMoATM(Request $request){
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
@@ -329,6 +577,7 @@ class FEClientController extends Controller
     function execPostRequest($url, $data)
     {
         $ch = curl_init($url);
+
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -344,6 +593,8 @@ class FEClientController extends Controller
         curl_close($ch);
         return $result;
     }
+
+
     function chonLopDangKyMon(Request $request){
         return view('layouts.fe.chonlophocphandangky');
     }
@@ -354,14 +605,26 @@ class FEClientController extends Controller
     function xuLyDangNhap(Request $request){
         $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
+        
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
         //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $head = curl_exec($ch);
+        // dd($head);
         curl_close($ch);
         $data=json_decode($head);
+        if($data->status == 0)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
+
+        }
+        if($data->status == -1)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Sai mật khẩu, vui lòng thử lại');
+
+        }
         //dd($data->sinh_vien->id);
         if($data->token!=null){
             // $response = new Response('Set Cookie');
@@ -373,6 +636,46 @@ class FEClientController extends Controller
         }
         return redirect()->route('dang-nhap');
     }
+    
+    function xulyDangNhap_GV(Request $request)
+    {
+        
+        $url=env('SERVER_URL')."/api/login-giang-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        // dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+   
+        if($data->status == 0)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
+
+        }
+        if($data->status == -1)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Sai mật khẩu, vui lòng thử lại');
+
+        }
+        
+        if($data->token!=null){
+            // $response = new Response('Set Cookie');
+            // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
+            session()->put('access_token_gv',$data->token);
+            session()->put('ma_gv', $data->giang_vien->ma_gv);
+            //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
+            return redirect()->route('trang-chu-giang-vien');
+        }
+      
+       
+        return redirect()->route('dang-nhap');
+    }
+
     function logOut(Request $request){
         // $accessToken = $request->cookie('access_token');
         // $id_sinh_vien=$request->cookie('id_sinh_vien');
@@ -394,6 +697,33 @@ class FEClientController extends Controller
         if($data->code=201){
             session()->forget('ma_sv');
             session()->forget('access_token');
+            // $response =response('Goodbye_token')->cookie('access_token', '', 0);
+            // $response->cookie('id_sinh_vien', '', 0);
+            return redirect()->route('dang-nhap');
+        }
+    }
+    function dangXuatGV(Request $request){
+        // $accessToken = $request->cookie('access_token');
+        // $id_sinh_vien=$request->cookie('id_sinh_vien');
+       
+        $accessToken = session()->get('access_token_gv');
+        $ma_gv=session()->get('ma_gv');
+        $url=env('SERVER_URL')."/api/dang-xuat-giang-vien?ma_gv=".$ma_gv;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS,
+        //     "id=".$request->id_sinh_vien);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+        $head=curl_exec($ch);
+        //dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+        // dd($data);
+        if($data->code=201){
+            session()->forget('ma_gv');
+            session()->forget('access_token_gv');
             // $response =response('Goodbye_token')->cookie('access_token', '', 0);
             // $response->cookie('id_sinh_vien', '', 0);
             return redirect()->route('dang-nhap');

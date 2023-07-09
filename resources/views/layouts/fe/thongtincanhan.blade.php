@@ -127,12 +127,49 @@
             <div class="col-md-4" style="font-weight: 700;">Địa chỉ</div>
             <div class="col-md-8" ><span>:</span><span style="margin-left: 10px; color:rgb(43, 43, 243)" ><%sinhvien.dia_chi_tam_tru%></span></div>
         </div>
+        <div class="row">
+            <div class="col-md-4" style="font-weight: 700;"><a href="" class="btn" data-toggle="modal" data-target="#formDoiMatKhau">Đổi mật khẩu</a></div>
+
+        </div>
     </div>
   </div>
+  <div class="modal fade" tabindex="-1" role="dialog" id="formDoiMatKhau">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Đổi mật khẩu</h4>
+        </div>
+        <div class="modal-body">
+            <form id="formNhapThongTin">
+                <div class="form-group">
+                    <label for="mat_khau_cu">Mật khẩu hiện tại</label>
+                    <input type="password" class="form-control" id="mat_khau_cu" name="mat_khau_cu" placeholder="Mật khẩu hiện tại" >
+                </div>
+                <div class="form-group">
+                    <label for="mat_khau_cu">Mật khẩu mới</label>
+                    <input type="password" class="form-control" id="mat_khau_moi" name="mat_khau_moi" placeholder="Mật khẩu mới" >
+                </div>
+                <div class="form-group">
+                    <label for="nhap_lai_mat_khau_moi">Nhập lại mật khẩu mới</label>
+                    <input type="password" class="form-control" id="nhap_lai_mat_khau_moi" name="nhap_lai_mat_khau_moi" placeholder="Mật khẩu hiện tại" >
+                </div>
+                <a  class="btn btn-primary" id="btnXacNhanDoiMatKhau">Đổi mật khẩu</a>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var app = angular.module("myApp", [],function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
@@ -156,5 +193,60 @@
 
         });
      })
+     $('#btnXacNhanDoiMatKhau').click(function(){
+
+        var mat_khau_cu=$('#mat_khau_cu').val();
+        var mat_khau_moi=$('#mat_khau_moi').val();
+        var nhap_lai_mat_khau_moi=$('#nhap_lai_mat_khau_moi').val();
+        console.log("ABC");
+        if(mat_khau_cu=="" ||mat_khau_moi==""||nhap_lai_mat_khau_moi==""){
+            Swal.fire('Hãy nhập đầy đủ thông tin')
+        }
+        else
+            if(mat_khau_moi==nhap_lai_mat_khau_moi){
+
+                Swal.fire({
+                    title: 'Bạn có chắc muốn đổi mật khẩu?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Có',
+                    denyButtonText: `Không`,
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        var dataJson={
+                            'mat_khau_cu':$('#mat_khau_cu').val(),
+                            'mat_khau_moi':mat_khau_moi,
+                        }
+                        $.ajax({
+                            url:"{{env('SERVER_URL')}}/api/sinh-vien/doi-mat-khau/{{Session::get('ma_sv')}}",
+                            type:"POST",
+                            data:dataJson,
+                            dataType:'Json',
+                            headers:{
+                                "Authorization":"Bearer {{Session::get('access_token')}}",
+                            }
+                        }).done(function(response){
+                            if(response.status==1){
+                                Swal.fire('Đổi mật khẩu thành công!', '', 'success')
+                            }
+                            if(response.status==0){
+                                Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi...',
+                                text: response.message,
+                                // footer: '<a href="">Why do I have this issue?</a>'
+                                })
+                            }
+                        })
+
+                    } else if (result.isDenied) {
+                        Swal.fire('Hủy thay đổi mật khẩu', '', 'info')
+                    }
+                })
+
+            }
+     })
+
 </script>
 @endsection

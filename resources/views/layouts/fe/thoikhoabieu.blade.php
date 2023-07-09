@@ -5,6 +5,7 @@
     <div class="alert alert-info" role="alert">
     Sinh viên chọn học kỳ để xem lịch
     </div>
+    <h2>Lịch thời khóa biểu theo học kỳ</h2>
     <div>
         {{-- <label for="">Năm học: </label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -37,32 +38,67 @@
         <span>Từ ngày ... đến ngày ...</span>
     </div> --}}
     <table class="table table-bordered">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">Phòng</th>
-        <th scope="col">Thứ 2</th>
-        <th scope="col">Thứ 3</th>
-        <th scope="col">Thứ 4</th>
-        <th scope="col">Thứ 5</th>
-        <th scope="col">Thứ 6</th>
-        <th scope="col">Thứ 7</th>
-        <th scope="col">CN</th>
-      </tr>
-    </thead>
-    <tbody id="body-table">
-      <tr ng-repeat="tkb in thoiKhoaBieu">
-        <th scope="row" style="background-color:beige"><%tkb.ten_phong_hoc%></th>
-          <td ng-repeat="count in [1,2,3,4,5,6,7]">
-            <div ng-repeat="lp in tkb.lich|filter:{thu_trong_tuan:count}|filter:{hoc_ky:opitionHocKy}">
-                    <strong><%lp.mon_hoc%></strong>
-                    <p><%lp.tiet_bat_dau%> &#8594; <%lp.tiet_ket_thuc%></p>
-                    <p><%lp.thoi_gian_bat_dau%> &#8594; <%lp.thoi_gian_ket_thuc%></p>
-                    <p><%lp.giang_vien_1%></p>
-            </div>
-          </td>
-      </tr>
-    </tbody>
-  </table>
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Phòng</th>
+                <th scope="col">Thứ 2</th>
+                <th scope="col">Thứ 3</th>
+                <th scope="col">Thứ 4</th>
+                <th scope="col">Thứ 5</th>
+                <th scope="col">Thứ 6</th>
+                <th scope="col">Thứ 7</th>
+                <th scope="col">CN</th>
+            </tr>
+        </thead>
+        <tbody id="body-table">
+            <tr ng-repeat="tkb in thoiKhoaBieu">
+                <th scope="row" style="background-color:beige"><%tkb.ten_phong_hoc%></th>
+                <td ng-repeat="count in [1,2,3,4,5,6,7]">
+                    <div ng-repeat="lp in tkb.lich|filter:{thu_trong_tuan:count}|filter:{hoc_ky:opitionHocKy}">
+                            <strong><%lp.mon_hoc%></strong>
+                            <p><%lp.tiet_bat_dau%> &#8594; <%lp.tiet_ket_thuc%></p>
+                            <p><%lp.thoi_gian_bat_dau%> &#8594; <%lp.thoi_gian_ket_thuc%></p>
+                            <p><%lp.giang_vien_1%></p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Lịch thời khóa biểu đăng ký lớp học phần</h2>
+    <table class="table table-bordered" ng-controller="ThoiKhoaBieuDangKyLopHocPhanController">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Thứ 2</th>
+                <th scope="col">Thứ 3</th>
+                <th scope="col">Thứ 4</th>
+                <th scope="col">Thứ 5</th>
+                <th scope="col">Thứ 6</th>
+                <th scope="col">Thứ 7</th>
+                <th scope="col">CN</th>
+            </tr>
+        </thead>
+        <tbody id="body-table">
+            <tr>
+                <td ng-repeat="count in [1,2,3,4,5,6,7]">
+
+                    <div ng-repeat="tkb in thoiKhoaBieuDangKyLopHocPhan|filter:{thu_trong_tuan:count}">
+                        <div ng-repeat="thoi_khoa_bieu in tkb.lich_hoc">
+                            <strong><%thoi_khoa_bieu.mon_hoc.ten_mon_hoc%></strong>
+                            <div ng-repeat="lich_hoc_mon in thoi_khoa_bieu.lich_hoc">
+                                <p><%lich_hoc_mon.phong_hoc.ten_phong%></p>
+                                <p><%lich_hoc_mon.tiet_bat_dau.stt%> &#8594; <%lich_hoc_mon.tiet_ket_thuc.stt%></p>
+                                <p><%lich_hoc_mon.tiet_bat_dau.thoi_gian_bat_dau%> &#8594; <%lich_hoc_mon.tiet_ket_thuc.thoi_gian_ket_thuc%></p>
+                            </div>
+                            <p><%thoi_khoa_bieu.giang_vien_1.ten_giang_vien%></p>
+                        </div>
+
+                    </div>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 @endsection
 @section('script')
@@ -76,7 +112,7 @@
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("ThoiKhoaBieuController",function($scope,$http){
-
+        $scope.opitionHocKy="1";
         $http({
             method:'GET',
             url:'{{env('SERVER_URL')}}/api/thoi-khoa-bieu-cua-sinh-vien/{{Session::get('ma_sv')}}',
@@ -85,12 +121,34 @@
             }
         }).then($response=>{
             $scope.thoiKhoaBieu=$response.data;
+            console.log($scope.thoiKhoaBieu);
         });
-        $scope.opitionHocKy="1";
+        $http({
+            method:"GET",
+            url:"{{env('SERVER_URL')}}/api/hoc-ky-hien-tai-cua-sinh-vien/{{Session::get('ma_sv')}}",
+            headers:{
+                "Authorization":"Bearer {{Session::get('access_token')}}",
+            }
+        }).then(response=>{
+
+            $scope.opitionHocKy= response.data.hoc_ky_hien_tai;
+        })
+
         // $("#chon-hoc-ky").val("1").change();
 
-
-});
+    });
+    app.controller('ThoiKhoaBieuDangKyLopHocPhanController',function($scope,$http){
+            $http({
+                method:'GET',
+                url:'{{env('SERVER_URL')}}/api/thoi-khoa-bieu-cua-sinh-vien-dang-ky-lop-hoc-phan/{{Session::get('ma_sv')}}',
+                headers:{
+                    'Authorization':"Bearer {{Session::get('access_token')}}",
+                }
+            }).then($response=>{
+                $scope.thoiKhoaBieuDangKyLopHocPhan=$response.data;
+                console.log($scope.thoiKhoaBieuDangKyLopHocPhan);
+            });
+        })
 
 
     // app.filter("ThemThoiKhoaBieu",function(){

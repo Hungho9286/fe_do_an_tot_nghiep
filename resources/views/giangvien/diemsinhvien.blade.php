@@ -35,10 +35,10 @@
 <script>
                       $http({
                             method: "GET",
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem/1",
-                            headers: {
-                                "Authorizations": "Bearer token"
-                            }
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem/{{$id_lop_hoc_phan}}",
+                            headers:{
+                                    "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+                                }
                         }).then($response => {
                             $scope.bangdiem = $response.data;
                             console.log($response.data);
