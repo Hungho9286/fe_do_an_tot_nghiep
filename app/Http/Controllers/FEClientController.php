@@ -605,14 +605,26 @@ class FEClientController extends Controller
     function xuLyDangNhap(Request $request){
         $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
+        
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
         //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $head = curl_exec($ch);
+        // dd($head);
         curl_close($ch);
         $data=json_decode($head);
+        if($data->status == 0)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
+
+        }
+        if($data->status == -1)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Sai mật khẩu, vui lòng thử lại');
+
+        }
         //dd($data->sinh_vien->id);
         if($data->token!=null){
             // $response = new Response('Set Cookie');
@@ -624,6 +636,46 @@ class FEClientController extends Controller
         }
         return redirect()->route('dang-nhap');
     }
+    
+    function xulyDangNhap_GV(Request $request)
+    {
+        
+        $url=env('SERVER_URL')."/api/login-giang-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE);
+        //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $head = curl_exec($ch);
+        // dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+   
+        if($data->status == 0)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
+
+        }
+        if($data->status == -1)
+        {
+            return redirect()->route('dang-nhap')->with('message', 'Sai mật khẩu, vui lòng thử lại');
+
+        }
+        
+        if($data->token!=null){
+            // $response = new Response('Set Cookie');
+            // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
+            session()->put('access_token_gv',$data->token);
+            session()->put('ma_gv', $data->giang_vien->ma_gv);
+            //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
+            return redirect()->route('trang-chu-giang-vien');
+        }
+      
+       
+        return redirect()->route('dang-nhap');
+    }
+
     function logOut(Request $request){
         // $accessToken = $request->cookie('access_token');
         // $id_sinh_vien=$request->cookie('id_sinh_vien');
@@ -645,6 +697,33 @@ class FEClientController extends Controller
         if($data->code=201){
             session()->forget('ma_sv');
             session()->forget('access_token');
+            // $response =response('Goodbye_token')->cookie('access_token', '', 0);
+            // $response->cookie('id_sinh_vien', '', 0);
+            return redirect()->route('dang-nhap');
+        }
+    }
+    function dangXuatGV(Request $request){
+        // $accessToken = $request->cookie('access_token');
+        // $id_sinh_vien=$request->cookie('id_sinh_vien');
+       
+        $accessToken = session()->get('access_token_gv');
+        $ma_gv=session()->get('ma_gv');
+        $url=env('SERVER_URL')."/api/dang-xuat-giang-vien?ma_gv=".$ma_gv;
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS,
+        //     "id=".$request->id_sinh_vien);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Authorization: Bearer $accessToken"));
+        $head=curl_exec($ch);
+        //dd($head);
+        curl_close($ch);
+        $data=json_decode($head);
+        // dd($data);
+        if($data->code=201){
+            session()->forget('ma_gv');
+            session()->forget('access_token_gv');
             // $response =response('Goodbye_token')->cookie('access_token', '', 0);
             // $response->cookie('id_sinh_vien', '', 0);
             return redirect()->route('dang-nhap');

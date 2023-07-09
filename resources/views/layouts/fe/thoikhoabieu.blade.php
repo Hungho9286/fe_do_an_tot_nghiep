@@ -6,6 +6,7 @@
     Sinh viên chọn học kỳ để xem lịch
     </div>
     <h2>Lịch thời khóa biểu theo học kỳ</h2>
+    <h2>Lịch thời khóa biểu theo học kỳ</h2>
     <div>
         {{-- <label for="">Năm học: </label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example">

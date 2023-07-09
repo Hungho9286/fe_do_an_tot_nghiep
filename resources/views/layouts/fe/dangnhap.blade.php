@@ -1,77 +1,95 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="wrapper">
-      <div class="title-text">
-        <div class="title login">Đăng nhập</div>
-        <div class="title signup">Đăng nhập</div>
-      </div>
-      <div class="form-container">
-        <div class="slide-controls">
-          <input type="radio" name="slide" id="login" checked>
-          <input type="radio" name="slide" id="signup">
-          <label for="login" class="slide login">Sinh Viên</label>
-          <label for="signup" class="slide signup">Giảng Viên</label>
-          <div class="slider-tab"></div>
+        <div class="title-text">
+            <div class="title login">Đăng nhập</div>
+            <div class="title signup">Đăng nhập</div>
         </div>
-        <div class="form-inner">
-          <form method="POST" action="{{route('xu-ly-dang-nhap')}}" class="login">
-            @csrf
-            <div class="field">
-              <input type="text" name="tai_khoan" placeholder="Tài khoản" required>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Sinh Viên</label>
+                <label for="signup" class="slide signup">Giảng Viên</label>
+                <div class="slider-tab"></div>
             </div>
-            <div class="field">
-              <input type="password" name="mat_khau" placeholder="Mật khẩu" required>
-            </div>
+            <div class="form-inner">
+                <form method="POST" action="{{ route('xu-ly-dang-nhap') }}" class="login">
+                    @csrf
+                    <div class="field">
+                        <input type="text" name="tai_khoan" placeholder="Tài khoản Sinh Viên" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="mat_khau" placeholder="Mật khẩu" required>
+                    </div>
 
-            <div class="field btn">
-              <div class="btn-layer"></div>
-              <input type="submit" value="Đăng nhập">
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Đăng nhập">
+                    </div>
+                </form>
+                @php
+                    $message = session('message');
+                    
+                @endphp
+                @if (session('message'))
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                title: 'Thông báo',
+                                text: '{{ session('message') }}',
+                                timer: 10000, // Thời gian hiển thị trong 10 giây
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK'
+                            });
+                        });
+                    </script>
+                @endif
+
+
+
+                <form method="POST" action="{{ route('xu-ly-dang-nhap-gv') }}" class="signup">
+                    @csrf
+                    <div class="field">
+                        <input type="text" name="tai_khoan" placeholder="Tài khoản Giảng Viên" required>
+                    </div>
+                    <div class="field">
+                        <input type="password"name="mat_khau" placeholder="Mật khẩu" required>
+                    </div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Đăng nhập">
+                    </div>
+                </form>
             </div>
-          </form>
-          <form action="#" class="signup">
-            @csrf
-            <div class="field">
-              <input type="text" name="tai_khoan" placeholder="Tài khoản" required>
-            </div>
-            <div class="field">
-              <input type="password"name="mat_khau" placeholder="Mật khẩu" required>
-            </div>
-            <div class="field btn">
-              <div class="btn-layer"></div>
-              <input type="submit" value="Đăng nhập">
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      const loginText = document.querySelector(".title-text .login");
-      const loginForm = document.querySelector("form.login");
-      const loginBtn = document.querySelector("label.login");
-      const signupBtn = document.querySelector("label.signup");
-      const signupLink = document.querySelector("form .signup-link a");
-      signupBtn.onclick = (()=>{
-        loginForm.style.marginLeft = "-50%";
-        loginText.style.marginLeft = "-50%";
-      });
-      loginBtn.onclick = (()=>{
-        loginForm.style.marginLeft = "0%";
-        loginText.style.marginLeft = "0%";
-      });
-      signupLink.onclick = (()=>{
-        signupBtn.click();
-        return false;
-      });
+        const loginText = document.querySelector(".title-text .login");
+        const loginForm = document.querySelector("form.login");
+        const loginBtn = document.querySelector("label.login");
+        const signupBtn = document.querySelector("label.signup");
+        const signupLink = document.querySelector("form .signup-link a");
+        signupBtn.onclick = (() => {
+            loginForm.style.marginLeft = "-50%";
+            loginText.style.marginLeft = "-50%";
+        });
+        loginBtn.onclick = (() => {
+            loginForm.style.marginLeft = "0%";
+            loginText.style.marginLeft = "0%";
+        });
     </script>
 
-  </body>
-</html>
+</body>
 
+</html>

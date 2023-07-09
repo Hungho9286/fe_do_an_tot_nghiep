@@ -1,7 +1,7 @@
 function togglePostForm() {
     var postForm = document.getElementById("postForm");
     var toggleButton = document.getElementById("togglePostButton");
-    
+
     if (postForm.style.display == "none") {
       postForm.style.display = "block";
       toggleButton.style.display = "none";
@@ -11,11 +11,11 @@ function togglePostForm() {
     }
   }
 
-  
-  
+
+
   function NhapDiem(button) {
- 
-   
+
+
     var row = button.parentNode.parentNode;
     var savebtn = row.querySelector('button:nth-child(2)');
     var cancelbtn = row.querySelector('button:nth-child(3)');
@@ -25,7 +25,7 @@ function togglePostForm() {
     cancelbtn.style.display = '';
     inputs.forEach(function(input) {
       input.readOnly = !input.readOnly;
-     
+
     });
   }
   function isNumber(value) {
@@ -37,7 +37,7 @@ function togglePostForm() {
     var editButton = row.querySelector('button:first-child');
     var cancelButton = row.querySelector('button:nth-child(3)');
 
-   
+
     inputs.forEach(function(input) {
       input.readOnly = true;
     });
@@ -46,19 +46,19 @@ function togglePostForm() {
     cancelButton.style.display = 'none';
     inputs.style.display ="block"
     Swal.fire('Thêm điểm thành công');
-  
+
   }
-  
+
   function HuyThemDiem(button) {
     var row = button.parentNode.parentNode;
     var inputs = row.querySelectorAll('input[type="number"]');
     var editButton = row.querySelector('button:first-child');
     var saveButton = row.querySelector('button:nth-child(2)');
-    
+
     inputs.forEach(function(input) {
       input.readOnly = true;
     });
-    
+
     button.style.display = 'none';
     editButton.style.display = '';
     saveButton.style.display = 'none';
@@ -72,6 +72,7 @@ function togglePostForm() {
     return true;
 
     });
+
   // var inputField = document.getElementById('tieu_de_post');
   // var textareaField = document.getElementById('summernote_post');
   // var submitButton = document.getElementById('btn-dang-thong-bao');

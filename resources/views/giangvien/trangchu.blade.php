@@ -40,7 +40,10 @@
 </style>
 @endsection
 @section('content')
-<div ng-app="myApp" ng-controller="DanhSachLopHocPhanController">
+<div ng-app="myApp">
+<span>Lớp học phần</span>
+<br>
+<div ng-controller="DanhSachLopHocPhanController">
     <div id="danh-sach-lop-hoc-phan">
         <div class="d-flex flex-wrap">
             <div class="p-2 bd-highlight div-box-class" ng-repeat="lopHocPhan in danhSachLopHocPhanCuaGiangVien" ng-click="DanhSachSinhVien(lopHocPhan.id_lop_hoc_phan)">
@@ -57,6 +60,29 @@
 
 
 </div>
+<br>
+<span>Lớp chủ nhiệm</span>
+<div ng-controller="DanhSachLopChuNhiemController">
+    <div id="danh-sach-lop-chu-nhiem">
+        <div class="d-flex flex-wrap">
+            <div class="p-2 bd-highlight div-box-class" ng-repeat="lopChuNhiem in DanhSachLopChuNhiem"  ng-click="DanhSachSinhVienChuNhiem(lopChuNhiem.lop_hoc.id)">
+                <div>
+                    <div class="d-flex justify-content-start div-name-subject" ><%lopChuNhiem.lop_hoc.ten_lop_hoc%></div>
+                </div>
+                <div class="div-name-class">
+                    <div >Lớp: <%lopChuNhiem.lop_hoc.ten_lop_hoc%></div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+
+
 
 
 @endsection
@@ -70,18 +96,45 @@
     app.controller("DanhSachLopHocPhanController",function($scope,$http){
         $http({
             method:"GET",
-            url:"{{env('SERVER_URL')}}/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1",
+            url:'{{env('SERVER_URL')}}/api/giang-vien/danh-sach-lop-hoc-phan/{{Session::get('ma_gv')}}',
+            datas:{
+                'option':0,
+            },
             headers:{
-                "Authorizations":"Bearer token",
-            }
+               "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+            },
         }).then(response=>{
+            console.log(response.data);
             $scope.danhSachLopHocPhanCuaGiangVien=response.data;
-            console.log($scope.danhSachLopHocPhanCuaGiangVien);
+            // console.log($scope.danhSachLopHocPhanCuaGiangVien);
             $scope.DanhSachSinhVien=function($id_lop_hoc_phan){
                 $scope.showListLopHocPhan=false;
+                
                 $scope.danhSachLopHocPhanCuaGiangVien.forEach(element => {
                     if(element.id_lop_hoc_phan==$id_lop_hoc_phan){
                         window.location.href='/giangvien/lop-hoc-phan-cua-giang-vien?id='+element.id_lop_hoc_phan+'&type=1';
+                    }
+                });
+            }
+        })
+    });
+    app.controller("DanhSachLopChuNhiemController",function($scope,$http){
+        $http({
+            method: "GET",
+            url:'{{env('SERVER_URL')}}/api/giang-vien/danh-sach-lop-chu-nhiem/{{Session::get('ma_gv')}}',
+            headers:{
+                "Authorization":"Bearer {{Session::get('access_token_gv')}}" 
+            }
+        }).then(response=>{
+            $scope.DanhSachLopChuNhiem=response.data;
+            console.log($scope.DanhSachLopChuNhiem);
+            $scope.DanhSachSinhVienChuNhiem=function($id_lop_chu_nhiem){
+                $scope.showListLopHocChuNhiem=false;
+                
+                $scope.DanhSachLopChuNhiem.forEach(element => {
+                    if(element.lop_hoc.id==$id_lop_chu_nhiem){
+                        console.log("DOo");
+                        window.location.href='/giangvien/lop-chu-nhiem-cua-giang-vien?id='+element.lop_hoc.id+'&type=0';
                     }
                 });
             }

@@ -58,10 +58,17 @@
     $interpolateProvider.endSymbol('%>');
     });
     app.controller("ThoiKhoaBieuController",function($scope,$http){
-        $http.get('{{env('SERVER_URL')}}/api/giang-vien/thoi-khoa-bieu/GVCNTT1').then($response=>{
+        $http( 
+          {
+            url:'{{env('SERVER_URL')}}/api/giang-vien/thoi-khoa-bieu/{{Session::get('ma_gv')}}',
+            method: 'GET',
+            headers:{
+               "Authorization":"Bearer {{Session::get('access_token_gv')}}" 
+            },
+          }).then($response=>{
             $scope.thoiKhoaBieu=$response.data;
             console.log($response.data);
-            console.log("Doo");
+      
         });
 });
 
