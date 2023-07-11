@@ -105,7 +105,7 @@
     <div class="col-md-6">
 
         <div class="text-center" style="margin-top: 10px; margin-bottom:10px;">
-            <img src="{{asset('<%sinhvien.hinh_anh_dai_dien%>')}}" alt="" width="40%">
+            <img src="{{env('SERVER_URL')}}/public/sinhvien_img/<%sinhvien.hinh_anh_dai_dien%>" alt="" width="40%">
         </div>
 
         <div style="background-color:rgb(252, 146, 33); width:100% height:auto">
@@ -245,6 +245,13 @@
                     }
                 })
 
+            }else{
+                Swal.fire({
+                icon: 'error',
+                title: 'Lỗi...',
+                text: "Mật khẩu mới và mật khẩu nhập lại không khớp",
+                // footer: '<a href="">Why do I have this issue?</a>'
+                })
             }
      })
 

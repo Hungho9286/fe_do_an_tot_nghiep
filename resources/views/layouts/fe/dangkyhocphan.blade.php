@@ -123,7 +123,7 @@
                     //$thong_tin_dang_ky=JSON.parse(data_info);
                     $thong_tin_dang_ky=data_info;
                         console.log($thong_tin_dang_ky);
-
+                        var mon_hoc='<p style="font-size:1.5em; font-weight: bold;">'+item.ten_mon_hoc+'</p>';
                         if($thong_tin_dang_ky.trang_thai==1){
                         var ngay_mo="<p>Ngày mở: "+$thong_tin_dang_ky.mo_dang_ky+"<br>Ngày đóng: "+$thong_tin_dang_ky.dong_dang_ky+"</p>"
                         var nutDangKy="";
@@ -133,7 +133,7 @@
                             nutDangKy='<p>Đã đăng ký</p>'
                         $("#ds-dang-ky-mon-no").append(mon_hoc,ngay_mo,nutDangKy);
                         }else{
-                            $("#ds-dang-ky-mon-no").append("<p>Chưa mở đăng ký</p>")
+                            $("#ds-dang-ky-mon-no").append(mon_hoc,"<p>Chưa mở đăng ký</p>")
                         }
 
                 })
@@ -162,7 +162,7 @@
                             nutDangKy='<p>Đã đăng ký</p>'
                         $("#ds-dang-ky-mon-no").append(mon_hoc,ngay_mo,nutDangKy);
                     }else{
-                        $("#ds-dang-ky-mon-chung-chi").append("<p>Chưa mở đăng ký</p>")
+                        $("#ds-dang-ky-mon-chung-chi").append(mon_hoc,"<p>Chưa mở đăng ký</p>")
                     }
 
 

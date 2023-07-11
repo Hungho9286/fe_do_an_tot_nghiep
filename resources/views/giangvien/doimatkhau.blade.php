@@ -48,7 +48,7 @@
         }
         var message_change_error = localStorage.getItem("message_change_error");
         if (message_change_error) {
-            Swal.fire('Đổi mật khẩu thất bại ');
+            Swal.fire(message_change_error );
             localStorage.removeItem("message_change_error");
         }
 
@@ -56,40 +56,53 @@
         $(document).ready(function() {
 
             $('#doi-mat-khau').click(function(e) {
-
-                $(this).html('Đang gửi ...');
-                var dataJson = {
-                    'mat_khau_cu': $('#currentPassword').val(),
-                    'mat_khau_moi': $('#newPassword').val(),
-                }
-                $.ajax({
-
-                    url: "{{ env('SERVER_URL') }}/api/giang-vien/xu-ly-doi-mat-khau/{{ Session::get('ma_gv') }}",
-                    data: dataJson,
-                    type: "POST",
-                    dataType: 'Json',
-                    headers: {
-                        "Authorization": "Bearer {{ Session::get('access_token_gv') }}"
-                    },
-                    success: function($response) {
-
-                        if ($response.status == 1) {
-                            var message_change = "Thông báo thay đổi mật khẩu";
-                            localStorage.setItem("message_change", message_change);
-                            location.reload();
+                if( $('#currentPassword').val()==""|| $('#newPassword').val()==""||$('#confirmPassword').val()==""){
+                    Swal.fire("Không được để trống" );
+                }else{
+                    if($('#newPassword').val()==$('#confirmPassword').val()){
+                        $(this).html('Đang gửi ...');
+                        var dataJson = {
+                            'mat_khau_cu': $('#currentPassword').val(),
+                            'mat_khau_moi': $('#newPassword').val(),
                         }
+                        $.ajax({
 
-                    },
-                    error: function($response) {
+                            url: "{{ env('SERVER_URL') }}/api/giang-vien/xu-ly-doi-mat-khau/{{ Session::get('ma_gv') }}",
+                            data: dataJson,
+                            type: "POST",
+                            dataType: 'Json',
+                            headers: {
+                                "Authorization": "Bearer {{ Session::get('access_token_gv') }}"
+                            },
+                            success: function($response) {
 
-                        if ($response.status == 1) {
-                            var message_change_error = "Thông báo thay đổi mật khẩu";
-                            localStorage.setItem("message_change_error", message_change_error);
-                            location.reload();
-                        }
+                                if ($response.status == 1) {
+                                    var message_change = "Thông báo thay đổi mật khẩu";
+                                    localStorage.setItem("message_change", message_change);
+                                    location.reload();
+                                }
+                                if ($response.status == 0) {
+                                    var message_change_error =$response.message;
+                                    localStorage.setItem("message_change_error", message_change_error);
+                                    location.reload();
+                                }
 
+                            },
+                            error: function($response) {
+
+
+                                    var message_change_error ="Lỗi";
+                                    localStorage.setItem("message_change_error", message_change_error);
+                                    location.reload();
+
+
+                            }
+                        });
+                    }else{
+                        Swal.fire("Mật khẩu mới và xác nhận mật khẩu không khớp" );
                     }
-                });
+                }
+
             });
             // $("#doi-mat-khau").click(function() {
 

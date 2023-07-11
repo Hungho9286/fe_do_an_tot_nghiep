@@ -127,7 +127,7 @@ h2 {
                         Học phí học kỳ
                     </td>
                     <td>
-                        Học kì <%hoc_phi_hoc_ky.hoc_phi.hoc_ky%>
+                        Học kỳ <%hoc_phi_hoc_ky.hoc_phi.hoc_ky%>
                     </td>
                     <td><%hoc_phi_hoc_ky.hoc_phi.so_tien%></td>
                     <td><%hoc_phi_hoc_ky.hoc_phi.ngay_bat_dau%>  &#8594; <%hoc_phi_hoc_ky.hoc_phi.ngay_ket_thuc%></td>

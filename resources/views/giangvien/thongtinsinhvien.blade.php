@@ -104,7 +104,7 @@
     <div class="col-md-6">
 
         <div class="text-center" style="margin-top: 10px; margin-bottom:10px;">
-            <img src="{{asset('<%sinhvien.hinh_anh_dai_dien%>')}}" alt="" width="40%">
+            <img src="{{env('SERVER_URL')}}/public/sinhvien_img/<%sinhvien.hinh_anh_dai_dien%>" alt="" width="40%">
         </div>
 
         <div style="background-color:rgb(252, 146, 33); width:100% height:auto">
@@ -148,7 +148,7 @@ function goBack() {
             method:"GET",
             url:"{{env('SERVER_URL')}}/api/sinh-vien/{{$ma_sv}}",
             headers:{
-               "Authorization":"Bearer {{Session::get('access_token_gv')}} " 
+               "Authorization":"Bearer {{Session::get('access_token_gv')}} "
              },
         }).then($response=>{
             $scope.sinhvien=$response.data

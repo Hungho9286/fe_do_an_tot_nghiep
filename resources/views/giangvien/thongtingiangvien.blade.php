@@ -54,7 +54,7 @@
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
                         width="150px"
-                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                        src="{{env('SERVER_URL')}}/public/giangvien_img/<%ThongTinGiangVien.hinh_anh_dai_dien%>"><span
                         class="font-weight-bold"><%ThongTinGiangVien.ten_giang_vien%></span><span
                         class="text-black-50"><%ThongTinGiangVien.email%></span><span> </span></div>
             </div>
