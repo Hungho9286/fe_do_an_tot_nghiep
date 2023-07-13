@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Đăng nhập</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -14,7 +15,7 @@
             <div class="title login">Đăng nhập</div>
             <div class="title signup">Đăng nhập</div>
         </div>
-        <div class="form-container">
+        <div class="form-container" >
             <div class="slide-controls">
                 <input type="radio" name="slide" id="login" checked>
                 <input type="radio" name="slide" id="signup">
@@ -39,7 +40,7 @@
                 </form>
                 @php
                     $message = session('message');
-                    
+
                 @endphp
                 @if (session('message'))
                     <script>
@@ -70,10 +71,17 @@
                         <input type="submit" value="Đăng nhập">
                     </div>
                 </form>
+
             </div>
+
+        </div>
+        <div class="d-flex justify-content-center">
+            <p><a class="link-opacity-100" href="#" id="forgetPasswordBtn">Quên mật khẩu?</a></p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         const loginText = document.querySelector(".title-text .login");
         const loginForm = document.querySelector("form.login");
@@ -88,7 +96,17 @@
             loginForm.style.marginLeft = "0%";
             loginText.style.marginLeft = "0%";
         });
+        $(document).ready(function(){
+            $('#forgetPasswordBtn').click(function(){
+                Swal.fire(
+                'Quên mật khẩu?',
+                'Vui lòng hãy liên hệ với Quản trị viên để lấy lại mật khẩu?',
+                'question'
+                )
+            })
+        })
     </script>
+
 
 </body>
 

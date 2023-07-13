@@ -185,6 +185,7 @@
                 console.log($lichHoc[i]);
                 var $tenGiangVien1=$lichHoc[i].giang_vien_1!=null?$lichHoc[i].giang_vien_1.ten_giang_vien:'Trống';
                 var $tenGiangVien2=$lichHoc[i].giang_vien_2!=null?$lichHoc[i].giang_vien_2.ten_giang_vien:'Trống';
+                var $tenGiangVien3=$lichHoc[i].giang_vien_3!=null?$lichHoc[i].giang_vien_3.ten_giang_vien:'Trống';
                 var $buttonHuyDangKy="";
                 if($lichHoc[i].da_dong_tien==1){
                     $buttonHuyDangKy='</p><span  class="label label-success">Chờ duyệt</span >';
@@ -193,9 +194,9 @@
                     $buttonHuyDangKy=$lichHoc[i].cho_phep_huy_dang_ky?'</p><button class="huy-dang-ky-mon" data-id-dang-ky="'+$lichHoc[i].id+'" data-id-mon-hoc="'+$lichHoc[i].mon_hoc.id_mon_hoc+'" data-id-sinh-vien="'+{{Session::get('ma_sv')}}+'">Hủy đăng ký</button>':'';
                 }
                 if($lichHoc[i].lop_hoc==null){
-                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy+'</td>';
+                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên 1: '+$tenGiangVien1+'</p><p>Giảng viên 2:'+$tenGiangVien2+'</p><p>Giảng viên 3: '+$tenGiangVien3+$buttonHuyDangKy+'</td>';
                 }else{
-                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Lớp: '+$lichHoc[i].lop_hoc.ten_lop_hoc+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên: '+$tenGiangVien1+'</p><p>Giảng viên phụ:'+$tenGiangVien2+$buttonHuyDangKy+'</td>';
+                    var $tdThongTinLopHoc='<td><strong>Thông tin lớp</strong><p>Mã lớp:'+$lichHoc[i].id_lop_hoc_phan+'</p><p>Lớp: '+$lichHoc[i].lop_hoc.ten_lop_hoc+'</p><p>Môn: '+$lichHoc[i].mon_hoc.ten_mon_hoc+'</p><p>Giảng viên 1: '+$tenGiangVien1+'</p><p>Giảng viên 2:'+$tenGiangVien2+'</p><p>Giảng viên 3: '+$tenGiangVien3+$buttonHuyDangKy+'</td>';
                 }
                 var $tdThoiKhoaBieu='<td><strong>Lịch học</strong>';
                 var $tableThoiKhoaBieu

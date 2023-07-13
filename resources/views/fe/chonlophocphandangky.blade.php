@@ -28,19 +28,24 @@
                     <div class="col-md-4 col-md-offset-4"><%mon.lop_hoc.ten_lop_hoc%></div>
                   </div>
                   <div class="panel panel-default">
-                    <div class="panel-heading">Giảng viên: </div>
+                    <div class="panel-heading">Giảng viên 1: </div>
                     <div class="panel-body">
                         <%mon.giang_vien_1%>
                     </div>
                   </div>
                   {{-- <div class="">...</div> --}}
                   <div class="panel panel-info">
-                    <div class="panel-heading">Giảng viên phụ: </div>
+                    <div class="panel-heading">Giảng viên 2: </div>
                     <div class="panel-body">
                         <%mon.giang_vien_2%>
                     </div>
                   </div>
-
+                  <div class="panel panel-info">
+                    <div class="panel-heading">Giảng viên 3: </div>
+                    <div class="panel-body">
+                        <%mon.giang_vien_3%>
+                    </div>
+                  </div>
             </div>
         </button>
     </div>
@@ -237,7 +242,7 @@
 
                                         $thoi_khoa_bieu_cua_sinh_vien.forEach(elementThoiKhoaBieu => {
                                             elementThoiKhoaBieu.lich.forEach(elementLich => {
-                                                if(element.thu==elementLich.thu_trong_tuan&&elementLich.hoc_ky==$hoc_ky_hien_tai){
+                                                if(element.thu==elementLich.thu_trong_tuan&&elementLich.hoc_ky==$hoc_ky_hien_tai&&elementLich.trang_thai_hoan_thanh==0){
                                                     var start = element.tiet_bat_dau;
                                                     var end = element.tiet_ket_thuc;
                                                     var arrayLich1 = Array.from({ length: end - start + 1 }, (_, index) => index + start);

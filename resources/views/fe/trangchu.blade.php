@@ -7,6 +7,9 @@
 .chua-doc-thong-bao{
     font-weight: bold
 }
+.media-heading{
+    cursor: pointer;
+}
 </style>
 
 @endsection
