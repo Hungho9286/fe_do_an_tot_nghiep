@@ -109,14 +109,14 @@
 
 
                             <div class="div-post">
-
-                                <button class="alert alert-primary" role="alert" id="togglePostButton"
-                                    onclick="togglePostForm()">
-                                    Thông
-                                    báo
-                                    nội dung nào đó cho lớp học của bạn
-                                </button>
-
+                                @if($trang_thai_hoan_thanh==0)
+                                    <button class="alert alert-primary" role="alert" id="togglePostButton"
+                                        onclick="togglePostForm()">
+                                        Thông
+                                        báo
+                                        nội dung nào đó cho lớp học của bạn
+                                    </button>
+                                @endif
                                 <div id="postForm" style="display: none">
 
 
@@ -179,6 +179,7 @@
 
                                                 </div>
                                             </div>
+                                            @if($trang_thai_hoan_thanh==0)
                                             <div>
 
                                                 <div class="dropdown no-arrow">
@@ -186,6 +187,7 @@
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </div>
+
                                                     <div class="dropdown-menu dropdown-menu-right shadow "
                                                         aria-labelledby="userDropdown">
                                                         <a class="dropdown-item"
@@ -205,6 +207,7 @@
                                                 </div>
 
                                             </div>
+                                            @endif
                                         </div>
                                         <div class="status-field">
                                             <h3 data-tieu-de='<%tb.tieu_de%>'><%tb.tieu_de%></h3>
@@ -306,6 +309,7 @@
                                             <td><input readonly type="number" min="0" max="10"
                                                     class="input-field" name="tong_ket_2" value="<%diem.tong_ket_2%>">
                                             </td>
+                                            @if ($trang_thai_hoan_thanh==0)
                                             <td style="display: flex">
                                                 <button class="btn btn-success" id="nhapdiem"
                                                     onclick="NhapDiem(this)">Nhập điểm</button>
@@ -316,6 +320,8 @@
                                                     id="huythemdiem" class="btn btn-danger" class="cancel"
                                                     onclick="HuyThemDiem(this)">Huỷ</button>
                                             </td>
+                                            @endif
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -330,6 +336,7 @@
 
 
                 <!-- Modal -->
+                @if($trang_thai_hoan_thanh==0)
                 <form action="" method="get">
                     <div class="modal fade" id="xoathongbao" tabindex="1" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -353,6 +360,7 @@
                         </div>
                     </div>
                 </form>
+                @endif
 
 
                 <!-- Modal -->

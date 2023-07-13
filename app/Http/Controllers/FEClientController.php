@@ -12,20 +12,20 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 class FEClientController extends Controller
 {
     function home(){
-        return view('layouts.fe.trangchu');
+        return view('fe.trangchu');
     }
     function thoiKhoaBieu(){
-        return view('layouts.fe.thoikhoabieu');
+        return view('fe.thoikhoabieu');
     }
     function thongTinCaNhan(){
-        return view('layouts.fe.thongtincanhan');
+        return view('fe.thongtincanhan');
     }
     function dongHocPhi(Request $request){
         if($request->all()){
             echo 'OK';
         }
 
-        return view('layouts.fe.donghocphi');
+        return view('fe.donghocphi');
     }
     function dangKyHocPhan(){
         // $url=env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2";
@@ -41,83 +41,12 @@ class FEClientController extends Controller
         // dd($data);
         // $data=Http::get(env('SERVER_URL')."/api/danh-sach-dang-ky-mon-cua-sinh-vien/2");
         // dd($data->json());
-        return view('layouts.fe.dangkyhocphan');
+        return view('fe.dangkyhocphan');
     }
     function xemDiem(){
-        return view('layouts.fe.xemdiem');
+        return view('fe.xemdiem');
     }
-    function xuLyDongHocPhiMoMoQR(Request $request){
-        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
-        $partnerCode = 'MOMOBKUN20180529';
-        $accessKey = 'klm05TvNBzhg7h7j';
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Đóng tiền học phí nè";
-        $amount = "50000";
-        $orderId = time() ."";
-        $redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
-        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
-        $extraData = "";
-
-
-        // if (!empty($_POST)) {
-            // $partnerCode = $_POST["partnerCode"];
-            // $accessKey = $_POST["accessKey"];
-            // $serectkey = $_POST["secretKey"];
-            // $orderId = $_POST["orderId"]; // Mã đơn hàng
-            // $orderInfo = $_POST["orderInfo"];
-            // $amount = $_POST["amount"];
-            // $ipnUrl = $_POST["ipnUrl"];
-            // $redirectUrl = $_POST["redirectUrl"];
-            // $extraData = $_POST["extraData"];
-
-            $requestId = time() . "";
-            $requestType = "captureWallet";
-            // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
-            //before sign HMAC SHA256 signature
-            // $rawHash =
-            // "accessKey=" . $accessKey .
-            // "&amount=" . $amount .
-            // "&extraData=" . $extraData .
-            // "&ipnUrl=" . $ipnUrl .
-            // "&orderId=" . $orderId .
-            // "&orderInfo=" . $orderInfo .
-            // "&partnerCode=" . $partnerCode .
-            // "&redirectUrl=" . $redirectUrl .
-            // "&requestId=" . $requestId .
-            // "&requestType=" . $requestType;
-
-            $rawHash =
-            "accessKey=" . $accessKey .
-            "&amount=" . $amount .
-            "&extraData=" . $extraData .
-            "&orderId=" . $orderId .
-            "&orderInfo=" . $orderInfo .
-            "&partnerCode=" . $partnerCode .
-            "&requestId=" . $requestId .
-            "&requestType=" . $requestType;
-            $signature = hash_hmac("sha256", $rawHash, $secretKey);
-            $data = array('partnerCode' => $partnerCode,
-                'partnerName' => "Test",
-                "storeId" => "MomoTestStore",
-                'requestId' => $requestId,
-                'amount' => $amount,
-                'orderId' => $orderId,
-                'orderInfo' => $orderInfo,
-                'redirectUrl' => $redirectUrl,
-                'ipnUrl' => $ipnUrl,
-                'lang' => 'vi',
-                'extraData' => $extraData,
-                'requestType' => $requestType,
-                'signature' => $signature);
-            $result = $this->execPostRequest($endpoint, json_encode($data));
-            $jsonResult = json_decode($result, true);  // decode json
-           // dd($jsonResult);
-            //Just a example, please check more in there
-
-            return Redirect::to($jsonResult['payUrl']);
-        // }
-    }
     public function xuLyDongHocPhiPayPal(Request $request){
         //dd($request->all());
         $provider = new PayPalClient;
@@ -200,10 +129,10 @@ class FEClientController extends Controller
 
     }
     function huyDongHocPhi(Request $request){
-        return view('layouts.fe.camondonghocphi');
+        return view('fe.camondonghocphi');
     }
     function hienThiTrangCamOnDongHocPhi(Request $request){
-        return view('layouts.fe.camondonghocphi');
+        return view('fe.camondonghocphi');
     }
     function luuThongTinDangKy(Request $request){
         if(isset($request['token'])==false){
@@ -470,7 +399,7 @@ class FEClientController extends Controller
                 $jsonResult=$this->execPostRequest($url,json_encode($request->all()));
                 $jsonDecode=json_decode($jsonResult);
                 if($jsonDecode->status==1){
-                    return view('layouts.fe.camondonghocphi');
+                    return view('fe.camondonghocphi');
                 }
                 else{
                     if($jsonDecode->status==3){
@@ -518,61 +447,7 @@ class FEClientController extends Controller
         curl_close($curl);
         return $result;
     }
-    function xuLyDongHocPhiMoMoATM(Request $request){
-        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
-
-        $partnerCode = 'MOMOBKUN20180529';
-        $accessKey = 'klm05TvNBzhg7h7j';
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Thanh toán qua MoMo";
-        $amount = "10000";
-        $orderId = time() ."";
-        $redirectUrl = "http://127.0.0.1:8001/cam-on-dong-hoc-phi";
-        $ipnUrl = "https://e731-125-235-239-91.ngrok-free.app/api/xu-ly-dong-hoc-phi-momo";
-        $extraData = "";
-
-
-        // if (!empty($_POST)) {
-            // $partnerCode = $_POST["partnerCode"];
-            // $accessKey = $_POST["accessKey"];
-            // $serectkey = $_POST["secretKey"];
-            // $orderId = $_POST["orderId"]; // Mã đơn hàng
-            // $orderInfo = $_POST["orderInfo"];
-            // $amount = $_POST["amount"];
-            // $ipnUrl = $_POST["ipnUrl"];
-            // $redirectUrl = $_POST["redirectUrl"];
-            // $extraData = $_POST["extraData"];
-
-            $requestId = time() . "";
-            $requestType = "payWithATM";
-            // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
-            //before sign HMAC SHA256 signature
-            $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
-            $signature = hash_hmac("sha256", $rawHash, $secretKey);
-
-            $data = array('partnerCode' => $partnerCode,
-                'partnerName' => "Test",
-                "storeId" => "MomoTestStore",
-                'requestId' => $requestId,
-                'amount' => $amount,
-                'orderId' => $orderId,
-                'orderInfo' => $orderInfo,
-                'redirectUrl' => $redirectUrl,
-                'ipnUrl' => $ipnUrl,
-                'lang' => 'vi',
-                'extraData' => $extraData,
-                'requestType' => $requestType,
-                'signature' => $signature);
-            $result = $this->execPostRequest($endpoint, json_encode($data));
-            $jsonResult = json_decode($result, true);  // decode json
-            //dd($jsonResult);
-            //Just a example, please check more in there
-
-    // header('Location: ' . $jsonResult['payUrl']);
-            return Redirect::to($jsonResult['payUrl']);
-        // }
-    }
 
     function execPostRequest($url, $data)
     {
@@ -596,16 +471,16 @@ class FEClientController extends Controller
 
 
     function chonLopDangKyMon(Request $request){
-        return view('layouts.fe.chonlophocphandangky');
+        return view('fe.chonlophocphandangky');
     }
     function dangNhap(){
-        return view('layouts.fe.dangnhap');
+        return view('fe.dangnhap');
     }
 
     function xuLyDangNhap(Request $request){
         $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
-        
+
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
         //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
@@ -636,10 +511,10 @@ class FEClientController extends Controller
         }
         return redirect()->route('dang-nhap');
     }
-    
+
     function xulyDangNhap_GV(Request $request)
     {
-        
+
         $url=env('SERVER_URL')."/api/login-giang-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
@@ -651,7 +526,7 @@ class FEClientController extends Controller
         // dd($head);
         curl_close($ch);
         $data=json_decode($head);
-   
+
         if($data->status == 0)
         {
             return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
@@ -662,7 +537,7 @@ class FEClientController extends Controller
             return redirect()->route('dang-nhap')->with('message', 'Sai mật khẩu, vui lòng thử lại');
 
         }
-        
+
         if($data->token!=null){
             // $response = new Response('Set Cookie');
             // $response=redirect()->route('trang-chu')->withCookie(cookie('access_token', $data->token, 60));
@@ -671,8 +546,8 @@ class FEClientController extends Controller
             //$response->withCookie(cookie('id_sinh_vien',$data->sinh_vien->id, 60));
             return redirect()->route('trang-chu-giang-vien');
         }
-      
-       
+
+
         return redirect()->route('dang-nhap');
     }
 
@@ -705,7 +580,7 @@ class FEClientController extends Controller
     function dangXuatGV(Request $request){
         // $accessToken = $request->cookie('access_token');
         // $id_sinh_vien=$request->cookie('id_sinh_vien');
-       
+
         $accessToken = session()->get('access_token_gv');
         $ma_gv=session()->get('ma_gv');
         $url=env('SERVER_URL')."/api/dang-xuat-giang-vien?ma_gv=".$ma_gv;

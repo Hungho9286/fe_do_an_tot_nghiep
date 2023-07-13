@@ -36,17 +36,7 @@
                 <i class="fas fa-school"></i>
                 <span style="font-family: Arial, sans-serif;">Lớp học phần</span>
             </a>
-            <a class="nav-link collapsed" data-toggle="collapse" data-target="#multiCollapseExample2"
-                aria-expanded="false" aria-controls="multiCollapseExample2">
-                <i class="fas fa-school"></i>
-                <span style="font-family: Arial, sans-serif;">Lớp chủ nhiệm</span>
-            </a>
-
         </div>
-        <p>
-
-
-        </p>
         <div class="row">
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample1">
@@ -57,13 +47,34 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#multiCollapseExample2"
+        aria-expanded="false" aria-controls="multiCollapseExample2">
+        <i class="fas fa-school"></i>
+        <span style="font-family: Arial, sans-serif;">Lớp chủ nhiệm</span>
+        </a>
+        <div class="row">
             <div class="col">
                 <div class="collapse multi-collapse" id="multiCollapseExample2">
                     <div class="bg-white py-2 collapse-inner rounded" id="danhsach-sv-lop-chu-nhiem">
 
                         <h6 class="collapse-header" style="font-family: Arial, sans-serif;">Lớp chủ nhiệm:</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#multiCollapseExample3"
+            aria-expanded="false" aria-controls="multiCollapseExample3">
+            <i class="fas fa-school"></i>
+            <span style="font-family: Arial, sans-serif;">Lớp học lưu trữ</span>
+        </a>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample3">
+                    <div class="bg-white py-2 collapse-inner rounded" id="danhsach-lop-hoc-phan-da-hoan-thanh">
 
-
+                        <h6 class="collapse-header" style="font-family: Arial, sans-serif;">Lớp học lưu trữ:</h6>
                     </div>
                 </div>
             </div>
@@ -83,14 +94,14 @@
                 $data.forEach(element => {
                     if (element.lop_hoc != null)
                         text = text +
-                        '<div class="row"> <a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                        '<a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
                         element.id_lop_hoc_phan + '&type=1' + '"  >' + element.lop_hoc.ten_lop_hoc +
-                        '<br>' + element.mon_hoc.ten_mon_hoc + '</a> </div>'
+                        '<br>' + element.mon_hoc.ten_mon_hoc + '</a>'
                     else
                         text = text +
-                        '<div class="row" >  <a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                        '<a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
                         element.id_lop_hoc_phan + '&type=1' + '"  >' + element.mon_hoc.ten_mon_hoc +
-                        '</a> </div>'
+                        '</a>'
                 });
                 $('#danhsach-sv-lop').append(text);
 
@@ -113,6 +124,29 @@
 
                     );
                 });
+
+            })
+            $.ajax({
+                url: '{{ env('SERVER_URL') }}/api/giang-vien/danh-sach-lop-hoc-phan-da-hoan-thanh/{{ Session::get('ma_gv') }}',
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                }
+            }).done(function($data) {
+                text = "";
+                $data.forEach(element => {
+                    if (element.lop_hoc != null)
+                        text = text +
+                        '<a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                        element.id_lop_hoc_phan + '&type=1' + '"  >' + element.lop_hoc.ten_lop_hoc +
+                        '<br>' + element.mon_hoc.ten_mon_hoc + '</a>'
+                    else
+                        text = text +
+                        '<a  class="collapse-item" href="/giangvien/lop-hoc-phan-cua-giang-vien?id=' +
+                        element.id_lop_hoc_phan + '&type=1' + '&save=1"  >' + element.mon_hoc.ten_mon_hoc +
+                        '</a>'
+                });
+                $('#danhsach-lop-hoc-phan-da-hoan-thanh').append(text);
 
             })
         })
