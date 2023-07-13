@@ -47,11 +47,11 @@
     <div class="col-md-8">
 
         <div class="row">
-            <p  class="list-group-item list-group-item-action active" style="width:150%;">
+            <p  class="list-group-item list-group-item-action active">
                 Thời Khóa Biểu
             </p>
         </div>
-        <div class="row " ng-bind-html="lich" style="width:160%; height: 500px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;">
+        <div class="row " ng-bind-html="lich" style="height: 500px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;">
             <div class="table-responsive" >
 
               </div>
@@ -103,18 +103,6 @@
             }
         }).then(response=>{
             $scope.danhSachLopHocPhanDangKy=response.data.lop_dang_ky;
-        })
-        $http({
-            method:"GET",
-            url:"{{env('SERVER_URL')}}/api/qua-trinh-hoc-tap-cua-sinh-vien/{{Session::get('ma_sv')}}",
-            headers:{
-                "Authorization":"Bearer {{Session::get('access_token')}}",
-            }
-        }).then(response=>{
-            $scope.qua_trinh_hoc_tap=response.data.qua_trinh_hoc_tap;
-            if($scope.qua_trinh_hoc_tap.thoi_gian_ket_thuc<currentDate){
-                $scope.ket_thuc_chuong_trinh=true;
-            }
         })
         $http({
             method:"GET",
@@ -246,7 +234,7 @@
 
                                             })
                                         });
-                                    if($scope.ket_thuc_chuong_trinh==false){
+
                                         $thoi_khoa_bieu_cua_sinh_vien.forEach(elementThoiKhoaBieu => {
                                             elementThoiKhoaBieu.lich.forEach(elementLich => {
                                                 if(element.thu==elementLich.thu_trong_tuan&&elementLich.hoc_ky==$hoc_ky_hien_tai){
@@ -268,8 +256,6 @@
 
                                             });
                                         });
-
-                                    }
 
                                     text=text+'<tr '+classtr+'><td style="font-weight:bold;">Phòng học:</td><td>'+element.phong_hoc+'</td><td style="font-weight:bold;">Tiết học:</td><td> Từ '+element.tiet_bat_dau+' đến '+element.tiet_ket_thuc+'</td><td style="font-weight:bold;">Thời gian:</td><td>'+element.thoi_gian_bat_dau+'  đến '+element.thoi_gian_ket_thuc+'</td></tr>'
                                 // text=text+'</p><p>Phòng học: '+element.phong_hoc+'</p><p>Tiết học: Từ '+element.tiet_bat_dau+' đến '+element.tiet_ket_thuc+'</p><p>Thời gian: '+element.thoi_gian_bat_dau+'  đến '+element.thoi_gian_ket_thuc+'</p></div>';

@@ -40,10 +40,10 @@
             <div class="col-md-6" style="font-weight: 700;">CMND/CCCD</div>
             <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.so_cmt%></span></div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Quốc gia</div>
             <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%sinhvien.quoc_gia%></span></div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-md-6" style="font-weight: 700;">Tỉnh/Thành phố</div>
             <div class="col-md-6" ><span>:</span><span style="margin-left: 10px; font-weight: 700;color:rgb(43, 43, 243)" ><%tinh_thanh_pho%></span></div>

@@ -12,7 +12,7 @@
 @endsection
 @section('content')
 <!-- Alert -->
-<div ng-app="myApp" ng-controller="ThongBaoController" style="width: 150%">
+<div ng-app="myApp" ng-controller="ThongBaoController">
 
 
 <div class="alert alert-info alert-dismissible" role="alert" ng-show="HienThiThongBaoCoTinMoi">
@@ -33,7 +33,7 @@
                         </div>
                         <div class="media-body" >
                             <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.thong_bao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_doc)"><%thongbao.thong_bao.tieu_de%></a></h2>
-                            <p>Người gửi: <strong><%thongbao.thong_bao.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
+                            <p>Người gửi: <strong><%thongbao.giang_vien.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
                         </div>
                     </div>
                 </article>
@@ -43,7 +43,7 @@
     </div>
 </div>
 <div class="col-md-8">
-    <div style="width:100%">
+    <div>
         <h1>Nội dung</h1>
     <div style="width:100%; height: 400px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;" ng-bind-html="content">
         {{-- <%content%> --}}

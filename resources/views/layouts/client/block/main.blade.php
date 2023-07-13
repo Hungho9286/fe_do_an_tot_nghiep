@@ -1,4 +1,4 @@
-<div class="col-sm-6">
+<div class="col-sm-9">
 
     @yield('content')
 </div><!--/Center Column-->

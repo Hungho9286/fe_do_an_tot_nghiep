@@ -582,18 +582,41 @@
                           console.log(marks);
 
 
-                        $.ajax({
-                            method: 'POST',
-                            headers: {
-                                "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
-                            },
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{ $id_lop_hoc_phan }}",
-                            data: marks,
-                            dataType: 'json',
+                          if ((marks['chuyen_can'] < 11 && marks['chuyen_can'] > 0) || marks['chuyen_can'] == "") {
+                            console.log('ok1');
+                            if ((marks['tbkt'] < 11 && marks['tbkt'] > 0) || marks['tbkt'] == "") {
+                                console.log('ok1');
+                                if ((marks['thi_1'] < 11 && marks['thi_1'] > 0) || marks['thi_1'] == "") {
+                                    console.log('ok1');
+                                    if ((marks['thi_2'] < 11 && marks['thi_2'] > 0) || marks['thi_2'] == "") {
+                                        console.log('ok1');
+                                        if ((marks['tong_ket_1'] < 11 && marks['chuyen_can'] > 0) || marks['tong_ket_1'] ==
+                                            "") {
+                                            console.log('ok1');
+                                            if ((marks['tong_ket_2'] < 11 && marks['tong_ket_2'] > 0) || marks['tong_ket_2'] ==
+                                                "") {
+                                                console.log('ok1');
+                                                $.ajax({
+                                                    method: 'POST',
+                                                    headers: {
+                                                        "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                                                    },
+                                                    url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{ $id_lop_hoc_phan }}",
+                                                    data: marks,
+                                                    dataType: 'json',
 
-                          }).done(function($response) {
+                                                }).done(function($response) {
+                                                    Swal.fire('Thay đổi thành công');
+                                                })
 
-                          })
+                                            } else {
+                                                Swal.fire('Điểm số không lớn hơn 10 và nhỏ hơn 0');
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                     });
                     $(document).on('click', '.btn-thong-bao-xoa', function(event) {
