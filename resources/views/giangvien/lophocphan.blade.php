@@ -175,7 +175,7 @@
                                                 <img src="<%tb.hinh_anh_dai_dien%>" alt="">
                                                 <div>
                                                     <p><%tb.ten_giang_vien%></p>
-                                                    <small><%tb.ngay_tao%></small>
+                                                    <small><%tb.ngay_tao|date:'dd/MM/yyyy HH:mm'%></small>
 
                                                 </div>
                                             </div>
