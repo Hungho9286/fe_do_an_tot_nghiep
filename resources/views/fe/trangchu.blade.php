@@ -10,6 +10,8 @@
 .media-heading{
     cursor: pointer;
 }
+
+
 </style>
 
 @endsection
@@ -22,7 +24,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Thông báo:</strong> Bạn có <%so_luong_thong_bao_chua_doc%> thông báo mới!
 </div>
-<div class="col-md-4">
+<div class="col-md-5">
     <div class="scrollbar" id="style-5" >
         <div class="force-overflow" >
     <!-- Bảng thông báo -->
@@ -45,7 +47,7 @@
         </div>
     </div>
 </div>
-<div class="col-md-8">
+<div class="col-md-7">
     <div>
         <h1>Nội dung</h1>
     <div style="width:100%; height: 400px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;" ng-bind-html="content">
@@ -55,6 +57,7 @@
 
 </div>
 </div>
+
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
