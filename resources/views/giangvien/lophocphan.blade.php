@@ -292,7 +292,8 @@
                                             <td scope="row"><%diem.ma_sv%></td>
                                             <td> <%diem.ten_sinh_vien%></td>
                                             <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="chuyen_can" value="<%diem.chuyen_can%>">
+                                                    class="input-field" name="chuyen_can" value="<%diem.chuyen_can%>"
+                                                    step="1">
                                             </td>
                                             <td><input readonly type="number" min="0" max="10"
                                                     class="input-field" name="tbkt" value="<%diem.tbkt%>"></td>
@@ -494,9 +495,9 @@
                             $scope.danh_sach_sinh_vien = thongbao.danh_sach_sinh_vien;
                             $scope.noi_dung_HTML = $sce.trustAsHtml(thongbao.noi_dung);
 
-                $('#summernote_modal').append($scope.noi_dung);
+                            $('#summernote_modal').append($scope.noi_dung);
 
-            }
+                        }
 
 
                         $http({
@@ -566,34 +567,72 @@
 
 
                     $(document).on('click', '.save', function(event) {
-                            var element = $(event.target);
-                            var Mark_mssv = element.attr('data-mark-mssv');
-                            var row = $(this).closest('tr');
-                            var marks = {
-                                'ma_sv': Mark_mssv
-                            };
-                          row.find('input[type="number"]').each(function() {
-                          var inputValue = $(this).val();
-                          var inputName = $(this).attr('name');
-                           marks[inputName]=inputValue
+                        var element = $(event.target);
+                        var Mark_mssv = element.attr('data-mark-mssv');
+                        var row = $(this).closest('tr');
+                        var marks = {
+                            'ma_sv': Mark_mssv
+                        };
+                        row.find('input[type="number"]').each(function() {
+                            var inputValue = $(this).val();
+                            var inputName = $(this).attr('name');
+                            marks[inputName] = inputValue
 
-                          });
+                        });
+                        var check_input = true;
+                        if (marks['tong_ket_1'] != "" && marks['thi_1'] == "") {
+                            Swal.fire('Nhập điểm thi lần 1 trước  khi nhập điểm tống kết lần 1');
+                            check_input = false;
+                        }
+                        if (marks['tong_ket_2'] != "" && marks['thi_2'] == "") {
+                            Swal.fire('Nhập điểm thi lần 2 trước khi nhập điểm tống kết lần 2');
 
-                          console.log(marks);
+                            check_input = false;
+                        }
+                        if (check_input == true) {
+                            if ((marks['chuyen_can'] < 11 && marks['chuyen_can'] > 0) || marks['chuyen_can'] == "") {
+                                console.log('ok1');
+                                if ((marks['tbkt'] < 11 && marks['tbkt'] > 0) || marks['tbkt'] == "") {
+                                    console.log('ok1');
+                                    if ((marks['thi_1'] < 11 && marks['thi_1'] > 0) || marks['thi_1'] == "") {
+                                        console.log('ok1');
+                                        if ((marks['thi_2'] < 11 && marks['thi_2'] > 0) || marks['thi_2'] == "") {
+                                            console.log('ok1');
+                                            if ((marks['tong_ket_1'] < 11 && marks['chuyen_can'] > 0) || marks['tong_ket_1'] ==
+                                                "") {
+                                                console.log('ok1');
+                                                if ((marks['tong_ket_2'] < 11 && marks['tong_ket_2'] > 0) || marks[
+                                                        'tong_ket_2'] ==
+                                                    "") {
+                                                    console.log('ok1');
+                                                    $.ajax({
+                                                        method: 'POST',
+                                                        headers: {
+                                                            "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
+                                                        },
+                                                        url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{ $id_lop_hoc_phan }}",
+                                                        data: marks,
+                                                        dataType: 'json',
+
+                                                    }).done(function($response) {
+                                                        Swal.fire('Thay đổi thành công');
+                                                    })
+
+                                                } else {
+                                                    Swal.fire('Điểm số không lớn hơn 10 và nhỏ hơn 0');
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
 
-                        $.ajax({
-                            method: 'POST',
-                            headers: {
-                                "Authorization": "Bearer {{ Session::get('access_token_gv') }} "
-                            },
-                            url: "{{ env('SERVER_URL') }}/api/giang-vien/lop-hoc-phan/bang-diem-sinh-vien/thay-doi-diem/{{ $id_lop_hoc_phan }}",
-                            data: marks,
-                            dataType: 'json',
 
-                          }).done(function($response) {
 
-                          })
+
+
 
                     });
                     $(document).on('click', '.btn-thong-bao-xoa', function(event) {
@@ -703,7 +742,5 @@
 
 
                     });
-
-
                 </script>
             @endsection
