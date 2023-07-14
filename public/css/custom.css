@@ -2,7 +2,7 @@ body {
     padding-top: 50px; /* Padding for .navbar-fixed-top. Change value if navbar height changes. Remove if using .navbar-static-top. */
 }
 
-h1, h2, h3, h4, h5, h6, 
+h1, h2, h3, h4, h5, h6,
 h1 a:link, h2 a:link, h3 a:link, h4 a:link, h5 a:link, h6 a:link {
 	color: black;
 	}
@@ -51,16 +51,18 @@ form.search {
     {
         margin-left: 30px;
         float: left;
-        height: 600px;
+        height: 470px;
         width: 100%;
         /* background: #F5F5F5; */
         overflow-y: scroll;
         margin-bottom: 25px;
+        border: 3px solid rgb(40, 72, 250); ;
+        padding: 10px;
     }
 
     .force-overflow
     {
-        min-height: 450px;
+        min-height: 400px;
     }
 
     #style-5::-webkit-scrollbar-track

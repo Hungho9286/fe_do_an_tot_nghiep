@@ -10,6 +10,12 @@
 .media-heading{
     cursor: pointer;
 }
+.noi_dung_thong_bao{
+    margin-left: 10px;
+    border-radius:10px;
+    border: 3px solid rgb(40, 72, 250);
+
+}
 
 
 </style>
@@ -24,7 +30,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Thông báo:</strong> Bạn có <%so_luong_thong_bao_chua_doc%> thông báo mới!
 </div>
-<div class="col-md-5">
+<div class="col-md-4">
     <div class="scrollbar" id="style-5" >
         <div class="force-overflow" >
     <!-- Bảng thông báo -->
@@ -38,7 +44,8 @@
                         </div>
                         <div class="media-body" >
                             <h2 class="media-heading"><a ng-click="hienThiNoiDungThongBao(thongbao.thong_bao.id)" data-trang-thai-thong-bao="<%thongbao.trang_thai_thong_bao%>" ng-class="classThongBao(thongbao.trang_thai_doc)"><%thongbao.thong_bao.tieu_de%></a></h2>
-                            <p>Người gửi: <strong><%thongbao.giang_vien.ten_giang_vien%></strong> - Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
+                            <p>Người gửi: <strong><%thongbao.giang_vien.ten_giang_vien%></strong></p>
+                            <p>Ngày gửi: <%thongbao.thong_bao.created_at|date:'dd/MM/yyyy'%></p>
                         </div>
                     </div>
                 </article>
@@ -47,10 +54,10 @@
         </div>
     </div>
 </div>
-<div class="col-md-7">
+<div class="col-md-7 noi_dung_thong_bao" style="margin-left: 20px" >
     <div>
         <h1>Nội dung</h1>
-    <div style="width:100%; height: 400px; overflow-y: scroll; border:1px solid black; padding:6px 6px 6px 9px;" ng-bind-html="content">
+    <div style="width:100%; height: 400px; overflow-y: scroll; padding:6px 6px 6px 9px;" ng-bind-html="content" >
         {{-- <%content%> --}}
     </div>
 </div>

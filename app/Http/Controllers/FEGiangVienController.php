@@ -45,6 +45,9 @@ class FEGiangVienController extends Controller
 
 
         return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv_lhp'=>$data_sv,'id_lop_hoc'=>$id_lop_hoc,'type'=>$type]);
+
+        
+        return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv'=>$data_sv,'id_lop_hoc'=>$id_lop_hoc,'type'=>$type]);
     }
 
     public function thongbaosinhvien()
@@ -66,7 +69,7 @@ class FEGiangVienController extends Controller
         $l_post = $this->execGetRequest($url);
         $url=env('SERVER_URL').'/api/giang-vien/lop-hoc-phan/'.$request->id;
         $lophocphan=json_decode($this->execGetRequest($url));
-        
+
 
         $danh_sach_thong_bao = json_decode($l_post);
         //Sửa ma_gv
