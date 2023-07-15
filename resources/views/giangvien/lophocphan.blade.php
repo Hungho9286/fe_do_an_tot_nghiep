@@ -87,7 +87,13 @@
 
             <div class="col-md-6">
                 <div class="alert alert-success">
-                    <h4> Lớp: <%lophocphan.ten_lop_hoc%> - <%lophocphan.ten_lop_hoc_phan%></h4>
+                    <h4 ng-if="lophocphan.ten_lop_hoc!=null">
+                        Lớp: <%lophocphan.ten_lop_hoc%> - <%lophocphan.ten_lop_hoc_phan%>
+                    </h4>
+                    <h4 ng-if="lophocphan.ten_lop_hoc==null">
+                        Lớp chứng chỉ: <%lophocphan.ten_lop_hoc_phan%></h4>
+
+                    </h4>
 
                 </div>
                 <div class="d-flex align-items-start">
