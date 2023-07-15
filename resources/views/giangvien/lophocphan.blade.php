@@ -109,14 +109,14 @@
 
 
                             <div class="div-post">
-                                @if($trang_thai_hoan_thanh==0)
-                                    <button class="alert alert-primary" role="alert" id="togglePostButton"
-                                        onclick="togglePostForm()">
-                                        Thông
-                                        báo
-                                        nội dung nào đó cho lớp học của bạn
-                                    </button>
-                                @endif
+
+                                <button class="alert alert-primary" role="alert" id="togglePostButton"
+                                    onclick="togglePostForm()">
+                                    Thông
+                                    báo
+                                    nội dung nào đó cho lớp học của bạn
+                                </button>
+
                                 <div id="postForm" style="display: none">
 
 
@@ -175,11 +175,10 @@
                                                 <img src="<%tb.hinh_anh_dai_dien%>" alt="">
                                                 <div>
                                                     <p><%tb.ten_giang_vien%></p>
-                                                    <small><%tb.ngay_tao|date:'dd/MM/yyyy HH:mm'%></small>
+                                                    <small><%tb.ngay_tao%></small>
 
                                                 </div>
                                             </div>
-                                            @if($trang_thai_hoan_thanh==0)
                                             <div>
 
                                                 <div class="dropdown no-arrow">
@@ -187,7 +186,6 @@
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </div>
-
                                                     <div class="dropdown-menu dropdown-menu-right shadow "
                                                         aria-labelledby="userDropdown">
                                                         <a class="dropdown-item"
@@ -207,7 +205,6 @@
                                                 </div>
 
                                             </div>
-                                            @endif
                                         </div>
                                         <div class="status-field">
                                             <h3 data-tieu-de='<%tb.tieu_de%>'><%tb.tieu_de%></h3>
@@ -310,7 +307,6 @@
                                             <td><input readonly type="number" min="0" max="10"
                                                     class="input-field" name="tong_ket_2" value="<%diem.tong_ket_2%>">
                                             </td>
-                                            @if ($trang_thai_hoan_thanh==0)
                                             <td style="display: flex">
                                                 <button class="btn btn-success" id="nhapdiem"
                                                     onclick="NhapDiem(this)">Nhập điểm</button>
@@ -321,8 +317,6 @@
                                                     id="huythemdiem" class="btn btn-danger" class="cancel"
                                                     onclick="HuyThemDiem(this)">Huỷ</button>
                                             </td>
-                                            @endif
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -337,7 +331,6 @@
 
 
                 <!-- Modal -->
-                @if($trang_thai_hoan_thanh==0)
                 <form action="" method="get">
                     <div class="modal fade" id="xoathongbao" tabindex="1" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -361,7 +354,6 @@
                         </div>
                     </div>
                 </form>
-                @endif
 
 
                 <!-- Modal -->
@@ -580,8 +572,7 @@
                         var Mark_mssv = element.attr('data-mark-mssv');
                         var row = $(this).closest('tr');
                         var marks = {
-                            'ma_sv': Mark_mssv,
-                            'ma_gv':'{{Session::get('ma_gv')}}'
+                            'ma_sv': Mark_mssv
                         };
                         row.find('input[type="number"]').each(function() {
                             var inputValue = $(this).val();
@@ -602,7 +593,6 @@
                         console.log(marks);
 
                         if (check_input == true) {
-                            console.log("Dô 1");
                             if ((marks['chuyen_can'] < 11 && marks['chuyen_can'] > 0) || marks['chuyen_can'] == "") {
 
                                 if ((marks['tbkt'] < 11 && marks['tbkt'] > 0) || marks['tbkt'] == "") {
@@ -719,10 +709,10 @@
                             if (json_obj.danh_sach_sinh_vien.length == 0) {
                                 Swal.fire('Hãy chọn sinh viên để gửi thông báo');
                             } else {
-                                if (json_obj.tieu_de == "")
+                                if (json_obj.tieu_de === "")
                                     Swal.fire('Không để trống tiêu đề');
                                 else
-                                if (json_obj.noi_dung == "")
+                                if (json_obj.noi_dung === "")
                                     Swal.fire('Không để trống nội dung');
                             }
 
