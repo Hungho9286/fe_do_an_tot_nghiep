@@ -535,6 +535,7 @@
                         }).then($response => {
                             $scope.thongbao = $response.data;
                             console.log($response.data);
+
                         })
                         $http({
                             method: "GET",
@@ -590,21 +591,22 @@
                             check_input = false;
                         }
                         console.log(marks);
+
                         if (check_input == true) {
                             if ((marks['chuyen_can'] < 11 && marks['chuyen_can'] > 0) || marks['chuyen_can'] == "") {
-                             
+
                                 if ((marks['tbkt'] < 11 && marks['tbkt'] > 0) || marks['tbkt'] == "") {
-                              
+
                                     if ((marks['thi_1'] < 11 && marks['thi_1'] > 0) || marks['thi_1'] == "") {
-                                     
+
                                         if ((marks['thi_2'] < 11 && marks['thi_2'] > 0) || marks['thi_2'] == "") {
-                                            
+
                                             if ((marks['tong_ket_1'] < 11 && marks['chuyen_can'] > 0) || marks['tong_ket_1'] ==
                                                 "") {
-                                            
+
                                                 if ((marks['tong_ket_2'] < 11 && marks['tong_ket_2'] > 0) || marks[
                                                         'tong_ket_2'] == "") {
-                                                  
+
                                                     $.ajax({
                                                         method: 'POST',
                                                         headers: {
