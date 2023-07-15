@@ -20,6 +20,26 @@ function isInputAllowed(tong_ket_1_value) {
 
 
 
+var thi1Inputs = document.querySelectorAll('[name="thi_1"]');
+thi1Inputs.forEach(function (input) {
+  input.addEventListener("input", checkThi2Input);
+});
+function checkThi2Input(event) {
+  var thi1Input = event.target;
+  var thi2Input = thi1Input.parentNode.nextElementSibling.querySelector('[name="thi_2"]');
+  if (thi1Input.value == "") {
+    thi2Input.setAttribute("readonly", "readonly");
+    thi2Input.value = "";
+  }
+  if (thi1Input.value < 5) {
+    thi2Input.removeAttribute("readonly");
+  } else {
+    thi2Input.setAttribute("readonly", "readonly");
+    thi2Input.value = "";
+  }
+}
+
+
 
 
 function NhapDiem(button) {

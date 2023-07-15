@@ -120,6 +120,26 @@ $data=json_decode($head);
     @include('layouts.client.block.footer')
 
     @yield('script')
+    <script>
+        $(document).ready(function(){
+            $('#formDangXuat').submit(function(e){
+                e.preventDefault();
+                Swal.fire({
+                title: 'Bạn có muốn đăng xuất?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).unbind('submit').submit();
+                }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

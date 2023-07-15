@@ -32,13 +32,13 @@ class FEGiangVienController extends Controller
             $l_post_sv = $this->execGetRequest($url);
             $data_sv = json_decode($l_post_sv );
         }
-        else 
+        else
         {
             $url = env('SERVER_URL').'/api/danh-sach-sinh-vien-chu-nhiem/'.$request->id_lop_hoc;
             $l_post_sv = $this->execGetRequest($url);
             $data_sv = json_decode($l_post_sv );
         }
-        
+
 
          $id_lop_hoc = $request->id_lop_hoc;
          $type = $request->type;
@@ -46,7 +46,7 @@ class FEGiangVienController extends Controller
 
         return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv'=>$data_sv,'id_lop_hoc'=>$id_lop_hoc,'type'=>$type]);
     }
-    
+
     public function thongbaosinhvien()
     {
         return view('giangvien.thongbaosv');
@@ -56,19 +56,26 @@ class FEGiangVienController extends Controller
         $url = env('SERVER_URL').'/api/giang-vien/lop-hoc-phan/bang-diem/'.$id;
         $l_diem_sv = $this->execGetRequest($url);
         $bang_diem_sv = json_decode($l_diem_sv );
-        
+
         return view('giangvien.diemsinhvien',['bang_diem_sv'=> $bang_diem_sv,'id_lop_hoc_phan'=>$id]);
     }
     public function lopHocPhanCuaGiangVien(Request $request ){
         $url=env('SERVER_URL').'/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan?id='.$request->id.'&type='.$request->type;
+
+
         $l_post = $this->execGetRequest($url);
+        $url=env('SERVER_URL').'/api/giang-vien/lop-hoc-phan/'.$request->id;
+        $lophocphan=json_decode($this->execGetRequest($url));
+
+
         $danh_sach_thong_bao = json_decode($l_post);
         //Sửa ma_gv
         // $url = env('SERVER_URL').'/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1?id_lop_hoc_phan='.$request->id.'&option=1';
         // $ds_sv = $this->execGetRequest($url);
         // $danh_sach_sinh_vien = json_decode($ds_sv);
-   
-        return view('giangvien.lophocphan',['id_lop_hoc_phan'=>$request->id,'danh_sach_thong_bao'=>$danh_sach_thong_bao]); 
+
+
+        return view('giangvien.lophocphan',['id_lop_hoc_phan'=>$request->id,'danh_sach_thong_bao'=>$danh_sach_thong_bao,'trang_thai_hoan_thanh'=>$lophocphan->trang_thai_hoan_thanh]);
     }
     public function lopHocChuNhiemCuaGiangVien(Request $request ){
         $url=env('SERVER_URL').'/api/giang-vien/thong-bao/danh-sach-thong-bao-lop-hoc-phan?id='.$request->id.'&type='.$request->type;
@@ -78,8 +85,8 @@ class FEGiangVienController extends Controller
         // $url = env('SERVER_URL').'/api/giang-vien/danh-sach-lop-hoc-phan/GVCNTT1?id_lop_hoc_phan='.$request->id.'&option=1';
         // $ds_sv = $this->execGetRequest($url);
         // $danh_sach_sinh_vien = json_decode($ds_sv);
-   
-        return view('giangvien.lopchunhiem',['id_lop_hoc'=>$request->id,'danh_sach_thong_bao'=>$danh_sach_thong_bao]); 
+
+        return view('giangvien.lopchunhiem',['id_lop_hoc'=>$request->id,'danh_sach_thong_bao'=>$danh_sach_thong_bao]);
     }
     public function danhSachSinhVienTheoLopHocPhan($id){
         return view('giangvien.danhsachsinhvientheolop',['id_lop_hoc_phan'=>$id]);
@@ -116,13 +123,13 @@ class FEGiangVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
-    
+
+
     public function doimatkhau()
     {
         return view('giangvien.doimatkhau');
     }
-    
+
     public function create()
     {
         //
@@ -179,5 +186,5 @@ class FEGiangVienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 }

@@ -49,7 +49,7 @@
                 <label class="sr-only" for="pwd">Password</label>
                 <input type="password" class="form-control" id="pwd" placeholder="Password">
             </div> --}}
-            <form class="navbar-form navbar-right form-inline" method="POST" action="{{route('dang-xuat')}}">
+            <form class="navbar-form navbar-right form-inline" method="POST" action="{{route('dang-xuat')}}" id="formDangXuat">
                 @csrf
                 <button type="submit" class="btn btn-default">Đăng xuất</button>
             </form>

@@ -177,7 +177,7 @@
                                                 <img src="<%tb.hinh_anh_dai_dien%>" alt="">
                                                 <div>
                                                     <p><%tb.ten_giang_vien%></p>
-                                                    <small id="ngay-tao"><%tb.ngay_tao%></small>
+                                                    <small><%tb.ngay_tao|date:'dd/MM/yyyy HH:mm'%></small>
 
                                                 </div>
                                             </div>
@@ -399,7 +399,7 @@
                             //                 reader.onloadend = function() {
                             //                     var imgBase64 = reader.result;
                             //                     // Chỗ này xảy ra lỗi TypeError: $(...).summernote is not a function mà sửa hoài không được
-                            //                     $('#summernote_post').summernote('insertImage', imgBase64); 
+                            //                     $('#summernote_post').summernote('insertImage', imgBase64);
                             //                 }
 
                             //                 if (image) {

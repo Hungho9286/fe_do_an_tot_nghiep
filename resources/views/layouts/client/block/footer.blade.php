@@ -70,6 +70,7 @@
 
 <!-- Placeholder Images -->
 <script src="{{asset('js/holder.min.js')}}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
 

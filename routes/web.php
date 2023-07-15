@@ -30,7 +30,7 @@ Route::middleware('checklogin')->group(function(){
     Route::post('/xu-ly-dong-hoc-phi-momo-atm',[FEClientController::class,'xuLyDongHocPhiMoMoATM'])->name('xu-ly-thanh-toan-momo-atm');
     Route::get('/chon-lop-dang-ky-mon',[FEClientController::class,'chonLopDangKyMon'])->middleware('checknomon');
     Route::get('/', function () {
-        return view('layouts.fe.trangchu');
+        return view('fe.trangchu');
     })->name('trang-chu');
 });
 Route::post('dong-hoc-phi-paypal',[FEClientController::class,'xuLyDongHocPhiPayPal'])->name('dong-hoc-phi-qua-paypal');
