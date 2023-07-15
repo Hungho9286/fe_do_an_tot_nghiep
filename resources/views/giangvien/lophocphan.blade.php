@@ -370,6 +370,7 @@
                             placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
                             tabsize: 2,
                             maximumImageFileSize: 2 * 1024 * 1024,
+                            disableDragAndDrop: true,
                             height: 150,
                             toolbar: [
                                 ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -422,6 +423,7 @@
                         placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
                         tabsize: 2,
                         height: 150,
+                        disableDragAndDrop: true,
                         toolbar: [
                             ['style', ['bold', 'italic', 'underline', 'clear']],
                             ['fontname', ['fontname']],

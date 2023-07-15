@@ -75,6 +75,7 @@
             placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
             tabsize: 2,
             height: 150,
+            disableDragAndDrop: true,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['fontname', ['fontname']],
