@@ -10,46 +10,16 @@ function togglePostForm() {
     toggleButton.style.display = "block";
   }
 }
-var thi2Inputs = document.querySelectorAll('[name="thi_2"]');
-thi2Inputs.forEach(function (input) {
-  input.addEventListener("input", checkTongKet2Input);
-});
-function checkTongKet2Input(event) {
-  var thi2Input = event.target;
-  var tongKet1Input = thi2Input.parentNode.previousElementSibling.querySelector('[name="tong_ket_1"]');
-  var tongKet2Input = thi2Input.parentNode.nextElementSibling.querySelector('[name="tong_ket_2"]');
-  var luuButton = thi2Input.parentNode.querySelector('.luudiem');
 
-  if (thi2Input.value !== "" && tongKet1Input.value < 4) {
-    tongKet2Input.removeAttribute("readonly");
-    luuButton.style.display = "inline-block";
-  } else {
-    tongKet2Input.setAttribute("readonly", "readonly");
 
-    luuButton.style.display = "none";
-  }
+
+
+function isInputAllowed(tong_ket_1_value) {
+  return tong_ket_1_value == "" || tong_ket_1_value < 5;
 }
 
 
 
-var thi1Inputs = document.querySelectorAll('[name="thi_1"]');
-thi1Inputs.forEach(function (input) {
-  input.addEventListener("input", checkThi2Input);
-});
-function checkThi2Input(event) {
-  var thi1Input = event.target;
-  var thi2Input = thi1Input.parentNode.nextElementSibling.querySelector('[name="thi_2"]');
-  if (thi1Input.value == "") {
-    thi2Input.setAttribute("readonly", "readonly");
-    thi2Input.value = "";
-  }
-  if (thi1Input.value < 5) {
-    thi2Input.removeAttribute("readonly");
-  } else {
-    thi2Input.setAttribute("readonly", "readonly");
-    thi2Input.value = "";
-  }
-}
 
 
 function NhapDiem(button) {
@@ -57,21 +27,34 @@ function NhapDiem(button) {
   var savebtn = row.querySelector('button:nth-child(2)');
   var cancelbtn = row.querySelector('button:nth-child(3)');
   var inputs = row.querySelectorAll('input[type="number"]');
+
+ 
+  
+  
+ var tong_ket_1_input = row.querySelector('input[name="tong_ket_1"]');
+
+
+  // Kiểm tra giá trị của "tong_ket_1"
+  var tong_ket_1_value = parseFloat(tong_ket_1_input.value);
+  var allowInput = isInputAllowed(tong_ket_1_value);
+
+  // Cho phép chỉnh sửa "thi_2" và "tong_ket_2" dựa trên kết quả của hàm isInputAllowed()
+  inputs.forEach(function (input) {
+
+    if (input.name == 'thi_2' || input.name == 'tong_ket_2') {
+      input.readOnly = !allowInput;
+      console.log(input.name);
+      console.log(input.readOnly);
+    } else {
+      input.readOnly = false;
+      console.log(input.readOnly);
+
+    }
+  });
   button.style.display = 'none';
   savebtn.style.display = '';
   cancelbtn.style.display = '';
-  inputs.forEach(function (input) {
-    input.readOnly = !input.readOnly;
-  });
 
-  // Gọi hàm kiểm tra
-  inputs.forEach(function (input) {
-    if (input.name === "thi_1") {
-      checkThi2Input({ target: input });
-    } else if (input.name === "thi_2") {
-      checkTongKet2Input({ target: input });
-    }
-  });
 }
 
 function isNumber(value) {
