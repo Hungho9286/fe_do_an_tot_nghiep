@@ -17,11 +17,12 @@
                 <li>
                     <label class="dropdown-item">
                         @php
-                            
+                            $svtb = '';
                             foreach ($danh_sach_sv as $sv) {
                                 $flag = false;
                                 foreach ($danh_sach_sv_thong_bao as $sv_tb) {
                                     if ($sv->ma_sv == $sv_tb->ma_sv) {
+                                        $svtb = $sv_tb->ma_sv;
                                         $flag = true;
                             
                                         break;
@@ -30,7 +31,7 @@
                                 if ($flag == true) {
                                     echo '<input checked type="checkbox" class="form-check-input checked-sv checkbox-item_modal" data-ma-sv="' . $sv->ma_sv . '">' . $sv->ma_sv . ' - ' . $sv->ten_sinh_vien;
                                 } else {
-                                    echo '<input  type="checkbox" class="form-check-input checked-sv checkbox-item_modal"data-ma-sv="' . $sv->ma_sv . '">' . $sv->ma_sv . ' - ' . $sv->ten_sinh_vien;
+                                    echo '<input  type="checkbox" class=" checked-sv"data-ma-sv="' . $sv->ma_sv . '">' . $sv->ma_sv . ' - ' . $sv->ten_sinh_vien;
                                 }
                             }
                         @endphp
@@ -74,6 +75,7 @@
             placeholder: 'Thông báo nội dung nào đó cho lớp học của bạn',
             tabsize: 2,
             height: 150,
+            disableDragAndDrop: true,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['fontname', ['fontname']],

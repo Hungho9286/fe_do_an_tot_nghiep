@@ -481,6 +481,7 @@ class FEClientController extends Controller
         $url=env('SERVER_URL')."/api/login-sinh-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
         $ch=curl_init();
 
+
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
         //curl_setopt($ch, CURLOPT_NOBODY, TRUE);
@@ -490,6 +491,7 @@ class FEClientController extends Controller
         // dd($head);
         curl_close($ch);
         $data=json_decode($head);
+     
         if($data->status == 0)
         {
             return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');
@@ -516,6 +518,7 @@ class FEClientController extends Controller
     {
 
         $url=env('SERVER_URL')."/api/login-giang-vien?tai_khoan=".$request->tai_khoan."&mat_khau=".$request->mat_khau;
+   
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         //curl_setopt($ch, CURLOPT_HEADER, TRUE);
@@ -526,7 +529,7 @@ class FEClientController extends Controller
         // dd($head);
         curl_close($ch);
         $data=json_decode($head);
-
+       
         if($data->status == 0)
         {
             return redirect()->route('dang-nhap')->with('message', 'Tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại dữ liệu của bạn');

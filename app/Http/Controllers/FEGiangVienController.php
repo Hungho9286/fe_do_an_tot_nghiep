@@ -42,10 +42,7 @@ class FEGiangVienController extends Controller
 
          $id_lop_hoc = $request->id_lop_hoc;
          $type = $request->type;
-
-
-        //return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv_lhp'=>$data_sv,'id_lop_hoc'=>$id_lop_hoc,'type'=>$type]);
-
+        
 
         return view('giangvien.suathongbao',['thong_bao'=>$data->thong_bao,'danh_sach_sv_thong_bao'=>$data->danh_sach_sinh_vien,'danh_sach_sv'=>$data_sv,'id_lop_hoc'=>$id_lop_hoc,'type'=>$type]);
     }

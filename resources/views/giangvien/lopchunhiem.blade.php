@@ -166,7 +166,10 @@
 
 
                                 </div>
-
+                                <script>
+                                    document.getElementById('ngay-tao').textContent = new Date().toLocaleDateString('vi-VN');
+                                    console.log(document.getElementById('ngay-tao').textContent);
+                                </script>
                                 <div ng-repeat="tb in thongbao ">
                                     <div class="status-field-container write-post-container">
                                         <div class="user-profile-box">
@@ -516,6 +519,7 @@
                                     $ma_sv;
 
                             }
+
                         })
                         // danhsachsinhvien
                         $http({
@@ -527,7 +531,8 @@
                         }).then($response => {
 
                             $scope.DanhSachSinhVien = $response.data;
-                            console.log($response.data);
+                            document.getElementById('ngay-tao').textContent = new Date().toLocaleDateString('vi-VN');
+                            console.log(document.getElementById('ngay-tao').textContent);
                         })
 
 
@@ -544,6 +549,7 @@
                         }).then($response => {
                             $scope.thongbao = $response.data;
                             console.log($response.data);
+
                         })
                         $http({
                             method: "GET",
