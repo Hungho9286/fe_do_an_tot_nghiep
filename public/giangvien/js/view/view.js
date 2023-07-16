@@ -48,9 +48,9 @@ function NhapDiem(button) {
   var cancelbtn = row.querySelector('button:nth-child(3)');
   var inputs = row.querySelectorAll('input[type="number"]');
 
- 
-  
-  
+
+
+
  var tong_ket_1_input = row.querySelector('input[name="tong_ket_1"]');
 
 

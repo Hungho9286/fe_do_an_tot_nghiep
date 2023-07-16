@@ -115,7 +115,7 @@
 
 
                             <div class="div-post">
-
+                                @if ($trang_thai_hoan_thanh==0)
                                 <button class="alert alert-primary" role="alert" id="togglePostButton"
                                     onclick="togglePostForm()">
                                     Thông
@@ -173,6 +173,8 @@
 
 
                                 </div>
+                                @endif
+
 
                                 <div ng-repeat="tb in thongbao ">
                                     <div class="status-field-container write-post-container">
@@ -186,12 +188,13 @@
                                                 </div>
                                             </div>
                                             <div>
-
+                                                @if ($trang_thai_hoan_thanh==0)
                                                 <div class="dropdown no-arrow">
                                                     <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </div>
+
                                                     <div class="dropdown-menu dropdown-menu-right shadow "
                                                         aria-labelledby="userDropdown">
                                                         <a class="dropdown-item"
@@ -209,6 +212,8 @@
 
                                                     </div>
                                                 </div>
+                                                @endif
+
 
                                             </div>
                                         </div>
@@ -297,22 +302,23 @@
                                         <tr ng-repeat="diem in bangdiem " class="table-mark">
                                             <td scope="row"><%diem.ma_sv%></td>
                                             <td> <%diem.ten_sinh_vien%></td>
-                                            <td><input readonly type="number" min="0" max="10"
+                                            <td><input  type="number" min="0" max="10"
                                                     class="input-field" name="chuyen_can" value="<%diem.chuyen_can%>"
                                                     step="1">
                                             </td>
                                             <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="tbkt" value="<%diem.tbkt%>"></td>
+                                                    class="input-field " name="tbkt" value="<%diem.tbkt%>" ></td>
+                                            <td><input readonly  type="number" min="0" max="10"
+                                                    class="input-field " name="thi_1" value="<%diem.thi_1%>"></td>
                                             <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="thi_1" value="<%diem.thi_1%>"></td>
+                                                    class="input-field " name="thi_2"  value="<%diem.thi_2%>"></td>
                                             <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="thi_2" value="<%diem.thi_2%>"></td>
-                                            <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="tong_ket_1" value="<%diem.tong_ket_1%>">
+                                                    class="input-field " name="tong_ket_1" value="<%diem.tong_ket_1%>">
                                             </td>
                                             <td><input readonly type="number" min="0" max="10"
-                                                    class="input-field" name="tong_ket_2" value="<%diem.tong_ket_2%>">
+                                                    class="input-field " name="tong_ket_2" value="<%diem.tong_ket_2%>">
                                             </td>
+                                            @if ($trang_thai_hoan_thanh==0)
                                             <td style="display: flex">
                                                 <button class="btn btn-success" id="nhapdiem"
                                                     onclick="NhapDiem(this)">Nhập điểm</button>
@@ -323,6 +329,8 @@
                                                     id="huythemdiem" class="btn btn-danger" class="cancel"
                                                     onclick="HuyThemDiem(this)">Huỷ</button>
                                             </td>
+                                            @endif
+
                                         </tr>
                                     </tbody>
                                 </table>
